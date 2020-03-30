@@ -1,5 +1,5 @@
 :: AlBulles - Lisez moi
-:: Version 0.4b
+:: Version 0.5
 :: Auteur : SamRay1024
 :: http://jebulle.net
 :: webmaster@jebulle.net
@@ -11,12 +11,6 @@ INTRODUCTION
 	AlBulles est un script permettant la gestion simple d'une gallerie
 de photos. Il est basé sur la classe PanierDeFichiers disponible sur le
 site.
-
-	ATTENTION !!
-
-	CETTE VERSION EST LA MEME QUE LA VERSION 0.3. LE SEUL FICHIER QUI DIFFERE
-DE LA VERSION 0.3 EST classes/panierdefichiers.class.php QUI EST ECRIT EN PHP4 POUR LA
-COMPATIBILITE AVEC LES SERVEURS PHP4.
 
 
 UTILILISATION
@@ -44,12 +38,25 @@ dossiers des photos et les fichiers. Le programme ne fonctionne plus si ces
 caractères sont présents. Cette correction sera pour la version 0.4.
 
 
+MISE-A-JOUR
+-----------
+
+	Remplacez ou ajoutez les fichiers suivants :
+
+	* Depuis toutes les versions
+
+		- classes/panierdefichiers.class.php
+		- medias/html.php
+		- config.php
+		- explore.php
+
+
 PARAMETRAGE DU PROGRAMME
 ------------------------
 
 	Vous pouvez parametrer le script pour l'adapter à vos besoins. Pour
-cela, vous devrez éditer le fichier "explore.php". Rendez vous à la première
-section : Initialisations. Vous avez alors les paramètres éditables.
+cela, vous devrez éditer le fichier "config.php". Vous avez alors les paramètres
+éditables :
 
 		$sDossierPhotos
 
@@ -93,22 +100,19 @@ section : Initialisations. Vous avez alors les paramètres éditables.
 
 			Idem pour les miniatures elles-même.
 
-	C'est tout !
+
+CHANGER LE STYLE DE LA PAGE
+---------------------------
+
+	Si vous souhaitez changer l'affichage d'AlBulles pour l'adapter à votre site,
+vous devez travailler dans le fichier medias/html.php. C'est lui qui contient toute la
+partie HTML. Il fonctionne de paire avec le fichier style.css du même dossier.
+
+	Donc pour changer l'interface, des connaissances en HTML et CSS sont nécessaires.
+
+
+AUTRES QUESTIONS
+---------------
 
 	Pour toutes questions, remarques, problèmes => http://forums.jebulle.net
 rubrique "Scripts et classes PHP".
-
-
-MISE-A-JOUR
------------
-
-	Remplacez les fichiers indiqués par les nouveaux :
-
-	* Depuis la version 0.3b
-
-		- explore.php
-
-	* Depuis les versions 0.1 et 0.2
-
-		- classes/panierdefichiers.class.php
-		- explore.php

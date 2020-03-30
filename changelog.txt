@@ -1,8 +1,17 @@
 :: AlBulles
-:: Version 0.4
+:: Version 0.5
 
 WHAT's NEW :
 ------------
+
+Version 0.5 - 15/06/2005
+
+	* Corrections diverses dans le code source (initialisations de variables qui ne l'étaient pas)
+	* Séparation du fichier explore.php en trois (`explore.php`, `config.php`, `html.php`).
+	  Cette séparations simplifiera les maj fufures et vous permettra de conserver votre configuration
+	  et les modifs eventuelles que vous aurez apporté à l'HTML.
+	* Autre correction pour la fonction `mime_content_type()` (la précédente ne fonctionnait pas sur
+	  les serveurs ou `safe_mode` était à on)
 
 Version 0.4 - 13/06/2005
 
