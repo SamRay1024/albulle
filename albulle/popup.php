@@ -53,7 +53,7 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @since 12/11/2005
- * @version 0.7
+ * @version 0.7.1
  */
 
 // ====================
@@ -62,7 +62,7 @@
 // Constante à modifier si vous incluez AlBulle depuis un autre script.
 define( 'JB_AL_ROOT', '' );
 
-require_once( JB_AL_ROOT.'config.php' );
+require_once( JB_AL_ROOT.'includes/config.php' );
 
 ( isset( $_GET['img'] ) ) ? $sCheminImg = stripslashes(rawurldecode( $_GET['img'] )) : $sCheminImg = '';
 

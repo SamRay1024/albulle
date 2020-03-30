@@ -1,8 +1,13 @@
 :: Albulle
-:: Version 0.7
+:: Version 0.7.1
 
 WHAT's NEW :
 ------------
+
+Version 0.7.1 - 29/11/2005
+
+	* Correction de l'erreur de chargement de la configuration dans le script utilisé
+	  pour l'ouverture des images dans une popup Javascript.
 
 Version 0.7 - 12/11/2005
 
