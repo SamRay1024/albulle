@@ -3,8 +3,8 @@
 ////////////////////////////////////////
 // Encodage du fichier : UTF-8
 // Utilisation des tabulations : Oui
-// 1 tabulation = 4 caracteres
-// Fin de lignes : LF (Unix)
+// 1 tabulation = 4 caractères
+// Fins de lignes = LF (Unix)
 ////////////////////////////////////////
 
 ///////////////////////////////
@@ -54,8 +54,8 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name AlBulles
- * @since 19/05/2005
- * @version 0.1
+ * @since 11/06/2005
+ * @version 0.3
  */
 
 /************************************* DEBUT PARAMETRES EDITABLES *************************************/
@@ -74,6 +74,8 @@ $iChmodFichiersMiniatures	= 0644;
 
 /************************************** FIN PARAMETRES EDITABLES **************************************/
 
+set_magic_quotes_runtime(0);
+
 // ====================
 // INCLUSION DES FICHIERS NECESSAIRES
 //
@@ -82,91 +84,92 @@ require_once( './classes/util.class.php' );
 
 // ====================
 // LECTURE DES PARAMETRES PASSES DANS L'URL
-
-( isset( $_GET['rep'] ) )	?	$sRep	= $_GET['rep']	: $sRep		= '';
-( isset( $_GET['page'] ) )	?	$iPage	= $_GET['page']	: $iPage	= 0;
-( isset( $_GET['act'] ) )	?	$sAct	= $_GET['act']	: $sAct		= '';
-( isset( $_GET['img'] ) )	?	$sImg	= $_GET['img']	: $sImg		= '';
+//
+( isset( $_GET['rep'] ) )	? $sRep		= stripslashes(rawurldecode( $_GET['rep'] ))	: $sRep		= '';
+( isset( $_GET['page'] ) )	? $iPage	= $_GET['page']	: $iPage	= '';
+( isset( $_GET['act'] ) )	? $sAct		= $_GET['act'] 	: $sAct		= '';
+( isset( $_GET['img'] ) )	? $sImg		= $_GET['img']	: $sImg		= '';
 
 // ====================
 // GESTION DU PANIER
 //
 $oPanier = new PanierDeFichiers( $iFichiersMaxDansPanier );
-$sPanierLienArchive = $sPanierLienVider = $sPanierLienTout = $sPanierLienRien = '';
+$sPanierLienArchive = $sPanierLienVider = $sPanierLienToutAjouter = $sPanierLienToutSupprimer = '';
 
 // lancement des actions
 switch ( $sAct )
 {
-	
-	case 'ajouter': 	$oPanier->Ajouter( $sImg );			break;
-	case 'supprimer': 	$oPanier->Supprimer( $sImg );		break;
-	case 'vider':		$oPanier->ViderPanier();			break;
-	case 'telecharger': $oPanier->CreerArchive( $sDossierPhotos.'Photos' );	break;
+
+	case 'ajouter' :	$oPanier->Ajouter( $sImg ); break;
+	case 'supprimer' :	$oPanier->Supprimer( $sImg ); break;
+	case 'vider':		$oPanier->ViderPanier(); break;
+	case 'telecharger':	$oPanier->CreerArchive( $sDossierPhotos.'Photos' ); break;
 	
 }
 
 // ====================
 // GESTION DE LA LISTE DES DOSSIERS DE PHOTOS
 //
-$outils				= new Util();
+$oOutils = new Util();
 
-// lecture des dossiers du répertoire des photos
-$aListeRepPhotos	= $outils->advScanDir( $sDossierPhotos, 'DOSSIERS_SEULEMENT' );
+// Lecture des dossiers du répertoire des photos
+$aListeRepPhotos = $oOutils->advScanDir( $sDossierPhotos, 'DOSSIERS_SEULEMENT' );
 
 // concaténation des liens vers les dossiers
-if( sizeof( $aListeRepPhotos ) == 0 )
-	$sLiensDossiersPhotos = '<li class="puceNoPhotos">Il n\'y a pas de photos actuellement.</li>';
-else
-	foreach( $aListeRepPhotos as $key => $value )
-		$sLiensDossiersPhotos .= '<li class="pucePhotos"><a href="explore.php?rep='.$value.'">'.$value.'</a></li>'.chr(10).chr(13);
+if ( sizeof( $aListeRepPhotos ) == 0 )
+	$sLiensDossiersPhotos = '<li class="puceNoPhotos">Il n\'y a pas de photos actuellement</li>';
+else 
+	foreach ( $aListeRepPhotos as $key => $value )
+		$sLiensDossiersPhotos .= '<li class="pucePhotos"><a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $value )).'">'.$value.'</a></li>'.chr(10).chr(13);
 		
 // ====================
 // GESTION DE LA LISTE DES PHOTOS (si un répertoire est défini)
 //
-if( !empty( $sRep ) )
+if ( !empty( $sRep ))
 {
 
 	// lecture des photos présentes dans le dossier
-	$aListePhotos		= $outils->advScanDir( $sDossierPhotos.$sRep, 'FICHIERS_SEULEMENT' );
+	$aListePhotos = $oOutils->advScanDir( $sDossierPhotos.$sRep, 'FICHIERS_SEULEMENT' );
 	
 	// calcul du nombre de pages
-	$iNbPage = ceil( sizeof( $aListePhotos ) / $iImgParPage );
+	$iNbPages = ceil( sizeof( $aListePhotos ) / $iImgParPage );
 	
 	// concaténation des numéros de page
-	for( $i = 0 ; $i < $iNbPage ; $i++ )
+	for( $i = 0 ; $i < $iNbPages ; $i++ )
 	{
-			
-		$sIndex = $i + 1 ;	
-		$sNavigation .= ( $i != $iPage) ? '<a href="'.$_SERVER['PHP_SELF'].'?rep='.$sRep.'&amp;page='.$i.'" class="page" >'.$sIndex.'</a>' : '<span class="pageActive">'.$sIndex.'</span>';
+
+		$sIndex = $i + 1;
+		$sNavigation .= ( $i != $iPage ) ? '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sRep )).'&amp;page='.$i.'" class="page" >'.$sIndex.'</a>' : '<span class="pageActive">'.$sIndex.'</span>';
+				
+	}
 	
-	}
-
 	// creation du dossier des miniatures s'il n'existe pas
-	if( !is_dir( $sDossierPhotos.$sRep.'/miniatures' ) )
+	$sDossierMiniatures = $sDossierPhotos.$sRep.'/miniatures';
+	
+	if ( !is_dir( $sDossierMiniatures ) )
 	{
+
+		if ( !mkdir( $sDossierMiniatures ) )
+			die( '<strong>[ Erreur ]</strong> => Impossible de cr&eacute;er le dossier des miniatures. V&eacute;rifiez les droits d\'acc&egrave;s.' );
 		
-		if( !mkdir( $sDossierPhotos.$sRep.'/miniatures' ) )
-			echo '<strong>[ Erreur ]</strong> => Impossible de cr&eacute;er le dossier des miniatures. V&eacute;rifiez les droits d\'acc&egrave;s.';
-			
-		chmod( $sDossierPhotos.$sRep.'/miniatures', $iChmodDossierMiniatures );
+		chmod( $sDossierMiniatures, $iChmodDossierMiniatures );
 		
 	}
-
+	
 	// CREATION DES VIGNETTES
 	$aMiniatures = array();
-	$j = 0;	// compteur pour le tableau (il doit être indépendant du compteur de boucle)
+	$j = 0;		// compteur pour le tableau (il doit être indépendant du compteur de boucle)
 	
-	// verification qu'on ne depasse pas la taille du tableau
+	// vérification qu'on ne dépasse pas la taille du tableau
 	$iImgAAfficher = ( ( $iPage * $iImgParPage ) > sizeof( $aListePhotos ) - $iImgParPage ) ? sizeof( $aListePhotos ) - ( $iPage * $iImgParPage ) : $iImgParPage;
-	
+
 	// pour chaque photo dans l'intervalle de la page
-	for( $i = $iPage * $iImgParPage ; $i < ( $iPage * $iImgParPage ) + $iImgAAfficher ; $i++ )
-	//foreach( $aListePhotos as $key => $value )
+	for ( $i = $iPage * $iImgParPage ; $i < ( $iPage * $iImgParPage ) + $iImgAAfficher ; $i++ )
 	{
-		
+
 		$sCheminPhoto		= $sDossierPhotos.$sRep.'/'.$aListePhotos[$i];
-		$sCheminMiniature	= $sDossierPhotos.$sRep.'/miniatures/min_'.$aListePhotos[$i];
-	
+		$sCheminMiniature	= $sDossierMiniatures.'/min_'.$aListePhotos[$i];
+		
 		//
 		// Gestion du panier : si on demande la sélection de toutes les images de la page
 		// avant d'afficher chaque vignette, on l'ajoute au panier. Idem si on demande le
@@ -174,15 +177,15 @@ if( !empty( $sRep ) )
 		//
 		switch ( $sAct )
 		{
-			case 'tout':	$oPanier->Ajouter( $sCheminPhoto );		break;
-			case 'rien':	$oPanier->Supprimer( $sCheminPhoto );	break;
+			case 'tout':	$oPanier->Ajouter( $sCheminPhoto ); break;
+			case 'rien':	$oPanier->Supprimer( $sCheminPhoto ); break;
 		}
-		
-		// si la miniature n'existe pas => creation
-		if( !file_exists( $sCheminMiniature ) )
+	
+		// si la miniature n'existe pas => création
+		if ( !file_exists( $sCheminMiniature ) )
 		{
-			
-			$outils->processImgFile( 'image/jpeg', $sCheminPhoto, $sCheminMiniature, $iLargeurMax, $iHauteurMax, '' );
+	
+			$oOutils->processImgFile( mime_content_type( $sCheminPhoto ), $sCheminPhoto, $sCheminMiniature, $iLargeurMax, $iHauteurMax, '' );
 			chmod( $sCheminMiniature, $iChmodFichiersMiniatures );
 			
 		}
@@ -190,14 +193,14 @@ if( !empty( $sRep ) )
 		// lecture taille miniature
 		$aImgInfos = getimagesize( $sCheminPhoto );
 		
-		// définition des chaines d'ajout et de suppression des images dans le panier
-		$sAjout		= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.$sRep.'&amp;page='.$iPage.'&amp;act=ajouter&amp;img='.$sCheminPhoto.'"><img src="./medias/images/puce_ajout.jpg" alt="+" /></a>';
-		$sRetrait	= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.$sRep.'&amp;page='.$iPage.'&amp;act=supprimer&amp;img='.$sCheminPhoto.'"><img src="./medias/images/puce_retrait.jpg" alt="-" /></a>';
-			
-		// creation du lien de la miniature
+		// définition des chaines d'ajout et de retrait des images dans le panier
+		$sAjout		= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sRep )).'&amp;page='.$iPage.'&amp;act=ajouter&amp;img='.$sCheminPhoto.'"><img src="./medias/images/puce_ajout.jpg" alt="+" /></a>';
+		$sRetrait	= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sRep )).'&amp;page='.$iPage.'&amp;act=supprimer&amp;img='.$sCheminPhoto.'"><img src="./medias/images/puce_retrait.jpg" alt="-" /></a>';
+		
+		// création du lien de la miniature
 		$aMiniatures[$j]['LIEN_PHOTO']		= '<a href="'.$sCheminPhoto.'"><img src="'.$sCheminMiniature.'" class="vignette" /></a>';
 		$aMiniatures[$j]['DIM_PHOTO']		= $aImgInfos[0].' x '.$aImgInfos[1];
-		$aMiniatures[$j]['SIZE_PHOTO']		= intval( filesize( $sCheminPhoto ) / 1024 ).' Ko';
+		$aMiniatures[$j]['SIZE_PHOTO']		= ( intval( filesize( $sCheminPhoto ) / 1024 ) < 1 ) ? filesize( $sCheminPhoto ).' Octets' : intval( filesize( $sCheminPhoto ) / 1024 ).' Ko' ;
 		$aMiniatures[$j]['AJOUT_PANIER']	= ( $oPanier->EstDansLePanier( $sCheminPhoto ) ) ? $sRetrait : $sAjout;
 		
 		$j++;
@@ -211,160 +214,161 @@ if( !empty( $sRep ) )
 //
 
 // création des liens si des fichiers se trouvent dans le panier
-if( $oPanier->CompterFichiers() > 0 )
+if ( $oPanier->CompterFichiers() > 0 )
 {
-	
-	$sPanierLienArchive	= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.$sRep.'&amp;page='.$iPage.'&amp;act=telecharger"><img src="./medias/images/albulles_download.jpg" alt="T&eacute;l&eacute;charger" />T&eacute;l&eacute;charger les images</a><br />';
-	$sPanierLienVider	= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.$sRep.'&amp;page='.$iPage.'&amp;act=vider"><img src="./medias/images/albulles_poubelle.jpg" alt="Vider" />Vider le panier</a><br />';
+
+	$sPanierLienArchive	= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sRep )).'&amp;page='.$iPage.'&amp;act=telecharger"><img src="./medias/images/albulles_download.jpg" alt="T&eacute;l&eacute;charger" />T&eacute;l&eacute;charger les images</a><br />';
+	$sPanierLienVider	= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sRep )).'&amp;page='.$iPage.'&amp;act=vider"><img src="./medias/images/albulles_poubelle.jpg" alt="Vider" />Vider le panier</a><br />';
 	
 }
 
 // définition du nombre de fichiers dans le panier et des liens pour les ajouts / suppressions multiples
-$sNbFichiersDansLePanier	= ( $oPanier->PanierPlein() ) ? '<span style="color: red;">'.$oPanier->CompterFichiers().' (Panier plein)</span>' : $oPanier->CompterFichiers();
-$sLienToutAjouter			= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.$sRep.'&amp;page='.$iPage.'&amp;act=tout"><img src="./medias/images/puce_ajout.jpg" alt="+" title="Ajouter toutes les images de la page dans le panier" /></a>';
-$sLienToutSupprimer			= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.$sRep.'&amp;page='.$iPage.'&amp;act=rien"><img src="./medias/images/puce_retrait.jpg" alt="-" title="Enlever toutes les images de la page du panier" /></a>';
+$sNbFichiersDansLePanier	= ( $oPanier->PanierPlein() ) ? '<span style="color: red;">'.$oPanier->CompterFichiers().'(Panier plein)</span>' : $oPanier->CompterFichiers();
+$sPanierLienToutAjouter		= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sRep )).'&amp;page='.$iPage.'&amp;act=tout"><img src="./medias/images/puce_ajout.jpg" alt="+" title="Ajouter toutes les images de la page dans le panier" /></a>';
+$sPanierLienToutSupprimer	= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sRep )).'&amp;page='.$iPage.'&amp;act=rien"><img src="./medias/images/puce_retrait.jpg" alt="-" title="Enlever toutes les images de la page du le panier" /></a>';
 
 ?>
 
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
+<?php echo '<?xml version="1.0" encoding="UTF-8" ?>'.chr(10).chr(13); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        
-        <link rel="stylesheet" href="./medias/style.css" type="text/css" />
-        
-        <title>.: AlBulles :. .: <?php echo ( empty( $sRep ) ) ? 'Accueil' : "Photos de $sRep"; ?> :.</title>
-        
-    </head>
-
-<body>
-
-	<!-- DEBUT droite -->
-	<div class="droite">
+<html xmlns="http://wwww.w3.org/1999/xhtml">
+	<head>
 		
-		<h1><?php echo ( empty( $sRep ) ) ? 'Accueil' : $sRep; ?></h1>
+		<link rel="stylesheet" href="./medias/style.css" type="text/css" />
+		
+		<title>.: AlBulles :. .: <?php echo ( empty( $sRep ) ) ? 'Accueil' : "Photos de $sRep"; ?> :.</title>
+ 	
+	</head>
 	
-		<?php 
-		if( empty( $sRep ) )
-		{
-		?>
-		
-		<div class="accueil">
-		
-			<strong>Bienvenue dans AlBulles !</strong>
-			
-			<br /><br />
-			
-			AlBulles est un programme de galerie photos.<br /><br />
-					
-			Ce texte est un exemple. Vous pouvez le remplacer par ce que vous souhaitez. Pour consulter les photos
-			disponibles, utilisez la liste de dossiers.<br /><br />
-			
-			Un panier virtuel est &agrave; votre disposition. Il vous suffit d'ajouter les images &agrave; votre panier pour
-			ensuite les t&eacute;l&eacute;charger sous forme d'archive zip.
-		
-		</div>
-		
-		<?php
-		}
-		else {
-		?>
-			
-		<!-- DEBUT barre de navigation -->
-		<div class="navigation">
-			<a href="<?php echo $_SERVER['SCRIPT_NAME']; ?>" class="page">Accueil</a>
-			Pages : <?php echo $sNavigation; ?>
-		</div>
-		<!-- FIN barre de navigation -->
-		
-		<?php	
-		for( $i = 0; $i < sizeof( $aMiniatures ) ; $i++ ) { ?>
-		<!-- DEBUT une miniature -->
-		<div class="miniature">
-		
-			<?php echo $aMiniatures[$i]['LIEN_PHOTO']; ?>
-			
-			<div class="infosImg">
-				<?php echo $aMiniatures[$i]['DIM_PHOTO']; ?><br />
-				<?php echo $aMiniatures[$i]['SIZE_PHOTO']; ?>
-			</div>
-			
-			<div class="puce"><?php echo $aMiniatures[$i]['AJOUT_PANIER']; ?></div>
-			
-		</div>
-		<!-- FIN une miniature -->
-		<?php
-		} // for
-		} // if
-		?>
-		
-		<div class="spacer"></div>
-		
-	</div>
-	<!-- FIN droite -->
+	<body>
 	
-	<!-- DEBUT gauche -->
-	<div class="gauche">
-		
-		<!-- DEBUT liste dossiers photos -->
-		<div class="dossiers">
-	
-			<img src="./medias/images/albulles_dossiers_dispos.jpg" alt="Dossiers des Photos" />
-	
-			<ul class="liens">
-				<?php echo $sLiensDossiersPhotos; ?>
-			</ul>
-	
-			<div class="spacer"></div>
-	
-		</div>
-		<!-- FIN liste dossiers photos -->
-		
-		<!-- DEBUT barre de gestion du panier -->
-		<div class="panier">
-		
-			<img src="./medias/images/albulles_panier.jpg" alt="Panier" /><br /><br />
+		<!-- DEBUT droite -->
+		<div class="droite">
 			
-			Fichiers dans le panier : <br /><strong><?php echo $sNbFichiersDansLePanier; ?></strong>
-			
-			<br /><br />
-			
-			<div class="actions">
-				<?php
-				echo	$sPanierLienArchive,chr(10),chr(13),
-						$sPanierLienVider,chr(10),chr(13);
-				?>
-			</div>
-			
-			<br />
+			<h1><?php echo ( empty( $sRep ) ) ? 'Accueil' : $sRep; ?></h1>
 			
 			<?php
-			echo	$sLienToutAjouter,chr(10),chr(13),
-					$sLienToutSupprimer,chr(10),chr(13);
+			if ( empty( $sRep ) )
+			{
 			?>
+			
+			<div class="accueil">
+			
+				<strong>Bienvenue dans AlBulles !</strong>
+				
+				<br /><br />
+				
+				AlBulles est un programme de galerie photos.<br /><br />
+				
+				Ce texte est un exemple. Vous pouvez le remplacer par ce que vous souhaitez. Pour consulter les photos
+				disponibles, utilisez la liste des dossiers.<br /><br />
+				
+				Un panier virtuel est &agrave; votre disposition. Il vous suffit d'ajouter les images &agrave; votre panier pour
+				ensuite les t&eacute;l&eacute;charger sous forme d'archive zip.
+				
+			</div>
+			
+			<?php
+			}
+			else {
+			?>
+			
+			<!-- DEBUT barre de navigation -->
+			<div class="navigation">
+				<a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="page">Accueil</a>
+				Pages : <?php echo $sNavigation; ?>
+			</div>
+			<!-- FIN barre de navigation -->
+			
+			<?php
+			for ( $i = 0 ; $i < sizeof( $aMiniatures ) ; $i++ ) { ?>
+			<!-- DEBUT une miniature -->
+			<div class="miniature">
+			
+				<?php echo $aMiniatures[$i]['LIEN_PHOTO']; ?>
+				
+				<div class="infosImg">
+					<?php
+					echo $aMiniatures[$i]['DIM_PHOTO'].'<br />';
+					echo $aMiniatures[$i]['SIZE_PHOTO'];
+					?>
+				</div>
+				
+				<div class="puce"><?php echo $aMiniatures[$i]['AJOUT_PANIER']; ?></div>
+				
+			</div>
+			<!-- FIN une miniature -->
+			
+			<?php
+			} // for
+			} // if
+			?>
+			
+			<div class="spacer"></div>
 		
 		</div>
-		<!-- FIN barre de gestion du panier -->
-		
-		<!-- DEBUT Copyright -->
-		<div class="copyright">
-			<a href="http://www.mozilla.eu.org/fr/products/firefox/" title="Ce site s'affiche mieux avec un navigateur gratuit respectant les normes">
-				<img src="./medias/images/firefox_80x15.png" width="80" height="15" title="Ce site s'affiche mieux avec un navigateur gratuit respectant les normes" alt="T&eacute;l&eacute;chargez Firefox" />
-			</a>
-			<br />
-			<a href="http://jebulle.net/index.php?rubrique=albulles" title="T&eacute;l&eacute;chargez AlBulles">
-				<img src="./medias/images/Albulles_80x15.png" width="80" height="15" title="T&eacute;l&eacute;chargez AlBulles" alt="T&eacute;l&eacute;chargez AlBulles" />
-			</a>
-			<br />
-			AlBulles 0.1 &copy; <a href="http://jebulle.net">Bubulles Creations</a> - 2005
-		</div>
-		<!-- FIN Copyright -->
-		
-		<div class="spacer"></div>
-		
-	</div>
-	<!-- FIN gauche -->
+		<!-- FIN droite -->
 	
-</body>
-
+		<!-- DEBUT gauche -->
+		<div class="gauche">
+		
+			<!-- DEBUT liste dossiers photos -->
+			<div class="dossiers">
+			
+				<img src="./medias/images/albulles_dossiers_dispos.jpg" alt="Dossiers des photos" />
+				
+				<ul class="liens">
+					<?php echo $sLiensDossiersPhotos; ?>
+				</ul>
+				
+				<div class="spacer"></div>
+			
+			</div>
+			<!-- FIN liste dossiers photos -->
+			
+			<!-- DEBUT barre de gestion du panier -->
+			<div class="panier">
+			
+				<img src="./medias/images/albulles_panier.jpg" alt="Panier" /><br /><br />
+				
+				Fichiers dans le panier : <br /><strong><?php echo $sNbFichiersDansLePanier; ?></strong>
+				
+				<br /><br />
+				
+				<div class="actions">
+					<?php echo $sPanierLienArchive,chr(10),chr(13),$sPanierLienVider,chr(10),chr(13); ?>
+				</div>
+				
+				<br />
+				
+				<?php echo $sPanierLienToutAjouter,chr(10),chr(13),$sPanierLienToutSupprimer,chr(10),chr(13); ?>
+			
+			</div>
+			<!-- FIN barre de gestion du panier -->
+			
+			<!-- DEBUT Copyright -->
+			<div class="copyright">
+			
+				<a href="http://www.mozilla.eu.org/fr/products/firefox/" title="Ce site s'affiche mieux avec un navigateur respectant les normes">
+					<img src="./medias/images/firefox_80x15.png" width="80" height="15" title="Ce site s'affiche mieux avec un navigateur respectant les normes" alt="T&eacute;l&eacute;chargez FireFox" />
+				</a>
+				
+				<br />
+				
+				<a href="http://jebulle.net/index.php?rubrique=albulles" title="T&eacute;l&eacute;chargez AlBulles">
+					<img src="./medias/images/AlBulles_80x15.png" width="80" height="15" title="T&eacute;l&eacute;chargez AlBulles" alt="T&eacute;l&eacute;chargez AlBulles" />
+				</a>
+				
+				<br />
+				
+				AlBulles 0.3 &copy; <a href="http://jebulle.net">Bubulles Creations</a> - 2005
+			
+			</div>
+			<!-- FIN Copyright -->
+		
+		</div>
+		<!-- FIN gauche -->
+	
+	</body>
+	
 </html>

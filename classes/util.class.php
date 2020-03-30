@@ -1,15 +1,16 @@
-﻿<?php
+<?php
 
 ///////////////////////////////
 // LICENCE
 ///////////////////////////////
 //
-// © DUCARRE Cedric, Bubulles Creations, (09/05/2005) 
+// © DUCARRE Cedric, Bubulles Creations, (28/09/2004) 
 // 
 // webmaster@jebulle.net
 // http://jebulle.net
 // 
-// Ce logiciel est une bibliothèque de fonctions utilitaires diverses.
+// Ce logiciel est un programme informatique servant à gérer la mise en
+// ligne d'articles sur un site Internet grâce à une interface simplifiée. 
 // 
 // Ce logiciel est régi par la licence CeCILL soumise au droit français et
 // respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -401,7 +402,7 @@ class Util {
 			// on regarde combien de fois elle apparait
 			$nbOuvrantes = preg_match_all( $pattern, $texte, $inutile = array() );
 			
-			// si des occurences ont �t� trouv�es
+			// si des occurences ont été trouvées
 			if( $nbOuvrantes != false )
 			{
 				

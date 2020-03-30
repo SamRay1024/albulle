@@ -1,5 +1,5 @@
 :: AlBulles - Lisez moi
-:: Version 0.1
+:: Version 0.3
 :: Auteur : SamRay1024
 :: http://jebulle.net
 :: webmaster@jebulle.net
@@ -32,6 +32,10 @@ changer ce nom si vous le souhaitez) selon le modèle suivant :
 		...
 
 	Vous ne devez pas utiliser une autre organisation que celle-ci.
+
+	ATTENTION ! Evitez les accents et autres apostrophes dans les noms de
+dossiers des photos et les fichiers. Le programme ne fonctionne plus si ces
+caractères sont présents. Cette correction sera pour la version 0.4.
 
 
 PARAMETRAGE DU PROGRAMME
@@ -87,3 +91,15 @@ section : Initialisations. Vous avez alors les paramètres éditables.
 
 	Pour toutes questions, remarques, problèmes => http://forums.jebulle.net
 rubrique "Scripts et classes PHP".
+
+
+MISE-A-JOUR
+-----------
+
+	* Depuis les versions 0.1 et 0.2
+
+	Remplacez les fichiers suivants par les nouveaux :
+
+		- classes/panierdefichiers.class.php
+		- explore.php
+

@@ -196,8 +196,9 @@ class PanierDeFichiers {
 			unlink( $sFichierZip );
 			
 			// chargement des entetes HTTP pour l'envoi de l'archive
-			header("Content-type: application/octet-stream");
-			header("Content-disposition: attachment; filename=".basename($sNomFichier).".zip");
+			//header( 'Content-type: application/octet-stream');
+			header( 'Content-type: application/zip');
+			header( 'Content-disposition: attachment; filename="'.basename( $sNomFichier ).'.zip"');
 			
 			// envoi au navigateur
 			echo $sArchive;
