@@ -1,2 +1,3 @@
-# albulle
-Logiciel PHP de publication de galeries photos.
+# Albulle
+
+Logiciel PHP de publication de galeries photos pour le web.
