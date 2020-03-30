@@ -122,6 +122,20 @@ echo require_once( JB_AL_ROOT.'explore.php' );
  * redéfinissant le dossier du thème pour le changer et utiliser par exemple un thème adapté à votre site.
  * 
  * Elle est pas belle la vie ? ;-)
+ *
+ * Nouveauté 0.9.2 : la conservation des Url du site hôte.
+ *
+ * Le site dans lequel vous intégrez Albulle utilise très certainement des paramètres dans les Url. Dans ce
+ * cas, il est nécessaire qu'Albulle puisse fonctionner en gérant ces paramètres pour ne pas déstabiliser
+ * le site hôte et donc empêcher l'accès à Albulle parce que l'hôte est en vrac...
+ *
+ * Pour ce faire, un paramètre a été mis en place : JB_AL_CONSERVER_URL_HOTE. A vous de vois s'il faut
+ * activer la conservation des paramètres Url de l'hôte où pas. Pour savoir, il suffit de regarder comment l'hôte
+ * appelle ses pages : si vous voyez un unique appel au fichier index.php avec une variable qui identifie la page sur
+ * laquelle se rendre, il vous faut activer la conservation. Si chaque page appelée est un fichier différent, il n'est
+ * alors peut-être pas nécessaire de l'activer...sauf si dans ces pages, les Url sont utilisées pour passer des variables.
+ *
+ * Avec un minimum de connaissances sur le site hôte, vous verrez vite s'il faut activer ou non la conservation.
  */
 
 define( 'JB_AL_ROOT',					'albulle/' );	// cf. exemple 1
@@ -130,6 +144,7 @@ define( 'JB_AL_AFFICHER_ENTETE',		false );		// cf. exemple 2
 define( 'JB_AL_DOSSIER_THEME_ACTIF',	'albulle/' );	// cf. exemple 2
 
 define( 'JB_AL_INTEGRATION_SITE',		true );			// Voici la constante qui indique qu'Albulle est intégré à un site.
+define( 'JB_AL_CONSERVER_URL_HOTE', true );			// Activation de la conservation des paramètres de l'Url de l'hôte.
 
 $sAlbulle = require_once( JB_AL_ROOT.'explore.php' );
 

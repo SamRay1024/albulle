@@ -1,5 +1,5 @@
 :: Albulle - Lisez moi
-:: Version 0.9.1
+:: Version 0.9.2
 :: Auteur : SamRay1024
 :: http://jebulle.net - http://forums.jebulle.net
 :: webmaster@jebulle.net
@@ -39,6 +39,7 @@ les personnes suivantes :
 		des archives à la volée et son applet Java qui offre une solution
 		alternative pour les personnes qui sont chez Free et pour lesquelles
 		la génération à la volée n'est pas possible.
+		(-> http://matheret.free.fr)
 
 	- Ainsi que tous les visiteurs et autres membres du forum qui proposent 
 		des suggestions, rapportent les erreurs qu'ils peuvent rencontrer...
@@ -125,13 +126,17 @@ MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
 	miniatures présents dans votre dossier de photos vu que toutes les miniatures sont
 	maintenant stockées dans un unique dossier.
 
-* Vous utilisez actuellement la version 0.9 :
+* Vous utilisez actuellement la version 0.9.x :
 
 	Fichiers à mettre à jour (chemins relatifs au dossier upload/ de l'archive) :
 
 		/albulle/config.php
 		/albulle/explore.php
-		/albulle/themes/albulle/*	(Supprimez le thème et mettez le nouveau à la place)
+		/albulle/themes/albulle/*			(Supprimez le thème et mettez le nouveau à la place)
+		/albulle/includes/classes/util.class.php
+		/albulle/includes/classes/url.class.php
+		/albulle/includes/fonctions.php
+		/albulle/includes/html.php
 
 
 INSTALLATION

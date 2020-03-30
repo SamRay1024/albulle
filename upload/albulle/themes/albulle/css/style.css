@@ -104,6 +104,7 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 #albulle .panier			{ background-image: url(../images/fond_panier.png); background-color: #ece6f5; }
 
 #albulle .panier p			{ font-size: 0.9em; }
+#albulle .panier .plein		{ color: red; }			/* Le texte qui indique que le panier est plein */
 
 /* menu des dossiers et du panier */
 #albulle .menu				{ text-align: left; }

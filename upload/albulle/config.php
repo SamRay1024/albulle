@@ -177,6 +177,10 @@ define( 'JB_AL_PANIER_NO_READFILE', false);
 // d'Albulle pour qu'il n'y ait pas de redondance avec votre propre site.
 if( !defined('JB_AL_INTEGRATION_SITE') )		define( 'JB_AL_INTEGRATION_SITE',		false );
 
+// Ce paramètre permet d'activer la conservation d'éventuels paramètres utilisé par le site
+// hôte dans lequel vous vous insérez. Désactivez-le si vous êtes en mode standard.
+if( !defined('JB_AL_CONSERVER_URL_HOTE') )		define( 'JB_AL_CONSERVER_URL_HOTE',		false );
+
 // Utiliser Albulle comme centre de téléchargement.
 define( 'JB_AL_MODE_CENTRE',			false );		// Mettez ce paramètre à 'true' pour basculer de mode.
 define( 'JB_AL_DOSSIER_CENTRE',			'centre/' );	// Dossier dans lequel se trouvent les fichiers disponibles au téléchargement.
@@ -186,6 +190,7 @@ define( 'JB_AL_EXTENSION_FICHIERS',		'.zip' );		// Extension des fichiers à té
 // ne le serait pas. Le lien s'affichera à gauche de celui qui donne sur la page d'accueil d'Albulle.
 if( !defined('JB_AL_HOME_HREF') )				define( 'JB_AL_HOME_HREF',				'' );		// La page de votre site (Laissez vide pour ne pas utiliser cette fonctionnalité).
 if( !defined('JB_AL_HOME_TEXTE') )				define( 'JB_AL_HOME_TEXTE',				'' );		// Le texte du lien (Non affiché si paramètre précédent vide).
+
 
 // ================
 // PARAMETRAGE DES CREATIONS DE FICHIERS (pour les miniatures)

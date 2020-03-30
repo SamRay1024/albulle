@@ -54,8 +54,8 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name AlBulle
- * @since 11/09/2006
- * @version 0.1
+ * @since 26/09/2006
+ * @version 0.2
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -135,7 +135,7 @@ function verifications()
 function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInterdits, $aExtensionsFichiersAutorises,
 								$bAfficherNbFichiers, $bAfficherNbSiVide, $bDeroulerTout, $bFiltrerPrefixes, $sSeparateurFiltres = '' )
 {
-	global $_JB_AL_VARS, $aActions, $oOutils;
+	global $_JB_AL_VARS, $aActions, $oOutils, $oUrl;
 
 	$sArborescenceHTML = '';			// La chaîne qui contiendra la liste <ul>
 	$sDossiersRepCourant = '';			// La chaîne qui contiendra la liste <ul> des sous-dossiers du dossier courant
@@ -172,7 +172,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 	if( $iNiveau > 1 )
 		$sArborescenceHTML = str_replace(
 								'{HREF_REMONTER}',
-								$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sRepParent )).$aActions['diaporama'],
+								$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $sRepParent )).$aActions['diaporama'] ),
 								$sLiRemonter
 							)."\n";
 
@@ -214,7 +214,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 								array( '`{ID_COURANT}`', '`{HREF_DOSSIER}`', '`{NOM_DOSSIER}`', '`{NB_IMAGES}`' ),
 								array(
 									$sCssIdCourant,
-									$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sLienNiveau1 )).$aActions['diaporama'],
+									$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $sLienNiveau1 )).$aActions['diaporama'] ),
 									str_replace( '_', ' ', $sNomRep ),
 									$sNbPhotos
 								),
@@ -250,7 +250,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 										array( '`{ID_COURANT}`', '`{HREF_DOSSIER}`', '`{NOM_DOSSIER}`', '`{NB_IMAGES}`' ),
 										array(
 											'',
-											$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j] )).$aActions['diaporama'],
+											$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j] )).$aActions['diaporama'] ),
 											str_replace( '_', ' ', $sNomSousRep ),
 											$sNbPhotos
 										),

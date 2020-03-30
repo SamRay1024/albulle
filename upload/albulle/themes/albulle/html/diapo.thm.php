@@ -1,5 +1,5 @@
 				<div id="diapo"><!-- diapositive du mode diaporama -->
-				
+
 					<!-- SI DIAPO_NON_VIDE -->
 					<a name="marqueur"></a>
 
@@ -31,12 +31,14 @@
 							</ul>
 						</div>
 
+						<!-- SI EXIF -->
 						<div class="fiche">
 							<span>Données EXIF :</span>
 							{DONNEES_EXIF}
 						</div>
+						<!-- FINSI EXIF -->
 					</div>
-					
+
 					{>FORM_DEFILEMENT_AUTO}
 
 					<div class="spacer"></div>
@@ -45,6 +47,6 @@
 					<!-- SI DIAPO_VIDE -->
 					<p>Choisissez une image dans la liste pour la visualiser !</p>
 					<!-- FINSI DIAPO_VIDE -->
-					
+
 				</div><!-- diapositive du mode diaporama -->
 

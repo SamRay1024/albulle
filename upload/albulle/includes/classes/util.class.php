@@ -53,8 +53,8 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 03/04/2006
- * @version 1.4
+ * @since 28/09/2006
+ * @version 1.5
  *
  */
 
@@ -586,59 +586,62 @@ class Util {
 	function afficherExif( $sCheminImage )
 	{
 		$sDonneesExif		= "<ul id=\"exif\">\n\t";
-		$sAucuneDonneesExif	= "<li>Aucune donnée EXIF pour cette image.</li>\n";
 		$sDonneeInconnue	= 'inconnue';
 
-		if( file_exists($sCheminImage) && exif_imagetype($sCheminImage) === IMAGETYPE_JPEG ) {
-			if( ($aExif = @exif_read_data($sCheminImage, 'ANY_TAG', true)) !== false ) {
+		if( function_exists('exif_imagetype') ) {
 
-				if( key_exists('IFDO', $aExif) )
-				{
-					// Marque appareil
-					$sDonneesExif .= '<li><span>Marque de l\'appareil : </span>';
-					$sDonneesExif .= ( key_exists('Make', $aExif['IFD0']) && $aExif['IFD0']['Make'] !== '' ) ? $aExif['IFD0']['Make'] : $sDonneeInconnue;
-					$sDonneesExif .= '</li>';
+			if( file_exists($sCheminImage) && exif_imagetype($sCheminImage) === IMAGETYPE_JPEG ) {
+				if( ($aExif = @exif_read_data($sCheminImage, 'ANY_TAG', true)) !== false ) {
 
-					// Modèle appareil
-					$sDonneesExif .= '<li><span>Modèle de l\'appareil : </span>';
-					$sDonneesExif .= ( key_exists('Model', $aExif['IFD0']) && $aExif['IFD0']['Model'] !== '' ) ? $aExif['IFD0']['Model'] : $sDonneeInconnue;
-					$sDonneesExif .= '</li>';
+					if( key_exists('IFDO', $aExif) )
+					{
+						// Marque appareil
+						$sDonneesExif .= '<li><span>Marque de l\'appareil : </span>';
+						$sDonneesExif .= ( key_exists('Make', $aExif['IFD0']) && $aExif['IFD0']['Make'] !== '' ) ? $aExif['IFD0']['Make'] : $sDonneeInconnue;
+						$sDonneesExif .= '</li>';
+
+						// Modèle appareil
+						$sDonneesExif .= '<li><span>Modèle de l\'appareil : </span>';
+						$sDonneesExif .= ( key_exists('Model', $aExif['IFD0']) && $aExif['IFD0']['Model'] !== '' ) ? $aExif['IFD0']['Model'] : $sDonneeInconnue;
+						$sDonneesExif .= '</li>';
+					}
+
+					if( key_exists('EXIF', $aExif) )
+					{
+						// Date/heure
+						$sDonneesExif .= '<li><span>Date/Heure de la prise de vue : </span>';
+						$sDonneesExif .= ( key_exists('DateTimeOriginal', $aExif['EXIF']) && $aExif['EXIF']['DateTimeOriginal'] !== '' ) ? $aExif['EXIF']['DateTimeOriginal'] : $sDonneeInconnue;
+						$sDonneesExif .= '</li>';
+
+						// Temps exposition
+						$sDonneesExif .= '<li><span>Temps d\'exposition : </span>';
+						$sDonneesExif .= ( key_exists('ExposureTime', $aExif['EXIF']) && $aExif['EXIF']['ExposureTime'] !== '' ) ? $aExif['EXIF']['ExposureTime'] : $sDonneeInconnue;
+						$sDonneesExif .= '</li>';
+
+						// ISO
+						$sDonneesExif .= '<li><span>Sensibilité ISO : </span>';
+						$sDonneesExif .= ( key_exists('ISOSpeedRatings', $aExif['EXIF']) && $aExif['EXIF']['ISOSpeedRatings'] !== '' ) ? $aExif['EXIF']['ISOSpeedRatings'] : $sDonneeInconnue;
+						$sDonneesExif .= '</li>';
+
+						// Longueur focale
+						$sDonneesExif .= '<li><span>Longueur de la focale : </span>';
+						$sDonneesExif .= ( key_exists('FocalLength', $aExif['EXIF']) && $aExif['EXIF']['FocalLength'] !== '' ) ? $aExif['EXIF']['FocalLength'] : $sDonneeInconnue;
+						$sDonneesExif .= '</li>';
+					}
+
+					if( key_exists('COMPUTED', $aExif) )
+					{
+						// Ouverture focale
+						$sDonneesExif .= '<li><span>Ouverture de la focale : </span>';
+						$sDonneesExif .= ( key_exists('ApertureFNumber', $aExif['COMPUTED']) && $aExif['COMPUTED']['ApertureFNumber'] !== '' ) ? $aExif['COMPUTED']['ApertureFNumber'] : $sDonneeInconnue;
+						$sDonneesExif .= '</li>';
+					}
 				}
-
-				if( key_exists('EXIF', $aExif) )
-				{
-					// Date/heure
-					$sDonneesExif .= '<li><span>Date/Heure de la prise de vue : </span>';
-					$sDonneesExif .= ( key_exists('DateTimeOriginal', $aExif['EXIF']) && $aExif['EXIF']['DateTimeOriginal'] !== '' ) ? $aExif['EXIF']['DateTimeOriginal'] : $sDonneeInconnue;
-					$sDonneesExif .= '</li>';
-
-					// Temps exposition
-					$sDonneesExif .= '<li><span>Temps d\'exposition : </span>';
-					$sDonneesExif .= ( key_exists('ExposureTime', $aExif['EXIF']) && $aExif['EXIF']['ExposureTime'] !== '' ) ? $aExif['EXIF']['ExposureTime'] : $sDonneeInconnue;
-					$sDonneesExif .= '</li>';
-
-					// ISO
-					$sDonneesExif .= '<li><span>Sensibilité ISO : </span>';
-					$sDonneesExif .= ( key_exists('ISOSpeedRatings', $aExif['EXIF']) && $aExif['EXIF']['ISOSpeedRatings'] !== '' ) ? $aExif['EXIF']['ISOSpeedRatings'] : $sDonneeInconnue;
-					$sDonneesExif .= '</li>';
-
-					// Longueur focale
-					$sDonneesExif .= '<li><span>Longueur de la focale : </span>';
-					$sDonneesExif .= ( key_exists('FocalLength', $aExif['EXIF']) && $aExif['EXIF']['FocalLength'] !== '' ) ? $aExif['EXIF']['FocalLength'] : $sDonneeInconnue;
-					$sDonneesExif .= '</li>';
-				}
-
-				if( key_exists('COMPUTED', $aExif) )
-				{
-					// Ouverture focale
-					$sDonneesExif .= '<li><span>Ouverture de la focale : </span>';
-					$sDonneesExif .= ( key_exists('ApertureFNumber', $aExif['COMPUTED']) && $aExif['COMPUTED']['ApertureFNumber'] !== '' ) ? $aExif['COMPUTED']['ApertureFNumber'] : $sDonneeInconnue;
-					$sDonneesExif .= '</li>';
-				}
+				else return '';
 			}
-			else $sDonneesExif .= $sAucuneDonneesExif;
+			else return '';
 		}
-		else $sDonneesExif .= $sAucuneDonneesExif;
+		else return '';
 
 		$sDonneesExif .= "</ul>\n";
 
@@ -664,6 +667,45 @@ class Util {
 			else return $sChaineATronquer;
 		}
 		else return '';
+	}
+
+	/**
+	 * Lit le type MIME d'une image.
+	 * 
+	 * La fonction fonctionne de deux façons différentes :
+	 *  - si les extensions pour le support EXIF sont chargées : utilisation de la fonction exif_imagetype.
+	 * 		Tous les formats d'images sont alors supportés.
+	 * 	- si les extensions ne sont pas chargées : code perso qui lit l'extension du fichier pour en déterminer
+	 *      le type MIME. Seul sont détectées les jpg, gif et png.
+	 * 
+	 * Les valeurs de retour possibles sont les suivantes :
+	 * 	- image/jpeg
+	 *  - image/gif
+	 *  - image/png
+	 *
+	 * @param	[STRING]	$sCheminImg		Chemin d'accès au fichier dont on veut le type MIME.
+	 * @return	[STRING]					Type MIME.
+	 */
+	function imageTypeMime( $sCheminImg )
+	{
+		if( function_exists('exif_imagetype') )
+			return image_type_to_mime_type(exif_imagetype($sCheminImg));
+		else {
+		
+			$aExplode = explode( '.', $sCheminImg );
+			$sExt = strtolower( $aExplode[sizeof( $aExplode ) - 1] );
+			 
+			switch ( $sExt )
+			{
+				case 'jpg':
+				case 'jpeg':
+				case 'jpe': $sTypeMime = 'image/jpeg'; break;
+				case 'gif': $sTypeMime = 'image/gif'; break;
+				case 'png': $sTypeMime = 'image/png'; break;
+			}
+			
+			return $sTypeMime;
+		}
 	}
 
 }

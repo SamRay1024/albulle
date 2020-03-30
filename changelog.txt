@@ -1,8 +1,21 @@
 :: Albulle
-:: Version 0.9.1
+:: Version 0.9.2
 
 WHAT's NEW :
 ------------
+
+Version 0.9.2 - 06/10/2006
+
+	* Amélioration de la gestion des URI en mode intégré pour garder les paramètres utilisés
+	  par le site hôte,
+	* Ajout d'un élément dans la configuration pour contrôler la nouveauté citée précédemment
+	  (JB_AL_CONSERVER_URL_HOTE),
+	* Correction de la gestion des données EXIF pour ne pas planter Albulle lorsque le serveur
+	  ne dispose pas des librairies de gestion de celles-ci,
+	* Certains éléments HTML n'étaient pas contrôlables depuis les feuilles de styles, ils
+	  le sont désormais,
+	* Mise-à-jour de l'exemple 3 du fichier /extras/index_exemples.php avec l'activation
+	  de la conservation des Url de l'hôte.
 
 Version 0.9.1 - 19/09/2006
 

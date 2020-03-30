@@ -12,8 +12,8 @@
  * @author SamRay1024
  * @copyright Bubulles Creations
  * @link http://jebulle.net
- * @since 11/06/2006
- * @version 0.1
+ * @since 29/06/2006
+ * @version 0.2
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -220,7 +220,14 @@ else
 				$aPseudosVariables['`{DIMENSIONS_PHOTO}`']	= $_MINIATURES[$_JB_AL_VARS['i_diapo_courante']]['DIM_PHOTO'];
 				$aPseudosVariables['`{TYPE_MIME}`']			= $_MINIATURES[$_JB_AL_VARS['i_diapo_courante']]['TYPE_MIME'];
 				$aPseudosVariables['`{POIDS_PHOTO}`']		= $_MINIATURES[$_JB_AL_VARS['i_diapo_courante']]['SIZE_PHOTO'];
-				$aPseudosVariables['`{DONNEES_EXIF}`']		= $oOutils->afficherExif($_MINIATURES[$_JB_AL_VARS['i_diapo_courante']]['CHEMIN_PHOTO']);
+				$sDonneesExif								= $oOutils->afficherExif($_MINIATURES[$_JB_AL_VARS['i_diapo_courante']]['CHEMIN_PHOTO']);
+
+				if( empty($sDonneesExif) ) {
+					$aPseudosVariables['`<!-- SI EXIF -->.*<!-- FINSI EXIF -->\n`s']	= '';
+				} else {
+					$aPseudosVariables['`<!-- SI EXIF -->\n|<!-- FINSI EXIF -->\n`']	= '';
+					$aPseudosVariables['`{DONNEES_EXIF}`']								= $sDonneesExif;
+				}
 			}
 			// Si pas de diapo définie
 			else
@@ -289,6 +296,7 @@ $aPseudosVariables['`{PANIER_CAPACITES}`']			= $sCapacitePanier;
 $aPseudosVariables['`{MENU_PANIER}`']				= $_JB_AL_VARS['s_menu_panier'];
 $aPseudosVariables['`{LIEN_RETOUR_SITE}`']			= $_JB_AL_VARS['s_lien_retour_site'];
 $aPseudosVariables['`{CHEMIN_THEME}`']				= $_JB_AL_VARS['s_acces_theme'];
+$aPseudosVariables['`{CHEMIN_ROOT}`']				= JB_AL_ROOT;
 $aPseudosVariables['`{VERSION}`']					= $_JB_AL_VARS['s_version'];
 
 // Affichage pied de page si pas en mode intégration
