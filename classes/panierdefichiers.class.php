@@ -49,8 +49,8 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 10/06/2005
- * @version 0.4
+ * @since 13/06/2005
+ * @version 0.4b
  * 
  */
 
@@ -66,9 +66,8 @@ class PanierDeFichiers {
 	 * Nombre maximum de fichiers dans le panier.
 	 *
 	 * @var [INTEGER]
-	 * @access [PRIVATE]
 	 */
-	private $_iNbFichiersMax = 0;
+	var $_iNbFichiersMax = 0;
 	
 	/**
 	 * Constructeur de la classe.
@@ -79,7 +78,7 @@ class PanierDeFichiers {
 	 * @param [INTEGER]	$iNbFichiersMax	Nombre de fichiers que l'on peut mettre dans le panier.
 	 * @return [VOID]
 	 */	
-	function __construct( $iNbFichiersMax = 0 )
+	function PanierDeFichiers( $iNbFichiersMax = 0 )
 	{
 		
 		// verification que le module de compression est actif sur le serveur

@@ -1,8 +1,12 @@
 :: AlBulles
-:: Version 0.3
+:: Version 0.3b
 
 WHAT's NEW :
 ------------
+
+Version 0.3b - 13/06/2005
+
+	* Adaptation du code pour qu'il fonctionne sur des serveurs PHP4
 
 Version 0.3 - 11/06/2005
 

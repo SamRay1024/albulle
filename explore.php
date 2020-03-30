@@ -54,8 +54,8 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name AlBulles
- * @since 11/06/2005
- * @version 0.3
+ * @since 13/06/2005
+ * @version 0.3b
  */
 
 /************************************* DEBUT PARAMETRES EDITABLES *************************************/
