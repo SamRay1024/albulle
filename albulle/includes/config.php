@@ -40,12 +40,43 @@ define( 'JB_AL_AFFICHER_VERSION',		true );							// Afficher le numéro de versi
 
 // Arborescence
 define( 'JB_AL_AFFICHER_NB_PHOTOS',		true );							// Afficher dans l'arborescence des albums le nombre de photos présentes dans chaque dossier.
+define( 'JB_AL_DEROULER_TOUT',          false );						// Ne déroule que le dossier demandé. Mettez à 'true' pour que tous les dossiers soient déroulés.
 
 // Vignettes
 define( 'JB_AL_AFFICHER_NOMS',			false );						// Afficher le nom de chaque photo dans les vignettes.
-define( 'JB_AL_AFFICHIER_POIDS',		true );							// Afficher la taille de chaque photo.
+define( 'JB_AL_REMPLACER_TIRETS_BAS',	true );							// Si true, les '_' présents dans les noms seront remplacés par des espaces.
+define( 'JB_AL_AFFICHER_EXTENSION',		true );                         // Affiche ou non l'extension du fichier.
+
+define( 'JB_AL_AFFICHER_POIDS',			true );							// Afficher la taille de chaque photo.
 define( 'JB_AL_AFFICHER_DIMENSIONS',	true );							// Afficher les dimensions.
 
+// Tri des dossiers et fichiers
+define( 'JB_AL_FILTRE_PREFIXES_ACTIF',	false );                        // Si true, active le filtrage sur les préfixes de tous les noms (dossiers et fichiers).
+define( 'JB_AL_PREFIXES_SEPARATEUR',	';;' );                         // Séparateur à utiliser pour préfixer vos noms si l'option précédente est active.
+
+// /!\
+// Mode d'emploi de l'utilisation des préfixes :
+//
+// Vous pouvez avoir besoin d'ordonner vos dossiers et photos dans un autre ordre que celui
+// alphabétique. Si tel est le cas, activez le filtrage des préfixes pour pouvoir utiliser
+// des préfixes sur vos noms. Ainsi vous pourrez redéfinir un classement qui vous est propre
+// tout en gardant un affichage "propre".
+//
+// Pour utiliser votre classement vous devrez nommer vos dossiers et fichiers de la façon suivante :
+//
+//      01;;Mon_image.jpg
+//      02;;Mon_autre_image.jpg
+//      ...
+//      (De la même façon pour des dossiers)
+//
+// De manière générale le nommage doit être de la forme :
+//
+//      [chaine de votre choix][séparateur][nom de l'image/nom du dossier].[extension si vous nommez un fichier]
+//
+// Lors de l'affichage des dossiers et des fichiers (si vous avez demandé l'affichage des noms des photos),
+// tout ce qui se trouve devant le séparateur (';;' par défaut) ne sera pas affiché à l'écran (séparateur
+// compris).
+// /!\
 
 // ================
 // MODES D'AFFICHAGE DES IMAGES

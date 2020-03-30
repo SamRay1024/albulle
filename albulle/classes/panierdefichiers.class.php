@@ -49,8 +49,8 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 20/08/2005
- * @version 0.6 (PHP4)
+ * @since 22/01/2006
+ * @version 0.7 (PHP4)
  * 
  */
 
@@ -112,7 +112,7 @@ class PanierDeFichiers {
 	{
 				
 		// ajout du fichier s'il n'y est pas déjà et si le panier n'est pas plein
-		if( ( array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ) === false ) && !$this->PanierPlein() )
+		if( ($this->EstDansLePanier($sCheminFichier) === false) && !$this->PanierPlein() )
 		{
 			
 			$_SESSION[NOM_PANIER_SESSION][] = $sCheminFichier;
@@ -134,7 +134,7 @@ class PanierDeFichiers {
 	{
 		
 		// si l'image se trouve bien dans le panier on la supprime
-		if( ( $iPosition = array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ) ) !== false )
+		if( ( $iPosition = $this->EstDansLePanier($sCheminFichier) ) !== false )
 		{
 			
 			unset( $_SESSION[NOM_PANIER_SESSION][$iPosition] );
@@ -226,17 +226,10 @@ class PanierDeFichiers {
 	 * Vérifie l'existence d'un fichier dans le panier.
 	 *
 	 * @param [STRING]	$sCheminFichier	Chemin du fichier à vérifier.
-	 * @return [BOOLEAN]				TRUE si le fichier est dans le panier, FALSE sinon.
+	 * @return [MIXED]					La position de l'élément dans le panier si existant, FALSE sinon.
 	 */
 	function EstDansLePanier( $sCheminFichier )
-	{
-		
-		if( array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ) !== false )
-			return true;
-		else
-			return false;
-			
-	}
+	{	return array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ); }
 	
 	/**
 	 * Permet de savoir si le panier est plein.

@@ -1,5 +1,5 @@
 :: AlBulle - Lisez moi
-:: Version 0.7.1
+:: Version 0.8
 :: Auteur : SamRay1024
 :: http://jebulle.net - http://forums.jebulle.net
 :: webmaster@jebulle.net
@@ -13,10 +13,12 @@ SOMMAIRE
 
 	* REMERCIEMENTS
 	* INTRODUCTION
-	* AVERTISSEMENT
-	* UTILISATION
+	* CONFIGURATION REQUISE
+	* AVERTISSEMENT (Si vous ne devez lire qu'un seul paragraphe, lisez celui-là !)
 	* MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
+	* UTILISATION
 	* PARAMETRAGE DU PROGRAMME
+	* REDEFINIR SON PROPRE CLASSEMENT
 	* UTILISATION D'ALBULLE EN CENTRE DE TELECHARGEMENT
 	* INTEGRER ALBULLE DANS UN SITE INTERNET
 	* CHANGER LE STYLE DE LA PAGE
@@ -33,6 +35,9 @@ les personnes suivantes :
 	- CyberBob002 - http://lecyber.net
 	- Olivier Matheret
 	- Kew1
+	- Tous les visiteurs et autres membres du forum qui proposent des
+		suggestions, rapporte les erreurs qu'ils peuvent rencontrer...
+		qui se reconnaîtront ;-).
 
 
 INTRODUCTION
@@ -51,6 +56,20 @@ au grès de votre navigation dans les albums. Lorsque votre sélection est
 terminée, vous pouvez alors la télecharger directement via une archive au
 format de compression ZIP. Il ne vous reste plus qu'à la décompresser pour
 profiter de ces photos sur votre ordinateur !
+
+
+CONFIGURATION REQUISE
+---------------------
+
+	Vous devez, pour pouvoir utiliser AlBulle, disposer d'un serveur web qui
+permette l'exécution de code PHP. Ce serveur web doit avoir les caractéristiques
+suivantes :
+
+	- PHP version 4.1.x,
+	- Extension GD active sur le serveur PHP (pour le traitement des images),
+	- Extension zlib active (pour l'utilisation du panier d'images).
+	
+	Aucune base de données n'est nécessaire pour l'utilisation d'AlBulle.
 
 
 AVERTISSEMENT
@@ -81,6 +100,29 @@ des erreurs). Les éditeurs que je vous recommande sont les suivants :
 	(Pour les plus curieux d'entres vous, voici un explication beaucoup plus
 complète que ces quelques lignes que je viens d'écrire : 
 http://openweb.eu.org/articles/jeux_caracteres/ )
+
+
+MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
+----------------------------------------
+
+*	Si vous venez d'une version autre que la 0.6, vous devez supprimer tous les
+fichiers. Vous pouvez garder votre dossier de photos mais devez supprimer tous les dossiers
+qui contiennent les miniatures.
+
+*	Si vous venez de la version 0.6, supprimez tous les fichiers et mettez les nouveaux.
+Vous pouvez garder vos dossiers de photos ainsi que les dossiers de miniatures.
+
+	Ouvrez le fichier config.php pour l'adapter selon vos besoins.
+
+	Si vous aviez des thèmes installés, vous devrez télécharger les nouvelles versions
+de ceux ci pour la cette version d'AlBulle.
+
+*	Si vous venez de la version 0.7.x, seuls les fichiers suivants ont changés :
+
+	- explore.php
+	- includes/config.php
+	- classes/panierdefichiers.class.php
+	- classes/util.class.php
 
 
 UTILILISATION
@@ -122,25 +164,10 @@ UNE ERREUR POUR VOUS LE SIGNALER.
 	AlBulle pouvant naviguer dans une arborescence. Vous pouvez faire autant
 de dossiers et sous-dossiers que nécessaire pour organiser au mieux vos photos.
 
-	Il est aussi désormais possible de remplacer dans les noms des dossiers
-de vos photos, les espaces par des tirets bas ('_'). Ils seront automatiquement
-affichés avec des espaces dans l'explorateur d'AlBulle.
-
-
-MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
-----------------------------------------
-
-	Si vous venez d'une version autre que la 0.6, vous devez supprimer tous les
-fichiers. Vous pouvez garder votre dossier de photos mais devez supprimer tous les dossiers
-qui contiennent les miniatures.
-
-	Si vous venez de la version 0.6, supprimez tous les fichiers et mettez les nouveaux.
-Vous pouvez garder vos dossiers de photos ainsi que les dossiers de miniatures.
-
-	Ouvrez le fichier config.php pour l'adapter selon vos besoins.
-
-	Si vous aviez des thèmes installés, vous devrez télécharger les nouvelles versions
-de ceux ci pour la cette version d'AlBulle.
+	Il est possible de remplacer dans les noms des dossiers de vos photos les
+espaces par des tirets bas ('_'). Ils seront automatiquement affichés avec des
+espaces dans l'explorateur d'AlBulle. La même chose est désormais aussi possible
+depuis la version 0.8 (cf. paramètrage du programme).
 
 
 PARAMETRAGE DU PROGRAMME
@@ -152,6 +179,23 @@ cela, vous devrez éditer le fichier "config.php".
 	Ce fichier contient toutes les explications nécessaires pour le paramètrage
 d'AlBulle prenez le temps de lire les commentaires pour ne pas faire de fausse
 manipulation.
+
+
+REDEFINIR SON PROPRE CLASSEMENT
+-------------------------------
+
+	Les dossiers et fichiers sont automatiquement classés par ordre alphabétique
+par le système d'exploitation. Ainsi, si vous souhaitez changer cet ordre (pour
+faire un classement chronologique par exemple) il vous faut surement avoir recours
+à un préfixe devant les noms (Ex : 01_..., 02_..., etc). Hors vous ne souhaitez
+peut-être pas que ce préfixe apparaisse dans la page d'AlBulle.
+
+	Vous pouvez, depuis la version 0.8, indiquer à AlBulle que vous utilisez des
+préfixes et que vous ne souhaitez pas qu'ils apparaissent !
+
+	Une explication complète du paramètrage à effectuer se trouve directement dans
+le fichier de configuration (includes/config.php). Rassurez-vous, ce paramètrage est
+extrèmement simple !
 
 
 UTILISATION D'ALBULLE EN CENTRE DE TELECHARGEMENT

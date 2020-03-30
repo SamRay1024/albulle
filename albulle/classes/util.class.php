@@ -53,8 +53,8 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 12/11/2005
- * @version 1.2
+ * @since 22/01/2006
+ * @version 1.3
  * 
  */
 
@@ -417,13 +417,36 @@ class Util {
 			if( $aDossiers[$i] === '' || preg_match('/^[.]+$'.$sExpRegDossiersInterdits.'/', $aDossiers[$i]) !== 0 )
 				unset( $aDossiers[$i] );
 		
-		// reconstruction des index du tableau
-		$aDossiers = array_merge($aDossiers);
+		// reconstruction des index du tableau (utilisation d'un tableau vide pour corriger un bogue intervenant occasionnellement)
+		$aTemp = array();
+		$aDossiers = array_merge($aDossiers, $aTemp);
 		
 		// Reconstruction de la chaine d'accès nettoyée
 		$sChaine = implode( '/', $aDossiers );
 		
 		return $aDossiers;
+	}
+	
+	/**
+	 * Enlèver le préfixe d'une chaine.
+	 *
+	 * Permet d'effacer tout ce qui se trouve avant un séparateur dans une chaine.
+	 * Le séparateur est lui aussi effacé. Si des espaces se trouvent après le séparateur,
+	 * ils sont de même supprimés.
+	 *
+	 * @param	[STRING]	$sChaineANettoyer		La chaîne dans laquelle enlever un préfixe.
+	 * @param	[STRING]	$sMarqueur				La chaîne qui marque la fin du préfixe.
+	 * @return	[STRING]							La chaîne nettoyées.
+	 */
+	function enleverPrefixe( $sChaineANettoyer, $sSeparateur )
+	{
+		$sChaineCoupee = strstr( $sChaineANettoyer, $sSeparateur );
+		
+		// Si le séparateur a été trouvé, donc la chaîne octroyée de son préfixe
+		if( $sChaineCoupee !== false )
+	    	return trim( str_replace($sSeparateur, '', $sChaineCoupee) );
+		else
+		    return $sChaineANettoyer;
 	}
 	
 }

@@ -54,8 +54,8 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name AlBulle
- * @since 12/11/2005
- * @version 0.7
+ * @since 25/01/2006
+ * @version 0.8
  */
 
 // ====================
@@ -76,56 +76,63 @@ require_once( JB_AL_ROOT.'classes/util.class.php' );
 // ====================
 // INITIALISATIONS
 //
-$sVersion = '0.7';
+$sVersion = '0.8';
 $sAccesTheme = JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF;
 $sMenuPanier = $sPanierLienToutAjouter = $sPanierLienToutSupprimer = $sLiensDossiersPhotos = $sNavigation = '';
 $sNomDossierMiniatures = '_miniatures';
-$aListePhotos = $aMiniatures = array();
+$aDossiers = $aListePhotos = $aMiniatures = array();
 $oOutils = new Util();
 set_magic_quotes_runtime(0);
-header( 'Content-type: text/html; charset=utf-8' );
+
+// Envoi des entêtes HTTP que si on n'est pas en intégration et que si les entêtes n'ont pas déjà été envoyées
+if( !JB_AL_INTEGRATION_SITE && !headers_sent() )
+	header( 'Content-type: text/html; charset=utf-8' );		// Force l'encodage de sortie à l'UTF-8
 
 
 // ====================
 // VERIFICATIONS
 //
+
+// Fonction qui affiche les erreurs et quitte le programme
+function erreur( $sMessage ) { exit( '# ALBULLE # <strong>[ Erreur ]</strong> => '.$sMessage ); }
+
+if( !extension_loaded( 'gd' ) )
+    erreur( 'La librairie GD n\'est pas chargée sur votre serveur PHP. Elle est obligatoire pour
+            assurer le fonctionnement d\'AlBulle. Activez-la dans le fichier <em>php.ini</em> ou
+            contactez votre administrateur si vous n\'êtes pas propriétaire du serveur. <br /><br />
+            Rendez-vous sur les forums de JeBulle.Net pour visualiser <a href="http://forums.jebulle.net/viewtopic.php?id=417">
+            ce message</a> (Lisez l\'erreur 1) qui concerne cette erreur.' );
+
 if( !is_dir(JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS) )	// existence dossier des photos
-	exit( '# ALBULLE # <strong>[ Erreur ]</strong> =>
-			Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS.'</em> est introuvable.
+	erreur( 'Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS.'</em> est introuvable.
 			Vérifiez la configuration dans le fichier <strong>config.php</strong>. Il s\'agit
 			du répertoire qui doit contenir vos albums photos !' );
 
-if( !is_writeable(JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS) )
-	exit( '# ALBULLE # <strong>[ Erreur ]</strong> =>
-			Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS.'</em> n\'est pas autorisé en écriture ce qui peut
+if( !is_writeable(JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS) )    // est-ce que le dossier des photos est autorisé en écriture
+	erreur( 'Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS.'</em> n\'est pas autorisé en écriture ce qui peut
 			engendrer des disfonctionnements. Changez ses droits ainsi que ses sous-dossiers pour qu\'ils soient
 			autorisés en écriture.' );
 	
 if( !file_exists($sAccesTheme.JB_AL_FICHIER_THEME) )	// existence thème spécifié
-	exit( '# ALBULLE # <strong>[ Erreur ]</strong> =>
-			Le fichier du thème <em>'.$sAccesTheme.JB_AL_FICHIER_THEME.'</em> est introuvable.
+	erreur( 'Le fichier du thème <em>'.$sAccesTheme.JB_AL_FICHIER_THEME.'</em> est introuvable.
 			Vérifiez la configuration dans le fichier <strong>config.php</strong>.' );
 	
 if( !file_exists(JB_AL_ROOT.JB_AL_FICHIER_ACCUEIL) )	// existence fichier accueil
-	exit( '# ALBULLE # <strong>[ Erreur ]</strong> =>
-			Le fichier <em>'.JB_AL_ROOT.JB_AL_FICHIER_ACCUEIL.'</em> est introuvable.
+	erreur( 'Le fichier <em>'.JB_AL_ROOT.JB_AL_FICHIER_ACCUEIL.'</em> est introuvable.
 			Vérifiez la configuration dans le fichier <strong>config.php</strong>. Si ce fichier
 			n\'existe pas, créez-le et complétez-le pour bénéficier d\'un texte d\'accueil.' );
 
 if( (JB_AL_VIGNETTES_HAUTEUR === 0) || (JB_AL_VIGNETTES_LARGEUR === 0) )	// Vérification dimensions de redimensionnement
-	exit( '# ALBULLE # <strong>[ Erreur ]</strong> =>
-			Les valeurs de hauteur et largeur pour le redimensionnement des photos pour la génération
+	erreur( 'Les valeurs de hauteur et largeur pour le redimensionnement des photos pour la génération
 			des miniatures ne peuvent être nulles. Veuillez modifier ces valeurs dans la configuration.' );
 	
 if( JB_AL_VIGNETTES_PAR_PAGE === 0 )	// nombre d'images par page
-	exit( '# ALBULLE # <strong>[ Erreur ]</strong> =>
-			Le nombre d\'images par page ne peut pas être nul. Veuillez corriger sa valeur dans la configuration.' );
+	erreur( 'Le nombre d\'images par page ne peut pas être nul. Veuillez corriger sa valeur dans la configuration.' );
 	
 if( JB_AL_MODE_CENTRE === true )	// Vérification dossier centre de téléchargement
 {
 	if( !is_dir(JB_AL_ROOT.JB_AL_DOSSIER_CENTRE) )
-		exit( '# ALBULLE # <strong>[ Erreur ]</strong> =>
-				Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_CENTRE.'</em> est introuvable.
+		erreur( 'Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_CENTRE.'</em> est introuvable.
 				Vérifiez la configuration dans le fichier <strong>config.php</strong>.' );
 }
 
@@ -237,28 +244,37 @@ for( $i = 0 ; $i < $iNbDossiers ; $i++ )
 	// lien dossier parent
 	$sNbPhoto = (  JB_AL_AFFICHER_NB_PHOTOS === true ) ? '<em>('.sizeof( $aListeSousRepPhotos['file'] ).')</em>' : ''; 
 	
+	// Application filtres sur le nom du dossier si actif
+	$sNomRep = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( $aListeRepPhotos['dir'][$i], JB_AL_PREFIXES_SEPARATEUR ) : $aListeRepPhotos['dir'][$i];
+	
 	$sLiensDossiersPhotos .= '<li class="pucePhotos">
 								<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sLienNiveau1 )).'">'
-								.$sGrasDebut.str_replace( '_', ' ', $aListeRepPhotos['dir'][$i] )
+								.$sGrasDebut.str_replace( '_', ' ', $sNomRep )
 								."$sGrasFin</a> $sNbPhoto</li>\n";
 	
-	// Concaténation sous-liste	
-	for( $j = 0 ; $j < $iNbSousDossiers ; $j++ )
+	// Concaténation sous-liste	(uniquement pour le dossier courant si la config est définie comme telle)
+	if( JB_AL_DEROULER_TOUT || ($sLienNiveau1 === $sRepCourant) )
 	{
-		// on ne calcule le nombre de photo d'un dossier que si autorisé dans la config
-		if(  JB_AL_AFFICHER_NB_PHOTOS === true )
+		for( $j = 0 ; $j < $iNbSousDossiers ; $j++ )
 		{
-			$mResultat = $oOutils->advScanDir( $sDossierLecture.'/'.$aListeRepPhotos['dir'][$i].'/'.$aListeSousRepPhotos['dir'][$j], 'FICHIERS_SEULEMENT' );
-			$aListeSousSousRep = ( $mResultat === false ) ? array() : $mResultat;
-			$sNbPhoto = '<em>('.sizeof( $aListeSousSousRep ).')</em>';
+			// on ne calcule le nombre de photo d'un dossier que si autorisé dans la config
+			if(  JB_AL_AFFICHER_NB_PHOTOS === true )
+			{
+				$mResultat = $oOutils->advScanDir( $sDossierLecture.'/'.$aListeRepPhotos['dir'][$i].'/'.$aListeSousRepPhotos['dir'][$j], 'FICHIERS_SEULEMENT' );
+				$aListeSousSousRep = ( $mResultat === false ) ? array() : $mResultat;
+				$sNbPhoto = '<em>('.sizeof( $aListeSousSousRep ).')</em>';
+			}
+			else $sNbPhoto = '';
+
+            // Application filtres sur le nom du dossier si actif
+			$sNomSousRep = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( $aListeSousRepPhotos['dir'][$j], JB_AL_PREFIXES_SEPARATEUR ) : $aListeSousRepPhotos['dir'][$j];
+			
+			$sLiensDossiersPhotos .= '<li class="puceSousDossier">
+										<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j] )).'">'
+										.str_replace( '_', ' ', $sNomSousRep )
+										."</a> $sNbPhoto</li>\n";
 		}
-		else $sNbPhoto = '';
-		
-		$sLiensDossiersPhotos .= '<li class="puceSousDossier">
-									<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j] )).'">'
-									.str_replace( '_', ' ', $aListeSousRepPhotos['dir'][$j] )
-									."</a> $sNbPhoto</li>\n";
-	}
+    }
 }
 
 		
@@ -372,8 +388,13 @@ if ( !empty( $sRep ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS.$sRep ) &&  $iNb
 		$aMiniatures[$j]['LIEN_PHOTO']		= "<a href=\"$sLienHref\" $sTargetBlank>".'<img src="'.$sCheminMiniature.'" class="miniature" alt="Photo '.basename($sCheminPhoto).'" /></a>';
 		$aMiniatures[$j]['NOM_PHOTO']		= ( JB_AL_AFFICHER_NOMS === true )			? $aListePhotos[$i].'<br />' : '';
 		$aMiniatures[$j]['DIM_PHOTO']		= ( JB_AL_AFFICHER_DIMENSIONS === true )	? $aImgInfos[0].' x '.$aImgInfos[1].'<br />' : '';
-		$aMiniatures[$j]['SIZE_PHOTO']		= ( JB_AL_AFFICHIER_POIDS === true )		? ( ( intval( filesize( $sChemin ) / 1024 ) < 1 ) ? filesize( $sChemin ).' Octets' : intval( filesize( $sChemin ) / 1024 ).' Ko' ) : '' ;
-		$aMiniatures[$j]['AJOUT_PANIER']	= ( $oPanier->EstDansLePanier( $sChemin ) ) ? $sRetrait : $sAjout;
+		$aMiniatures[$j]['SIZE_PHOTO']		= ( JB_AL_AFFICHER_POIDS === true )			? ( ( intval( filesize( $sChemin ) / 1024 ) < 1 ) ? filesize( $sChemin ).' Octets' : intval( filesize( $sChemin ) / 1024 ).' Ko' ) : '' ;
+		$aMiniatures[$j]['AJOUT_PANIER']	= ( $oPanier->EstDansLePanier( $sChemin ) !== false ) ? $sRetrait : $sAjout;
+		
+		// Application filtres
+		if( JB_AL_FILTRE_PREFIXES_ACTIF )	$aMiniatures[$j]['NOM_PHOTO'] = $oOutils->enleverPrefixe( $aMiniatures[$j]['NOM_PHOTO'], JB_AL_PREFIXES_SEPARATEUR );
+		if( JB_AL_REMPLACER_TIRETS_BAS )	$aMiniatures[$j]['NOM_PHOTO'] = str_replace( '_', ' ', $aMiniatures[$j]['NOM_PHOTO'] );
+		if( !JB_AL_AFFICHER_EXTENSION )	    $aMiniatures[$j]['NOM_PHOTO'] = $oOutils->SousChaineGauche( $aMiniatures[$j]['NOM_PHOTO'], '.', 1 ).'<br />';
 		
 		$j++;
 		
@@ -406,7 +427,12 @@ $sPanierLienToutSupprimer	= ( $iNbPhotos > 0 ) ? '<a href="'.$_SERVER['PHP_SELF'
 // ====================
 // INITIALISATIONS DIVERSES POUR L'HTML
 //
-$sHeadTitre = ( empty( $sRep ) ) ? 'Accueil' : "Photos de {$aDossiers[$iNiveau-1]}";
+
+// Nettoyage préfixe et tirets bas
+$sTitreFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( $aDossiers[$iNiveau-1], JB_AL_PREFIXES_SEPARATEUR ) : $aDossiers[$iNiveau-1];
+$sTitreFiltre = str_replace( '_', ' ', $sTitreFiltre );
+
+$sHeadTitre = ( empty( $sRep ) ) ? 'Accueil' : "Photos de $sTitreFiltre";
 
 // liens sur le titre qui contient le chemin où l'utilisateur se trouve
 if( empty( $sRep ) )	$sBodyTitre = 'Accueil';
@@ -416,11 +442,17 @@ else
 	
 	for( $i = 0 ; $i < $iNiveau - 1 ; $i++ )
 	{
+	    // Nettoyage préfixe
+		$sDossierFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( $aDossiers[$i], JB_AL_PREFIXES_SEPARATEUR ) : $aDossiers[$i];
+	    
 		$sLien .= ( $i !== 0 ) ? '/'.$aDossiers[$i] : $aDossiers[$i];
-		$sBodyTitre .= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sLien )).'">'.str_replace( '_', ' ', $aDossiers[$i] ).'</a> > ';
+		$sBodyTitre .= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $sLien )).'">'.str_replace( '_', ' ', $sDossierFiltre ).'</a> > ';
 	}
 	
-	$sBodyTitre .= str_replace( '_', ' ', $aDossiers[$iNiveau-1] );
+	// Nettoyage préfixe
+	$sDossierFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( $aDossiers[$iNiveau-1], JB_AL_PREFIXES_SEPARATEUR ) : $aDossiers[$iNiveau-1];
+
+	$sBodyTitre .= str_replace( '_', ' ', $sDossierFiltre );
 }
 
 // pour la version

@@ -1,8 +1,26 @@
 :: Albulle
-:: Version 0.7.1
+:: Version 0.8
 
 WHAT's NEW :
 ------------
+
+Version 0.8 - 25/01/2006
+
+	* Ajout de la possibilité de remplacer les '_' dans les noms de fichiers par des espaces ainsi
+	  que de ne pas afficher les extensions des fichiers quand on affiche les noms des photos.
+	  Cela permet de pouvoir utiliser ces mêmes noms comme des titres.
+	* Ajout de la possibilité de redéfinir son propre classement des dossiers/fichiers en préfixant
+	  ces derniers.
+	* Ajout de la possibilité de ne dérouler que le dossier demandé (paramètrable dans le fichier
+	  de configuration) plutôt que de dérouler tous les dossiers (paramètre JB_AL_DEROULER_TOUT).
+	* Améliorations dans la classe du panier de fichiers.
+	* Correction de l'envoi des entêtes HTTP qui étaient toujours envoyées même en mode intégration
+	  dans un site.
+	* Correction de la notice "Undefined variable: aDossiers".
+	* Correction du bogue "Wrong parameter count for array_merge()" de la classe de nettoyage
+	  des URL (merci phpman) [Correction à confirmer].
+	* Complétion des erreurs a gérer.
+	* Améliorations mineures de l'écriture du code.
 
 Version 0.7.1 - 29/11/2005
 
