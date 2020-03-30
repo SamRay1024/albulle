@@ -10,7 +10,7 @@
 /**
  * Bienvenue dans ce fichier d'exemples !
  *
- * Vous trouverez ici les différentes possibilités que vous avez à votre disposition
+ * Vous trouverez ici différentes possibilités que vous avez à votre disposition
  * pour utiliser Albulle.
  * 
  * Je vous conseille de lire les descriptions de tous les exemples, chacune d'elles apportant
@@ -55,7 +55,7 @@ echo require_once( JB_AL_ROOT.'explore.php' );
  * 
  * Paramétrages supplémentaires.
  * 
- * Si vous le souhaitez, certains paramètres que l'on définit normalement dans le fichier
+ * Si vous le souhaitez, les paramètres que l'on définit normalement dans le fichier
  * config.php peuvent être définis avant l'appel au fichier explore.php. Dans ce cas,
  * ces éléments seront prioritaires sur config.php.
  * 

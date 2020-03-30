@@ -54,8 +54,8 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name Albulle
- * @since 10/09/2006
- * @version 0.9
+ * @since 18/09/2006
+ * @version 0.9.1
  */
 
 // Fonction qui affiche les erreurs et quitte le programme
@@ -106,7 +106,7 @@ $_MINIATURES	= array();	// Tableau qui contiendra les miniatures
 $_JB_AL_GET		= array();	// Tableau qui contiendra les paramètres reçus dans l'URL
 $_JB_AL_POST	= array();	// Tableau qui contiendra les paramètres reçus par les formulaires
 
-$_JB_AL_VARS['s_version']		= '0.9';
+$_JB_AL_VARS['s_version']		= '0.9.1';
 
 $_JB_AL_VARS['s_acces_theme']	= JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF;
 $_JB_AL_VARS['s_arborescence'] = $_JB_AL_VARS['s_menu_panier'] = '';
@@ -439,12 +439,9 @@ $_JB_AL_VARS['s_nb_fichiers_panier']	= ( $oPanier->PanierPlein() ) ? '<span styl
 $iPoidsEstime					= $oPanier->CalculerPoids();
 $_JB_AL_VARS['s_poids_estime']	= (intval( $iPoidsEstime / 1024 ) < 1) ? $iPoidsEstime.' Octets' : intval( $iPoidsEstime / 1024 ).' Ko';
 
-// petit hack pour mettre des images qui vont bien sous IE ...
-$sIeFixAjout = isIE() ? 'ie/puce_ajout.gif' : 'puce_ajout.png';
-$sIeFixRetrait = isIE() ? 'ie/puce_retrait.gif' : 'puce_retrait.png';
-
-$_JB_AL_VARS['s_lien_panier_tout_ajouter']		= ( $iNbPhotos > 0 && !$_JB_AL_GET['b_voir_panier'] ) ? '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=tout'.$aActions['voir'].$aActions['diaporama'].'" class="bouton"><img src="'.$_JB_AL_VARS['s_acces_theme'].'images/'.$sIeFixRetrait.'" alt="Tout ajouter" title="Ajouter toutes les images de la page" /></a>' : '';
-$_JB_AL_VARS['s_lien_panier_tout_supprimer']	= ( $iNbPhotos > 0 && !$_JB_AL_GET['b_voir_panier'] ) ? '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=rien'.$aActions['voir'].$aActions['diaporama'].'" class="bouton"><img src="'.$_JB_AL_VARS['s_acces_theme'].'images/'.$sIeFixAjout.'" alt="Tout retirer" title="Retirer toutes les images de la page" /></a>' : '';
+// Liens pour les ajouts / retraits globaux
+$_JB_AL_VARS['s_lien_panier_tout_ajouter']		= ( $iNbPhotos > 0 && !$_JB_AL_GET['b_voir_panier'] ) ? '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=tout'.$aActions['voir'].$aActions['diaporama'].'" class="bouton" title="Ajouter toutes les images de la page"><span class="tout"></span></a>' : '';
+$_JB_AL_VARS['s_lien_panier_tout_supprimer']	= ( $iNbPhotos > 0 && !$_JB_AL_GET['b_voir_panier'] ) ? '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=rien'.$aActions['voir'].$aActions['diaporama'].'" class="bouton" title="Retirer toutes les images de la page"><span class="rien"></span></a>' : '';
 
 
 // ====================
@@ -491,7 +488,7 @@ else
 
 	$_JB_AL_VARS['s_navigation'] .= str_replace( '_', ' ', $sDossierFiltre );
 
-	// Lien modes gallerie / diaporama
+	// Lien modes galerie / diaporama
 	if( $_JB_AL_VARS['b_mode_diaporama'] )
 	{
 		// Pour le défilement automatique
@@ -527,8 +524,8 @@ else
 		{
 			$sPagePrecedente .= ( $iDiapo === ($_JB_AL_GET['i_page_courante'] - 1) * JB_AL_VIGNETTES_PAR_PAGE ) ? $_JB_AL_GET['i_page_courante'] - 1 : $_JB_AL_GET['i_page_courante'];
 
-			$_JB_AL_VARS['s_href_photo_precedente'] = '<a href="'.$_SERVER['PHP_SELF'].'?rep='.$_JB_AL_GET['s_rep_courant'].$sPagePrecedente.$aActions['voir'].$aActions['diaporama'].'&amp;diapo='.$aListePhotos[$iDiapo - 1].'#marqueur" class="precedente">
-														<img src="'.$_JB_AL_VARS['s_acces_theme'].'images/precedente.png" alt="Précédente" title="Précédente" /></a>';
+			$_JB_AL_VARS['s_href_photo_precedente'] = '<a href="'.$_SERVER['PHP_SELF'].'?rep='.$_JB_AL_GET['s_rep_courant'].$sPagePrecedente.$aActions['voir'].$aActions['diaporama'].'&amp;diapo='.$aListePhotos[$iDiapo - 1].'#marqueur" class="precedente" title="Précedente">
+														<span></span></a>';
 		}
 
 		// S'il y a des images qui suivent
@@ -537,14 +534,14 @@ else
 			$sPageSuivante .= ( $iDiapo === ((($_JB_AL_GET['i_page_courante'] - 1) * JB_AL_VIGNETTES_PAR_PAGE) + $iImgAAfficher) - 1 ) ? $_JB_AL_GET['i_page_courante'] + 1 : $_JB_AL_GET['i_page_courante'];
 
 			$_JB_AL_VARS['s_url_img_suivante']		= $_SERVER['PHP_SELF'].'?act=diapo&amp;rep='.$_JB_AL_GET['s_rep_courant'].$sPageSuivante.$aActions['voir'].$aActions['diaporama'].'&amp;diapo='.$aListePhotos[$iDiapo + 1].'#marqueur';
-			$_JB_AL_VARS['s_href_photo_suivante']	= '<a href="'.$_JB_AL_VARS['s_url_img_suivante'].'" class="suivante">
-														<img src="'.$_JB_AL_VARS['s_acces_theme'].'images/suivante.png" alt="Suivante" title="Suivante" /></a>';
+			$_JB_AL_VARS['s_href_photo_suivante']	= '<a href="'.$_JB_AL_VARS['s_url_img_suivante'].'" class="suivante" title="Suivante">
+														<span></span></a>';
 		}
 
 		if( $iDiapo === ($iNbPhotos - 2) )	$_SESSION['DIAPORAMA_INTERVALLE'] = 0;
 
 	 	$_JB_AL_VARS['s_lien_mode_affichage']	= $_SERVER['PHP_SELF'].'?rep='.$_JB_AL_GET['s_rep_courant'].'&amp;page='.$_JB_AL_GET['i_page_courante'].$aActions['voir'];
-		$_JB_AL_VARS['s_texte_mode_affichage']	= 'Mode gallerie';
+		$_JB_AL_VARS['s_texte_mode_affichage']	= 'Mode galerie';
 		$_JB_AL_VARS['s_classe_css_vignette']	= 'vignetteDiapo';
 	}
 	else
@@ -566,9 +563,9 @@ $_JB_AL_VARS['s_lien_retour_site'] = ( JB_AL_HOME_HREF !== '' && JB_AL_HOME_TEXT
 // ====================
 // Affichage
 //
-if( file_exists($_JB_AL_VARS['s_acces_theme'].JB_AL_FICHIER_THEME) )
-	return require_once( $_JB_AL_VARS['s_acces_theme'].JB_AL_FICHIER_THEME );
+if( file_exists($_JB_AL_VARS['s_acces_theme'].'html.php') )
+	return require_once( $_JB_AL_VARS['s_acces_theme'].'html.php' );
 else
-	return require_once( 'includes/'.JB_AL_FICHIER_THEME );
+	return require_once( 'includes/html.php' );
 
 ?>

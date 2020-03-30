@@ -1,5 +1,5 @@
 :: Albulle - Lisez moi
-:: Version 0.9
+:: Version 0.9.1
 :: Auteur : SamRay1024
 :: http://jebulle.net - http://forums.jebulle.net
 :: webmaster@jebulle.net
@@ -118,10 +118,20 @@ http://openweb.eu.org/articles/jeux_caracteres/ )
 MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
 ----------------------------------------
 
-* Cette version 0.9 ayant subi de profonds changements il est obligatoire de supprimer
-intégralement votre ancienne installation. Vous devez aussi supprimer les dossiers
-miniatures présents dans votre dossier de photos vu que toutes les miniatures sont
-maintenant stockées dans un unique dossier.
+* Vous utilisez actuellement une version <= 0.8 :
+
+	Cette version 0.9 ayant subi de profonds changements il est obligatoire de supprimer
+	intégralement votre ancienne installation. Vous devez aussi supprimer les dossiers
+	miniatures présents dans votre dossier de photos vu que toutes les miniatures sont
+	maintenant stockées dans un unique dossier.
+
+* Vous utilisez actuellement la version 0.9 :
+
+	Fichiers à mettre à jour (chemins relatifs au dossier upload/ de l'archive) :
+
+		/albulle/config.php
+		/albulle/explore.php
+		/albulle/themes/albulle/*	(Supprimez le thème et mettez le nouveau à la place)
 
 
 INSTALLATION
@@ -261,7 +271,7 @@ CHANGER LE STYLE DE LA PAGE
 de prendre le thème par défaut, livré avec Albulle, d'en faire une copie au nom de
 votre nouveau thème et de partir de lui.
 
-	Je redigerai dès que possible une documentation complète pour la création de thèmes
+	Je rédigerai dès que possible une documentation complète pour la création de thèmes
 mais en attendant, je vous livre une présentation succinte qui vous permettra déjà d'avoir
 un aperçu de la façon dont est structurée un thème.
 
@@ -276,6 +286,11 @@ un aperçu de la façon dont est structurée un thème.
 					constitutifs des pages d'Albulle
 		/images		-> Toutes les images du thème sont stockées là
 		/js		-> Se trouvent ici les codes javascripts
+
+		config_thm.php	-> [Facultatif] Permet de surcharger des éléments de configuration uniquement pour le thème
+		html.php	-> [Facultatif] Permet de surcharger le html.php présent dans le dossier /albulle/includes/
+		html_popup.php	-> [Facultatif] Idem html.php mais avec html_popup.php
+
 
 	Dans les patrons XHTML vous trouverez deux choses qui n'ont rien à voir avec l'XHTML :
 
@@ -331,8 +346,10 @@ pas parfaits :
 
 	- sous IE, les calages ne sont pas parfait au niveau des vignettes et je n'arrive pas à placer
 		correctement le formulaire pour le défilement automatique des images.
+
 	- sous FireFox : RAS, tout est nickel. Je vous encourage fortement à utiliser ce
 		navigateur ! (http://www.mozilla-europe.org/fr/)
+
 	- sous Safari, il y a un souci de dimensionnement des images en mode diaporama :
 		cela est du à un bogue du max-with présent dans Safari qui est déjà corrigé
 		dans les nigthly bluids et qui le sera donc surement dans la prochaine version.

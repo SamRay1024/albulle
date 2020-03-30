@@ -45,20 +45,23 @@
 /**
  * Redéfinition de toutes les images pour passer au GIF
  */
-#albulle h1					{ background-image: url(../images/ie/logo.gif); }
-#albulle .dossiers .titre	{ background-image: url(../images/ie/dossiers_dispos.gif); }
-#albulle .panier .titre		{ background-image: url(../images/ie/photos_panier.gif); }
+#albulle h1							{ background-image: url(../images/ie/logo.gif); }
+#albulle .dossiers .titre			{ background-image: url(../images/ie/dossiers_dispos.gif); }
+#albulle .panier .titre				{ background-image: url(../images/ie/photos_panier.gif); }
 
-#albulle .puceDossier		{ background-image: url(../images/ie/puce_dossier_photo.gif); }
-#albulle .puceVide			{ background-image: url(../images/ie/puce_aucun_dossier.gif); }
-#albulle .puceRemonter		{ background-image: url(../images/ie/puce_remonter.gif); }
-#albulle .puceNoPhoto		{ background-image: url(../images/ie/puce_aucune_photo.gif); }
-#albulle .puceDownload		{ background-image: url(../images/ie/puce_download.gif); }
-#albulle .puceVoir			{ background-image: url(../images/ie/puce_explorer.gif); }
-#albulle .puceVider			{ background-image: url(../images/ie/puce_poubelle.gif); }
+#albulle .puceDossier				{ background-image: url(../images/ie/puce_dossier_photo.gif); }
+#albulle .puceVide					{ background-image: url(../images/ie/puce_aucun_dossier.gif); }
+#albulle .puceRemonter				{ background-image: url(../images/ie/puce_remonter.gif); }
+#albulle .puceNoPhoto				{ background-image: url(../images/ie/puce_aucune_photo.gif); }
+#albulle .puceDownload				{ background-image: url(../images/ie/puce_download.gif); }
+#albulle .puceVoir					{ background-image: url(../images/ie/puce_explorer.gif); }
+#albulle .puceVider					{ background-image: url(../images/ie/puce_poubelle.gif); }
 
-#albulle .puceAjout			{ background-image: url(../images/ie/puce_ajout.gif); }
-#albulle #puceAjoutPage		{ background-image: url(../images/ie/puce_retrait.gif); }
+#albulle .puceAjout					{ background-image: url(../images/ie/puce_ajout.gif); }
+#albulle .bouton .tout				{ background-image: url(../images/ie/puce_retrait.gif); }
 
-#albulle .puceRetrait		{ background-image: url(../images/ie/puce_retrait.gif); }
-#albulle #puceRetraitPage	{ background-image: url(../images/ie/puce_ajout.gif); }
+#albulle .puceRetrait				{ background-image: url(../images/ie/puce_retrait.gif); }
+#albulle .bouton .rien				{ background-image: url(../images/ie/puce_ajout.gif); }
+
+#albulle #diapo .precedente span	{ background-image: url(../images/ie/precedente.gif); }
+#albulle #diapo .suivante span		{ background-image: url(../images/ie/suivante.gif); }

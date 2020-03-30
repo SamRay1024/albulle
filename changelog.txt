@@ -1,8 +1,20 @@
 :: Albulle
-:: Version 0.9
+:: Version 0.9.1
 
 WHAT's NEW :
 ------------
+
+Version 0.9.1 - 19/09/2006
+
+	* La configuration d'Albulle est désormais entièrement surchargeable (à quelques
+	  paramètres près). Il est maintenant possible de peaufiner la configuration
+	  relativement aux thèmes via un fichier de config (facultatif) à placer dans
+	  le dossier du thème. Tout ceci offre alors une flexibilité accrue et de 
+	  nouvelles possibilités !
+	* Certaines images étaient définies en dur dans explore.php ce qui ne rendait pas
+	  leur paramétrage CSS facile. Ces éléments on été modifiés pour que tout
+	  puisse être correctement modifié uniquement grâce aux CSS,
+	* Corrections orthographiques ;-)
 
 Version 0.9 - 11/09/2006
 

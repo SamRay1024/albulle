@@ -1,9 +1,9 @@
 /*
  * Fichier : structure.css
- * Date : 07/09/2006
+ * Date : 18/09/2006
  * Auteur : SamRay1024 - http://jebulle.net
  *
- * AlBulle CSS - Structure uniquement - Pour version 0.9
+ * AlBulle CSS - Structure uniquement - Pour version 0.9.1
  *
  */
 
@@ -142,6 +142,10 @@
 #albulle .menubar .page,
 #albulle .menubar .pageActive { margin-right: 1px; }
 
+/* Les boutons "Tout ajouter" & "Tout retirer" */
+#albulle .bouton .tout,
+#albulle .bouton .rien	{ margin: 0px; width: 16px; }
+
 
 /**
  * Le formulaire de défilement automatique
@@ -194,17 +198,19 @@
 /* La classe de la diapo utilisé en mode diaporama */
 #albulle #diapo				{ clear: both; margin: 3px 3px 0px 0px; position: relative; }
 #albulle #diapo #image		{ max-width: 95%; max-height: 71%; }
-#albulle #diapo .navDiapos	{ margin-top: 2px; }
 
-/* Le cadre des information sur l'image courante lorsque l'on se trouve en mode diaporama */
+/* Liens précédente / suivante du diaporama */
+#albulle #diapo .navDiapos		{ height: 32px; margin-top: 2px; margin-left: auto; margin-right: auto; }
+#albulle #diapo .navDiapos span	{ display: block; float: right; height: 32px; width: 32px; margin: 0px 2px; }
+
+/* Le cadre des informations sur l'image courante lorsque l'on se trouve en mode diaporama */
 #albulle #diapo .informations	{ width: 100%; }
 #albulle #diapo .fiche			{ float: left; max-width: 45%; min-width: 45%; margin: 5px; padding: 5px; }
 #albulle #diapo .fiche ul		{ margin-left: 10px; margin-top: 3px; }
 
 /* Petite subtilité nécessaire quand il n'y a qu'une image dans un dossier et que l'on se trouve en mode diaporama */
 #albulle #diapo #image			{ margin-top: 5px; }		/* Permet de décoller l'image du bord du cadre quand les boutons de navigations ne sont pas affichés */
-#albulle #diapo .navDiapos		{ margin-bottom: -5px; }	/* Sauf que quand les boutons sont affichés, le margin-top précédent s'ajoute à la marge des boutons, donc on contrecarre avec la valeur négative */
-#albulle #diapo .informations	{ margin-top: 5px; }		/* valeur négative que l'on rajoute au cadre d'infos qui se trouve lui aps les boutons en bas de l'image ... */
+#albulle #diapo .informations	{ margin-top: 5px; }
 
 
 /**

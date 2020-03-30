@@ -1,9 +1,9 @@
 /*
  * Fichier : style.css
- * Date : 07/09/2006
+ * Date : 18/09/2006
  * Auteur : SamRay1024 - http://jebulle.net
  *
- * AlBulle CSS - Style uniquement - Pour version 0.9
+ * AlBulle CSS - Style uniquement - Pour version 0.9.1
  *
  */
 
@@ -156,6 +156,9 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 #albulle .page,
 #albulle .bouton		{ background-image: url(../images/fond_menus.jpg); }
 
+#albulle .bouton .tout	{ background: url(../images/puce_retrait.png) no-repeat center center; }
+#albulle .bouton .rien	{ background: url(../images/puce_ajout.png) no-repeat center center; }
+
 /* page courante */
 #albulle .pageActive {
 	border:					1px solid #000;
@@ -200,7 +203,11 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 /* La classe de la diapo utilisé en mode diaporama */
 #albulle #diapo				{ text-align: center; }
 #albulle #diapo #image		{ border: 1px solid black; }
+
+/* Liens précédente / suivante du diaporama */
 #albulle #diapo .navDiapos a:hover	{ font-weight: normal; }	/* pour annuler l'effet du survol des liens qui provoque un déplacement des icônes précédentes/suivante */
+#albulle #diapo .precedente span	{ background: url(../images/precedente.png) no-repeat center center; }
+#albulle #diapo .suivante span		{ background: url(../images/suivante.png) no-repeat center center; }
 
 /* La fiche signalétique de l'image affichée */
 #albulle .informations {}

@@ -5,8 +5,8 @@
 
 					<!-- SI PLUSIEURS_DIAPOS -->
 					<div class="navDiapos">
-						{BOUTON_PRECEDENTE}
 						{BOUTON_SUIVANTE}
+						{BOUTON_PRECEDENTE}
 					</div>
 					<!-- FINSI PLUSIEURS_DIAPOS -->
 
@@ -14,8 +14,8 @@
 
 					<!-- SI PLUSIEURS_DIAPOS -->
 					<div class="navDiapos">
-						{BOUTON_PRECEDENTE}
 						{BOUTON_SUIVANTE}
+						{BOUTON_PRECEDENTE}
 					</div>
 					<!-- FINSI PLUSIEURS_DIAPOS -->
 

@@ -14,7 +14,7 @@
             img { border: none; }
         </style>
 
- 		<script type="text/javascript">
+		 		<script type="text/javascript">
  		<!--
  	    function verifierDimensions() {
 
@@ -22,8 +22,8 @@
 			var iHauteur = (document.body.clientHeight);
 			var fRatio = iLargeur / iHauteur;
 
- 	    	var iLargeurEcran = screen.width;
- 	    	var iHauteurEcran = screen.height;
+ 	    	var iLargeurEcran = screen.width - 60;
+ 	    	var iHauteurEcran = screen.height - 60;
  	    	var bRedimensionner = false;
 
  	    	if( iLargeur > iLargeurEcran )
