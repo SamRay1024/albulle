@@ -1,5 +1,5 @@
 :: AlBulles - Lisez moi
-:: Version 0.4
+:: Version 0.4b
 :: Auteur : SamRay1024
 :: http://jebulle.net
 :: webmaster@jebulle.net
@@ -11,6 +11,12 @@ INTRODUCTION
 	AlBulles est un script permettant la gestion simple d'une gallerie
 de photos. Il est basé sur la classe PanierDeFichiers disponible sur le
 site.
+
+	ATTENTION !!
+
+	CETTE VERSION EST LA MEME QUE LA VERSION 0.3. LE SEUL FICHIER QUI DIFFERE
+DE LA VERSION 0.3 EST classes/panierdefichiers.class.php QUI EST ECRIT EN PHP4 POUR LA
+COMPATIBILITE AVEC LES SERVEURS PHP4.
 
 
 UTILILISATION
@@ -96,9 +102,9 @@ rubrique "Scripts et classes PHP".
 MISE-A-JOUR
 -----------
 
-	Remplacez les fichiers suivants par les nouveaux :
+	Remplacez les fichiers indiqués par les nouveaux :
 
-	* Depuis la version 0.3
+	* Depuis la version 0.3b
 
 		- explore.php
 

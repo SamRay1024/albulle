@@ -55,7 +55,7 @@
  * @link http://jebulle.net
  * @name AlBulles
  * @since 13/06/2005
- * @version 0.4
+ * @version 0.4b
  */
 
 /************************************* DEBUT PARAMETRES EDITABLES *************************************/
