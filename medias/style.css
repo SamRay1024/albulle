@@ -1,0 +1,226 @@
+/*
+ * Fichier : style.css
+ * Date : 14/05/2005
+ * Auteur : SamRay1024 - http://jebulle.net
+ * 
+ * AlBulles style - 0.1
+ *
+ */
+
+/*******************/
+/* STYLES GENERAUX */
+/*******************/
+
+/* pour tout le monde */
+* {
+    font-family:			verdana, arial, helvetica, sans-serif;
+    color:					#000000;
+    font-size:				1em;
+    margin:					0px;
+    padding:				0px;
+}
+
+/* corps du fichier */
+body {
+	background-color:		#fff;
+	height:					100%;
+}
+
+/* liens */
+a							{ text-decoration: none; }
+
+/* survol des liens */
+a:hover {
+    text-decoration:		none;
+    font-weight:			bold;
+    color:					#f90;
+}
+
+/* images */
+img							{ border: 0px; }
+
+/* pour agrandir les div automatiquement */
+.spacer						{ clear: both; }
+
+/* cadre de titre */
+h1 {
+	background-color:		#eee;
+	border:					1px dotted #000;
+	margin:					2px;
+	font-size:				1.3em;
+	text-align:				center;
+}
+
+/************************************/
+/* ORGANISATION GENERALE DE LA PAGE */
+/************************************/
+
+/* colonne gauche */
+.gauche {
+	float:			left;
+	width:			25%;
+}
+
+/* colonne droite */
+.droite {
+	float:			right;
+	width:			75%;
+}
+
+.gauche,
+.droite {
+	height:			100%;
+}
+
+/********************/
+/* ELEMENTS SIMPLES */
+/********************/
+
+/* cadre d'accueil si aucun dossier sélectionné */
+.accueil {
+	background-color:		#eee;
+	border:					1px dotted #000;
+	margin:					2px;
+	padding:				10px;
+	font-size:				0.8em;
+	text-align:				justify;
+}
+
+/* le copyright */
+.copyright {
+	font-size:				0.7em;
+	margin:					2px;
+	text-align:				center;
+}
+
+/*********************/
+/* MENU DES DOSSIERS */
+/*********************/
+
+/* cadre des dossiers pour les photos */
+.dossiers {
+	background-color:		#cdf;
+	border:					1px dotted #009;
+	margin:					2px;
+	padding:				5px;
+	font-size:				0.8em;
+	text-align:				center;
+}
+
+/* format de la liste des dossiers */
+.liens						{ margin: 5px 0px 0px 5px; text-align: left; }
+
+/* puces des listes de dossiers */
+.pucePhotos, .puceNoPhotos {
+	list-style-type:		none;
+	background-repeat:		no-repeat;
+	background-position:	2px 0px;
+	padding-left:			30px;
+	line-height:			22px;
+	height:					24px;
+}
+
+.pucePhotos					{ background-image: url(images/albulles_puce_dossier_photo.jpg); }
+.puceNoPhotos				{ background-image: url(images/albulles_puce_aucun_dossier_photos.jpg); }
+
+/*******/
+/* FIN */
+/*******/
+
+/******************/
+/* MENU DU PANIER */
+/******************/
+
+/* cadre du panier */
+.panier {
+	background-color:		#abf;
+	border:					1px dotted #009;
+	margin:					2px;
+	padding:				5px;
+	font-size:				0.8em;
+	text-align:				center;
+}
+
+.panier img					{ vertical-align: middle; }
+
+/* contenu des actions du panier */
+.actions					{ margin-left: 10px; text-align: left; }
+
+/*******/
+/* FIN */
+/*******/
+
+/***********************/
+/* BARRE DE NAVIGATION */
+/***********************/
+
+.navigation					{ margin: 6px 0px 4px 0px; font-size: 0.8em; }
+
+/* liens vers les pages */
+.page {
+	border:					1px dotted #000;
+	background-color:		#eee;
+	padding:				2px;
+	margin:					2px;
+}
+
+/* page courante */
+.pageActive {
+	border:					1px solid #000;
+	background-color:		#aaa;
+	padding:				2px;
+	margin:					2px;
+	font-weight:			bold;
+	color:					#c33;
+}
+
+/*******/
+/* FIN */
+/*******/
+
+/*************/
+/* VIGNETTES */
+/*************/
+
+/* Une vignette contient : une image miniature, les infos de l'image qu'elle représente
+   un lien pour l'ajouter au panier. */
+
+/* cadre de la vignette */
+.miniature {
+	float:					left;
+	margin:					2px;
+	padding:				2px;
+	width:					160px;
+	height:					160px;
+	border:					1px dotted #000;
+	background-color:		#ccc;
+	text-align:				center;
+	font-size:				0.7em;
+}
+
+/* survol de la vignette */
+.miniature:hover			{ background-color: #eef; }
+
+/* classe de l'image dans la vignette */
+.vignette					{ border: 1px solid #000; }
+
+/* fiche infos de l'image */
+.infosImg {
+	margin-left:			4px;
+	text-align:				left;
+	font-size:				0.9em;
+}
+
+/* bouton d'ajout / retrait du panier */
+.puce {
+	text-align:				right;
+	position:				relative;
+	right:					4px;
+	bottom:					4px;
+}
+
+/*******/
+/* FIN */
+/*******/
+
+/* EOF */

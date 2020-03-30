@@ -1,0 +1,89 @@
+:: AlBulles - Lisez moi
+:: Version 0.1
+:: Auteur : SamRay1024
+:: http://jebulle.net
+:: webmaster@jebulle.net
+
+
+INTRODUCTION
+------------
+
+	AlBulles est un script permettant la gestion simple d'une gallerie
+de photos. Il est basé sur la classe PanierDeFichiers disponible sur le
+site.
+
+
+UTILILISATION
+-------------
+
+	Uploadez le contenu de l'archive sur votre site internet.
+
+	Les photos doivent être mise dans le dossier "photos" (vous pouvez
+changer ce nom si vous le souhaitez) selon le modèle suivant :
+
+	/photos
+		/mon premier dossier
+			/photo_01.jpg
+			/photo_02.jpg
+			...
+		/mon deuxième dossier
+			/photo_01.jpg
+			...
+		...
+
+	Vous ne devez pas utiliser une autre organisation que celle-ci.
+
+
+PARAMETRAGE DU PROGRAMME
+------------------------
+
+	Vous pouvez parametrer le script pour l'adapter à vos besoins. Pour
+cela, vous devrez éditer le fichier "explore.php". Rendez vous à la première
+section : Initialisations. Vous avez alors les paramètres éditables.
+
+		$sDossierPhotos
+
+			dossier des photos (si vous avez changer le nom
+			du dossier, vous devez le changer ici aussi)
+
+		$iFichiersMaxDansPanier	
+
+			Nombre de fichiers max dans le panier.
+			0 = contenance illimité.
+
+			!! Attention !!
+
+			Il est possible que votre serveur web soit limité
+			pour les exécution de scripts (en taille mémoire
+			par exemple). Mettre la contenance en illimité
+			peut poser des problèmes pour la génération de
+			l'archive. Ce qui fait que l'utilisateur se
+			retrouverais avec une archive invalide.
+	
+		$iLargeurMax
+
+			Largeur maximum des miniatures en pixels.
+		
+		$iHauteurMax
+
+			Idem pour la hauteur des miniatures.
+
+		$iImgParPage
+
+			Nombre d'images que vous souhaitez afficher par page.
+
+		$iChmodDossierMiniatures
+
+			Autorisations pour les dossiers de miniatures (chmod).
+
+			!! Si vous ne savez pas ce que vous faites, ne touchez
+			pas à cette valeur.
+
+		$iChmodFichiersMiniatures	
+
+			Idem pour les miniatures elles-même.
+
+	C'est tout !
+
+	Pour toutes questions, remarques, problèmes => http://forums.jebulle.net
+rubrique "Scripts et classes PHP".
