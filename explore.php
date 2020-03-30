@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 ////////////////////////////////////////
 // Encodage du fichier : UTF-8
@@ -101,7 +101,7 @@ switch ( $sAct )
 	case 'ajouter': 	$oPanier->Ajouter( $sImg );			break;
 	case 'supprimer': 	$oPanier->Supprimer( $sImg );		break;
 	case 'vider':		$oPanier->ViderPanier();			break;
-	case 'telecharger': $oPanier->CreerArchive( $sDossierPhotos.'archive' );	break;
+	case 'telecharger': $oPanier->CreerArchive( $sDossierPhotos.'Photos' );	break;
 	
 }
 
@@ -119,7 +119,7 @@ if( sizeof( $aListeRepPhotos ) == 0 )
 else
 	foreach( $aListeRepPhotos as $key => $value )
 		$sLiensDossiersPhotos .= '<li class="pucePhotos"><a href="explore.php?rep='.$value.'">'.$value.'</a></li>'.chr(10).chr(13);
-
+		
 // ====================
 // GESTION DE LA LISTE DES PHOTOS (si un répertoire est défini)
 //

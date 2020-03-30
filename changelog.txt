@@ -1,8 +1,12 @@
 :: AlBulles
-:: Version 0.1
+:: Version 0.2
 
 WHAT's NEW :
 ------------
+
+Version 0.2 - 10/06/2005
+
+	* Correction du bogue sous IE pour le téléchargement des archives.
 
 Version 0.1 - 19/05/2005
 

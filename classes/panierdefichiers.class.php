@@ -49,8 +49,8 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 16/05/2005
- * @version 0.3
+ * @since 10/06/2005
+ * @version 0.4
  * 
  */
 
@@ -112,9 +112,7 @@ class PanierDeFichiers {
 	{
 				
 		// ajout du fichier s'il n'y est pas déjà et si le panier n'est pas plein
-		if( !empty( $sCheminFichier ) &&
-			( array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ) === false ) &&
-			!$this->PanierPlein() )
+		if( ( array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ) === false ) && !$this->PanierPlein() )
 		{
 			
 			$_SESSION[NOM_PANIER_SESSION][] = $sCheminFichier;
@@ -136,8 +134,7 @@ class PanierDeFichiers {
 	{
 		
 		// si l'image se trouve bien dans le panier on la supprime
-		if( !empty( $sCheminFichier ) &&
-			( $iPosition = array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ) ) !== false )
+		if( ( $iPosition = array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ) ) !== false )
 		{
 			
 			unset( $_SESSION[NOM_PANIER_SESSION][$iPosition] );
@@ -200,7 +197,7 @@ class PanierDeFichiers {
 			
 			// chargement des entetes HTTP pour l'envoi de l'archive
 			header("Content-type: application/octet-stream");
-			header("Content-disposition: attachment; filename=$sNomFichier.zip");
+			header("Content-disposition: attachment; filename=".basename($sNomFichier).".zip");
 			
 			// envoi au navigateur
 			echo $sArchive;
@@ -229,8 +226,7 @@ class PanierDeFichiers {
 	function EstDansLePanier( $sCheminFichier )
 	{
 		
-		if( !empty( $sCheminFichier ) &&
-			array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ) !== false )
+		if( array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ) !== false )
 			return true;
 		else
 			return false;
