@@ -1,56 +1,134 @@
 :: AlBulles - Lisez moi
-:: Version 0.5
+:: Version 0.6
 :: Auteur : SamRay1024
-:: http://jebulle.net
+:: http://jebulle.net - http://forums.jebulle.net
 :: webmaster@jebulle.net
+
+// Encodage du fichier : ISO-8859-1 (8 bits)
+// Fin de ligne : CR + LF
+
+
+SOMMAIRE
+--------
+
+	* REMERCIEMENTS
+	* INTRODUCTION
+	* AVERTISSEMENT
+	* UTILISATION
+	* MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
+	* PARAMETRAGE DU PROGRAMME
+	* CHANGER LE STYLE DE LA PAGE
+	* PROBLEMES CONNUS
+	* AUTRES QUESTIONS
+	
+
+REMERCIEMENTS
+-------------
+
+	Je remercie pour leur aide précieuse au développement d'AlBulles
+les personnes suivantes :
+
+	- CyberBob002 - http://lecyber.net
+	- Olivier Matheret
+	- Kew1
 
 
 INTRODUCTION
 ------------
 
-	AlBulles est un script permettant la gestion simple d'une gallerie
-de photos. Il est basé sur la classe PanierDeFichiers disponible sur le
-site.
+	AlBulles est une galerie photo basée sur la classe PanierDeFichiers
+que vous pouvez trouvez sur le site. AlBulles permet l'exploration de 
+dossiers dans lesquels vous pouvez classer vos photos.
 
-	Cette version est la version PHP4 d'AlBulles. Seul le fichier
-classes/panierdefichiers.class.php diffère de la version PHP5.
+	Le script gère automatiquement la création des miniatures des photos
+que vous ajoutez dans vos albums et supporte les 3 formats que sont :
+GIF, JPEG et PNG.
+
+	AlBulles propose un panier dans lequel vous pouvez ajouter des photos
+au grès de votre navigation dans les albums. Lorsque votre sélection est
+terminée, vous pouvez alors la télecharger directement via une archive au
+format de compression ZIP. Il ne vous reste plus qu'à la décompresser pour
+profiter de ces photos sur votre ordinateur !
+
+
+AVERTISSEMENT
+-------------
+
+	Tous les fichiers php que vous trouverez dans ce projet sont encodés au
+format UTF-8. Ainsi, VOUS NE DEVEZ EN AUCUN CAS LES EDITER AUTREMENT QU'EN
+UTF-8 ! Si par mégarde vous en ouvrez un, ne l'enregistrez pas tant que votre
+logiciel n'a pas été configuré pour enregistrer ses fichiers dans ce format ;
+vous risquer d'endommager les fichiers et d'avoir alors des erreurs lors de
+leur exécution.
+
+	DE PLUS, en raison de disparités dans le format UTF-8, tous les éditeurs
+ne sont pas recommandés pour effectuer cette tâche (le format UTF-8 est décliné
+en deux versions, dont l'une ne convient pas aux serveurs PHP et peut provoquer
+des erreurs). Les éditeurs que je vous recommande sont les suivants :
+
+	- Unired : http://unired.sourceforge.net/, pour Windows uniquement.
+	- Jext : http://jext.sourceforge.net/, multi plates-formes (écrit en Java).
+	- Scite : http://www.scintilla.org/, linux et Windows (mon préféré ;-)).
+		Attention : avec Scite, deux formats d'encodage UTF-8 sont disponibles !
+			L'UTF-8 et l'UTF-8 Cookie. C'est ce dernier que vous devrez
+			utiliser pour éditer correctement les fichiers, car l'autre
+			ajoute un caractère non visible en tout début de fichier.
+	- Vim : http://www.vim.org/, multi plates-formes.
+	- Emacs : http://www.gnu.org/software/emacs/, multi plates-formes.
+	
+	(Pour les plus curieux d'entres vous, voici un explication beaucoup plus
+complète que ces quelques lignes que je viens d'écrire : 
+http://openweb.eu.org/articles/jeux_caracteres/ )
+
 
 UTILILISATION
 -------------
 
-	Uploadez le contenu de l'archive sur votre site internet.
+	Vous avez dû trouver après décompression de l'archive d'AlBulles,
+des fichiers textes à la racine (dont celui que vous lisez actuellement),
+ainsi qu'un dossier, nommé albulles (ce dossier est la version PHP5 du
+programme, pour la version PHP4, vous devez prendre le dossier albulles qui
+se trouve dans le dossier 'version php4').
 
-	Les photos doivent être mise dans le dossier "photos" (vous pouvez
-changer ce nom si vous le souhaitez) selon le modèle suivant :
+	Pour utiliser le script, vous devez envoyer le dossier 'albulles' sur
+votre serveur Web (par l'intermédiaire de votre client FTP). Envoyer le
+dossier si vous souhaitez inclure AlBulles dans votre site, ou bien uniquement
+son contenu si AlBulles doit être votre page principale.
 
-	/photos
-		/mon premier dossier
-			/photo_01.jpg
-			/photo_02.jpg
-			...
-		/mon deuxième dossier
-			/photo_01.jpg
-			...
-		...
+	Une fois le script placé là où vous le souhaitiez sur votre serveur,
+vous pouvez y placer vos photos. Vous devez créer des répertoires dans le
+dossier 'photos/'. Placez dans ces répertoires vos photos est autres
+sous-dossiers. ATTENTION : ne mettez pas de photos directement à la racine
+du dossier 'photos/'. Elles ne seront jamais affichées.
 
-	Vous ne devez pas utiliser une autre organisation que celle-ci.
+----
+	ATTENTION (bis) : LORSQUE VOUS AJOUTEZ UN DOSSIER DE PHOTOS DANS VOTRE
+REPERTOIRE D'ALBUM, VOUS DEVEZ LUI ATTRIBUER LES DROITS D'ECRITURE : C'EST-A-DIRE
+QUE CHAQUE DOSSIER DOIT ETRE EN 777. POUR CE FAIRE, UTILISEZ VOTRE CLIENT FTP
+ET CHANGEZ LES DROITS DANS LES PROPRIETES DU/DES DOSSIERS AJOUTES. SI VOUS NE
+FAITES PAS CELA, LES MINIATURES NE POURRONT PAS ETRE CREEES ET LE SCRIPT GENERERA
+UNE ERREUR POUR VOUS LE SIGNALER.
+----
 
-	ATTENTION ! Evitez les accents et autres apostrophes dans les noms de
-dossiers des photos et les fichiers. Le programme ne fonctionne plus si ces
-caractères sont présents. Cette correction sera pour la version 0.4.
+	AlBulles peut désormais naviguer dans une arborescence. Vous pouvez donc 
+faire autant de dossiers et sous-dossiers que nécessaire pour organiser au mieux
+votre galerie.
+
+	Il est aussi désormais possible de remplacer dans les noms des dossiers
+de vos photos, les espaces par des tirets bas ('_'). Ils seront automatiquement
+affichés avec des espaces dans l'explorateur d'AlBulles.
 
 
-MISE-A-JOUR
------------
+MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
+----------------------------------------
 
-	Remplacez ou ajoutez les fichiers suivants :
+	Vous pouvez supprimer tous les fichiers d'une installation précédente car ils
+ont tous été mis-à-jour. Garder vos dossiers de photos et supprimez vos dossiers de
+miniatures car les nouveaux ont changé de nom (ils sont désormais nommés '_miniatures',
+vous pouvez toutefois les renommer tous si le coeur vous en dit ;-)).
 
-	* Depuis toutes les versions
-
-		- classes/panierdefichiers.class.php
-		- medias/html.php
-		- config.php
-		- explore.php
+	Remplacez donc les scripts par les nouveaux. Ensuite, éditez le fichier config.php
+pour l'adapter selon vos besoins.
 
 
 PARAMETRAGE DU PROGRAMME
@@ -60,10 +138,61 @@ PARAMETRAGE DU PROGRAMME
 cela, vous devrez éditer le fichier "config.php". Vous avez alors les paramètres
 éditables :
 
+----
+	Pour tout les paramètres qui concernent un chemin d'accès à un dossier,
+il ne faut pas oublier le '/' à la fin.
+----
+
+		====
+	
 		$sDossierPhotos
 
-			dossier des photos (si vous avez changer le nom
-			du dossier, vous devez le changer ici aussi)
+			Dossier des photos (si vous avez changé le nom
+			du dossier, vous devez le changer ici aussi).
+			
+		$sDossierThemes
+		
+			Le dossier qui contient les thèmes d'affichage.
+
+		$sDossierThemeUtilise
+		
+			Le nom du dossier du thème que vous souhaitez utiliser,
+			qui se trouve dans le dossier précédent.
+			
+		$sFichierHtml
+		
+			Le fichier HTML du thème. Il se nomme html.php par défaut
+			mais il est tout à fait possible de le renommer, auquel cas
+			n'oubliez pas de mettre à jour ce paramètre.
+			
+		$sFichierDownload
+		
+			Le nom du fichier qui est appelé lors d'une demande de
+			télechargement d'une archive. Par défaut, il s'agit du fichier
+			download.php qui se trouve à la racine.
+			
+		====
+		
+		$bAfficherVersion
+		
+			Affiche/cache le numéro de version d'AlBulles.
+			
+		$bAfficherNbPhotos
+		
+			Permet d'afficher ou non le nombre de photos présentes dans un
+			dossier à côté du nom de chaque dossier dans la liste des dossiers.
+			
+		$bPhotoDansNouvellePage
+		
+			Certain d'entre vous préfèrent ouvrir les images dans une nouvelle
+			page. Il est possible d'activer cette fonctionnalité avec ce paramètre.
+			
+			/!!\ Sachez tout de même qu'AlBulles est valide XHTML 1.0 Strict et qu'en
+			mettant cette variable à true, vous perdrez cette validité en raison
+			de la nécessité d'ajouter l'attribut target="_blank" dans le lien des
+			miniatures.
+			
+		====
 
 		$iFichiersMaxDansPanier	
 
@@ -91,6 +220,8 @@ cela, vous devrez éditer le fichier "config.php". Vous avez alors les paramètres
 
 			Nombre d'images que vous souhaitez afficher par page.
 
+		====
+		
 		$iChmodDossierMiniatures
 
 			Autorisations pour les dossiers de miniatures (chmod).
@@ -106,15 +237,51 @@ cela, vous devrez éditer le fichier "config.php". Vous avez alors les paramètres
 CHANGER LE STYLE DE LA PAGE
 ---------------------------
 
-	Si vous souhaitez changer l'affichage d'AlBulles pour l'adapter à votre site,
-vous devez travailler dans le fichier medias/html.php. C'est lui qui contient toute la
-partie HTML. Il fonctionne de paire avec le fichier style.css du même dossier.
+	Pour créer un nouveau thème pour AlBulles, je ne saurais que vous conseiller
+de prendre le thème par défaut, livré avec AlBulles, d'en faire une copie au nom de
+votre nouveau thème et de partir de lui.
 
-	Donc pour changer l'interface, des connaissances en HTML et CSS sont nécessaires.
+	Toute la structure HTML d'AlBulles est contenu dans le fichier html.php.
+Ce fichier contient du code php qu'il est obligatoire de conserver ! Vous devez
+respecter la structure PHP et articuler votre structure HTML autour.
+
+	La structure HTML est accompagné d'un fichier CSS (style.css) qui vous permet
+de spécifier les couleurs, les images et autres placements des objets HTML. 
+
+	Pour vous aider dans votre intégration du script, j'ai joint à l'archive un dossier
+'Ressources' dans lequel vous trouverez les fichiers PSD originaux qui m'ont servit
+à créer les images d'AlBulles (ainsi que la police de caractère utilisée). Vous pourrez
+alors repartir de ces PSD pour changer les polices de textes, ou les couleurs de fonds,
+par exemples !
+
+	Autrement dit, pour faire un nouveau thème, vous devez avoir quelques connaissances
+en HTML et CSS ;-).
+
+
+PROBLEMES CONNUS
+----------------
+
+	Il se peut que, selon le serveur sur lequel vous allez mettre AlBulles, vous ayez des
+problèmes avec les noms de dossiers qui comportent des accents et autres caractères spéciaux.
+Cela vient du fait que chaque serveur, selon sa nature (windows, linux, mac,...), peut avoir
+un encodage différent. Or, selon cet encodage, AlBulles peut ne pas afficher correctement ces
+dossiers. Cela ne devrait normalement pas porter préjudice au fonctionnement général et ne
+devrait pas empêcher la navigation.
+
+	Pour les mêmes raisons, il se peut aussi que les accents passent mals dans l'archive que
+vous générerez (selon sur quel type de machine vous ouvrirez l'archive ; chaque machine décodant
+plus ou moins bien les différents charset).
+
+	Si ce problème était bloquant chez vous (c'est-à-dire qu'une archive serait illisible car
+corrompue ou que la navigation provoquerait une erreur), n'hésitez pas à vous rendre sur le
+forum et signaler votre erreur ou m'ecrire un courriel.
 
 
 AUTRES QUESTIONS
----------------
+----------------
 
-	Pour toutes questions, remarques, problèmes => http://forums.jebulle.net
-rubrique "Scripts et classes PHP".
+	Si vous avez des problèmes, des questions, des suggestions, des critiques ou
+tout autre chose, un forum est à votre disposition à l'adresse suivante :
+
+	http://forums.jebulle.net,
+	Rubrique "Scripts et classes PHP".

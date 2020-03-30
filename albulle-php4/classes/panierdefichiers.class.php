@@ -49,13 +49,13 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 10/06/2005
- * @version 0.4
+ * @since 20/08/2005
+ * @version 0.6 (PHP4)
  * 
  */
 
 // nom de la variable du panier dans la session
-define( 'NOM_PANIER_SESSION', 'EX_PANIER_FICHIERS' );
+define( 'NOM_PANIER_SESSION', 'JB_PANIER_FICHIERS' );
 
 // chemin d'accès à la librairie de compression
 define( 'COMPRESS_LIB', 'pclzip.lib.php' );
@@ -66,6 +66,7 @@ class PanierDeFichiers {
 	 * Nombre maximum de fichiers dans le panier.
 	 *
 	 * @var [INTEGER]
+	 * @access [PRIVATE]
 	 */
 	var $_iNbFichiersMax = 0;
 	
@@ -176,9 +177,12 @@ class PanierDeFichiers {
 		// creation de l'objet du fichier zip
 		$oZip = new PclZip( $sFichierZip );
 		
+		// tri des index du panier qui peuvent n'être plus bon aps des suppressions
+		sort( $_SESSION[NOM_PANIER_SESSION] );
+		
 		// ajout des fichiers au zip et ecriture sur le disque
 		if( $oZip->create( $_SESSION[NOM_PANIER_SESSION] ) == 0 )
-			die( "Erreur : ".$oZip->errorInfo(true) );
+			exit( "# PANIER # <strong>[ Erreur ]</strong> => ".$oZip->errorInfo(true) );
 		
 		// destruction objet zip
 		unset( $oZip );	
@@ -188,7 +192,8 @@ class PanierDeFichiers {
 		
 			// lecture binaire de l'archive
 			$fpHandle = fopen( $sFichierZip, 'rb' );
-			$sArchive = fread( $fpHandle, filesize( $sFichierZip ) );
+			$iSize = filesize( $sFichierZip );
+			$sArchive = fread( $fpHandle, $iSize );
 			fclose( $fpHandle );
 			
 			// suppression de l'archive
@@ -196,6 +201,7 @@ class PanierDeFichiers {
 			
 			// chargement des entetes HTTP pour l'envoi de l'archive
 			header( 'Content-type: application/zip');
+			header( 'Content-length: '.$iSize );
 			header( 'Content-disposition: attachment; filename="'.basename( $sNomFichier ).'.zip"');
 			
 			// envoi au navigateur

@@ -1,9 +1,13 @@
 <?php echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://wwww.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+
 	<head>
 		
-		<link rel="stylesheet" href="./medias/style.css" type="text/css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+        
+		<link rel="stylesheet" href="./<?php echo $sAccesTheme; ?>style.css" type="text/css" />
 		
 		<title>.: AlBulles :. .: <?php echo $sHeadTitre; ?> :.</title>
  	
@@ -17,7 +21,7 @@
 			<h1><?php echo $sBodyTitre; ?></h1>
 			
 			<?php
-			if ( empty( $sRep ) )
+			if ( empty($sRep) )
 			{
 			?>
 			
@@ -44,33 +48,43 @@
 			
 			<!-- DEBUT barre de navigation -->
 			<div class="navigation">
-				<a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="page">Accueil</a>
-				Pages : <?php echo $sNavigation; ?>
+				<a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="pageAccueil">Accueil</a>
+				<?php echo $sNavigation; ?>
 			</div>
 			<!-- FIN barre de navigation -->
 			
 			<?php
-			for ( $i = 0 ; $i < sizeof( $aMiniatures ) ; $i++ ) { ?>
+			$iNbMiniatures = sizeof( $aMiniatures );
+			if( $iNbMiniatures === 0 )
+			{
+			?>
+			<div class="accueil"><p class="puceNoPhoto">Il n'y a pas de photos dans ce dossier.</p></div>
+			<?php
+			}
+			else
+			{
+			for ( $i = 0 ; $i < $iNbMiniatures ; $i++ ) { ?>
 			<!-- DEBUT une miniature -->
-			<div class="miniature">
+			<div class="vignette">
 			
 				<?php echo $aMiniatures[$i]['LIEN_PHOTO']; ?>
 				
-				<div class="infosImg">
+				<span class="infosImg">
 					<?php
 					echo $aMiniatures[$i]['DIM_PHOTO'].'<br />';
 					echo $aMiniatures[$i]['SIZE_PHOTO'];
 					?>
-				</div>
+				</span>
 				
-				<div class="puce"><?php echo $aMiniatures[$i]['AJOUT_PANIER']; ?></div>
+				<span class="puce"><?php echo $aMiniatures[$i]['AJOUT_PANIER']; ?></span>
 				
 			</div>
 			<!-- FIN une miniature -->
 			
 			<?php
 			} // for
-			} // if
+			} // if 2
+			} // if 1
 			?>
 			
 			<div class="spacer"></div>
@@ -83,10 +97,8 @@
 		
 			<!-- DEBUT liste dossiers photos -->
 			<div class="dossiers">
-			
-				<img src="./medias/images/albulles_dossiers_dispos.jpg" alt="Dossiers des photos" />
-				
-				<ul class="liens">
+							
+				<ul class="menu">
 					<?php echo $sLiensDossiersPhotos; ?>
 				</ul>
 				
@@ -97,40 +109,30 @@
 			
 			<!-- DEBUT barre de gestion du panier -->
 			<div class="panier">
-			
-				<img src="./medias/images/albulles_panier.jpg" alt="Panier" /><br /><br />
 				
-				Fichiers dans le panier : <br /><strong><?php echo $sNbFichiersDansLePanier; ?></strong>
+				<p>Fichiers dans le panier : <br /><strong><?php echo $sNbFichiersDansLePanier; ?></strong></p>
 				
-				<br /><br />
-				
-				<div class="actions">
-					<?php echo $sPanierLienArchive,"\n",$sPanierLienVider,"\n"; ?>
-				</div>
+				<?php echo $sMenuPanier,"\n"; ?>
 				
 				<br />
 				
-				<?php echo $sPanierLienToutAjouter,"\n",$sPanierLienToutSupprimer,"\n"; ?>
+				<div class="center"><?php echo $sPanierLienToutAjouter,"\n",$sPanierLienToutSupprimer,"\n"; ?></div>
+				
+				<div class="spacer"></div>
 			
 			</div>
 			<!-- FIN barre de gestion du panier -->
 			
 			<!-- DEBUT Copyright -->
 			<div class="copyright">
-			
-				<a href="http://www.mozilla.eu.org/fr/products/firefox/" title="Ce site s'affiche mieux avec un navigateur respectant les normes">
-					<img src="./medias/images/firefox_80x15.png" width="80" height="15" title="Ce site s'affiche mieux avec un navigateur respectant les normes" alt="T&eacute;l&eacute;chargez FireFox" />
-				</a>
 				
-				<br />
-				
+				<!-- Vous avez ici deux liens pour le copyright : un avec une image, un en texte.
+					Merci de laisser au moins un lien des deux ;-) -->
 				<a href="http://jebulle.net/index.php?rubrique=albulles" title="T&eacute;l&eacute;chargez AlBulles">
-					<img src="./medias/images/AlBulles_80x15.png" width="80" height="15" title="T&eacute;l&eacute;chargez AlBulles" alt="T&eacute;l&eacute;chargez AlBulles" />
+					<img src="./<?php echo $sAccesTheme; ?>images/AlBulles_80x15.png" width="80" height="15" title="T&eacute;l&eacute;chargez AlBulles" alt="T&eacute;l&eacute;chargez AlBulles" />
 				</a>
-				
 				<br />
-				
-				AlBulles <?php echo $sVersion; ?> &copy; <a href="http://jebulle.net">Bubulles Creations</a> - 2005
+				AlBulles<?php echo $sVersion; ?> &copy; <a href="http://jebulle.net">Bubulles Creations</a>
 			
 			</div>
 			<!-- FIN Copyright -->

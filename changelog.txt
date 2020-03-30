@@ -1,8 +1,35 @@
 :: AlBulles
-:: Version 0.5b
+:: Version 0.6
 
 WHAT's NEW :
 ------------
+
+Version 0.6 - 31/08/2005
+
+	* Ajout de la récursivité dans les dossiers.
+	  Cela permet la création d'un album photos organisé dans une arborescence de dossiers.
+	* Ajout de la possiblité de mettre des tirets bas ('_') dans les noms de vos dossiers au lieu des espaces.
+	* Ajout du chemin où l'on se trouve dans le titre de l'exploration, ce qui permet de se rendre directement
+	  à un endroit.
+	* Ajout d'une condition pour recréer la miniature d'une photo si celle-ci a été modifiée.
+	* Ajout du tri des dossiers et fichier lors de la lecture (ceux ci n'étaient pas triés sur Free).
+	* Ajout de la possibilité d'afficher le nombre de photos présentes dans un dossier à côté de son nom
+	  dans l'arborescence.
+	* Ajout des nouveaux paramètres dans le fichier de configuration.
+
+	* Mise-à-jour de la classe du panier pour supporter la taille des archives lors d'un envoi.
+	  Cela permet d'avoir l'état d'avancement du téléchargement.
+	* Correction de la gestion du panier qui corrompait une archive dès lors que l'on avait supprimé une image précédent
+	  une autre du panier.
+	* Révision du code HTML et par la même du CSS du thème par défaut : remplacement de toutes les balises img de
+	  présentation par leur équivalent CSS.
+	* Modification de la pagination des albums pour que la barre de navigation ne devienne pas trop grande quand le
+	  nombre de pages est important.
+	* Renforcement de la vérification des paramètres passés dans l'url.
+	* Réorganisation des dossiers pour faciliter l'utilisation de thèmes.
+	* Extraction du téléchargement de l'archive dans un fichier externe pour faciliter un peu plus l'intégration
+	  dans un site. Cela permet d'éviter les erreurs dues à la fonction header() lorsque du contenu à déjà été envoyé
+	  à la sortie standard.
 
 Version 0.5b - 15/06/2005
 
