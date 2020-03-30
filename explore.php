@@ -55,7 +55,7 @@
  * @link http://jebulle.net
  * @name AlBulles
  * @since 13/06/2005
- * @version 0.3b
+ * @version 0.4
  */
 
 /************************************* DEBUT PARAMETRES EDITABLES *************************************/
@@ -184,7 +184,15 @@ if ( !empty( $sRep ))
 		// si la miniature n'existe pas => création
 		if ( !file_exists( $sCheminMiniature ) )
 		{
-	
+
+			if (!function_exists('mime_content_type'))
+			{
+				function mime_content_type($f) {
+					$f = escapeshellarg($f);
+					return trim( `file -bi $f` );
+				}
+			}
+			
 			$oOutils->processImgFile( mime_content_type( $sCheminPhoto ), $sCheminPhoto, $sCheminMiniature, $iLargeurMax, $iHauteurMax, '' );
 			chmod( $sCheminMiniature, $iChmodFichiersMiniatures );
 			
@@ -361,7 +369,7 @@ $sPanierLienToutSupprimer	= '<a href="'.$_SERVER['PHP_SELF'].'?rep='.rawurlencod
 				
 				<br />
 				
-				AlBulles 0.3 &copy; <a href="http://jebulle.net">Bubulles Creations</a> - 2005
+				AlBulles 0.4 &copy; <a href="http://jebulle.net">Bubulles Creations</a> - 2005
 			
 			</div>
 			<!-- FIN Copyright -->
