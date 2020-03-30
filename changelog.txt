@@ -1,8 +1,31 @@
-:: AlBulles
-:: Version 0.6
+:: Albulle
+:: Version 0.7
 
 WHAT's NEW :
 ------------
+
+Version 0.7 - 12/11/2005
+
+	* Changement du nom du script : AlBulles devient Albulle (sans 's').
+	* Ajouts de différentes fonctionnalités suggérées et demandée par les utilisateurs :
+		- ouvrir les images dans une popup,
+		- utiliser Albulle comme centre de téléchargement,
+		- afficher le nom des photos dans les vignettes.
+	* Ajout de paramètres de configuration pour la rendre plus affinée :
+		- afficher un lien retour vers un site,
+		- utiliser Albulle dans un site internet (facilite l'intégration),
+		- choix des informations à afficher dans chaque vignette.
+	* Ajout d'une constante pour le chemin racine du script pour faciliter l'intégration
+		dans un site Internet.
+	* Changement du mode de définition des paramètres de configuration : utilisation de
+		constantes plutôt que de variables.
+	* Déplacement du fichier config.php dans un dossier includes/.
+	* Extraction du texte d'accueil dans un fichier nommé texte_accueil.html placé à la
+		racine d'Albulle pour changer plus facilement ce texte et ne pas avoir à
+		éditer le fichier de thème. L'accès à ce fichier est paramètrable et il devient
+		alors possible d'inclure une page provenant d'un autre script (script de news
+		par exemple pour disposer d'actualités en page d'accueil).
+	* Distribution d'une unique version compatible PHP4 et PHP5.
 
 Version 0.6 - 31/08/2005
 
