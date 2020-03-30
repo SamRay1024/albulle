@@ -1,8 +1,12 @@
 :: AlBulles
-:: Version 0.5
+:: Version 0.5b
 
 WHAT's NEW :
 ------------
+
+Version 0.5b - 15/06/2005
+
+	* Version PHP4 de la v0.5
 
 Version 0.5 - 15/06/2005
 

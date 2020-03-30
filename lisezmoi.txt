@@ -12,6 +12,8 @@ INTRODUCTION
 de photos. Il est basé sur la classe PanierDeFichiers disponible sur le
 site.
 
+	Cette version est la version PHP4 d'AlBulles. Seul le fichier
+classes/panierdefichiers.class.php diffère de la version PHP5.
 
 UTILILISATION
 -------------
