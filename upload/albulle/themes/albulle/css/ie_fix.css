@@ -1,0 +1,64 @@
+/*
+ * Fichier : ie_fix.css
+ * Date : 30/08/2006
+ * Auteur : SamRay1024 - http://jebulle.net
+ *
+ * AlBulle CSS - Hacks pour IE - Pour version 0.9
+ *
+ * Ce fichier permet de corriger quelques bogues d'affichage qui surviennent
+ * sur IE. Ces hacks ne sont sûrement pas parfaits. Si vous avez de meilleures
+ * solutions, je vous invite à me les transmettre pour que je les intègre.
+ *
+ */
+
+/**
+ * La diapositive du mode diaporama
+ *
+ * Il faut ici simuler le max-width qu'IE ne comprend pas. L'inconvénient est que cela
+ * ne fonctionne plus si Javascript est désactivé chez le client.
+ */
+#albulle #diapo #image {
+	width: expression(
+				( document.images["image"].width >= parseInt(document.getElementById("diapo").offsetWidth * 0.95) ) ?
+				parseInt(document.getElementById("diapo").offsetWidth * 0.95) + "px" :
+				""
+			);
+}
+
+/**
+ * Les fiches d'informations en mode diaporama
+ */
+#albulle #diapo .informations { margin-bottom: 5px; }
+#albulle #diapo .fiche { width: 45%; }
+
+/**
+ * Le redimensionnement de la miniature par défaut (utilisée quand les miniatures n'ont
+ * pu être générées) quand on est en mode diaporama.
+ */
+#albulle .vignetteDiapo .miniature_defaut { width: 50px; }
+
+/**
+ * Le spacer spécial n'a pas une hauteur nulle par défaut sous IE
+ */
+#albulle .spacer_post_float	{ height: 0px; line-height: 0px; }
+
+/**
+ * Redéfinition de toutes les images pour passer au GIF
+ */
+#albulle h1					{ background-image: url(../images/ie/logo.gif); }
+#albulle .dossiers .titre	{ background-image: url(../images/ie/dossiers_dispos.gif); }
+#albulle .panier .titre		{ background-image: url(../images/ie/photos_panier.gif); }
+
+#albulle .puceDossier		{ background-image: url(../images/ie/puce_dossier_photo.gif); }
+#albulle .puceVide			{ background-image: url(../images/ie/puce_aucun_dossier.gif); }
+#albulle .puceRemonter		{ background-image: url(../images/ie/puce_remonter.gif); }
+#albulle .puceNoPhoto		{ background-image: url(../images/ie/puce_aucune_photo.gif); }
+#albulle .puceDownload		{ background-image: url(../images/ie/puce_download.gif); }
+#albulle .puceVoir			{ background-image: url(../images/ie/puce_explorer.gif); }
+#albulle .puceVider			{ background-image: url(../images/ie/puce_poubelle.gif); }
+
+#albulle .puceAjout			{ background-image: url(../images/ie/puce_ajout.gif); }
+#albulle #puceAjoutPage		{ background-image: url(../images/ie/puce_retrait.gif); }
+
+#albulle .puceRetrait		{ background-image: url(../images/ie/puce_retrait.gif); }
+#albulle #puceRetraitPage	{ background-image: url(../images/ie/puce_ajout.gif); }

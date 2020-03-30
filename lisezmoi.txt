@@ -1,5 +1,5 @@
-:: AlBulle - Lisez moi
-:: Version 0.8
+:: Albulle - Lisez moi
+:: Version 0.9
 :: Auteur : SamRay1024
 :: http://jebulle.net - http://forums.jebulle.net
 :: webmaster@jebulle.net
@@ -16,7 +16,7 @@ SOMMAIRE
 	* CONFIGURATION REQUISE
 	* AVERTISSEMENT (Si vous ne devez lire qu'un seul paragraphe, lisez celui-là !)
 	* MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
-	* UTILISATION
+	* INSTALLATION
 	* PARAMETRAGE DU PROGRAMME
 	* REDEFINIR SON PROPRE CLASSEMENT
 	* UTILISATION D'ALBULLE EN CENTRE DE TELECHARGEMENT
@@ -29,29 +29,34 @@ SOMMAIRE
 REMERCIEMENTS
 -------------
 
-	Je remercie pour leur aide précieuse au développement d'AlBulle
+	Je remercie pour leur aide précieuse au développement d'Albulle
 les personnes suivantes :
 
-	- CyberBob002 - http://lecyber.net
-	- Olivier Matheret
-	- Kew1
-	- Tous les visiteurs et autres membres du forum qui proposent des
-		suggestions, rapporte les erreurs qu'ils peuvent rencontrer...
+	- CyberBob002 - http://lecyber.net - pour son temps en sa qualité de 
+		conseiller, bêta testeur...et ami ;-)
+
+	- Olivier Matheret pour la réalisation de la classe qui permet de générer
+		des archives à la volée et son applet Java qui offre une solution
+		alternative pour les personnes qui sont chez Free et pour lesquelles
+		la génération à la volée n'est pas possible.
+
+	- Ainsi que tous les visiteurs et autres membres du forum qui proposent 
+		des suggestions, rapportent les erreurs qu'ils peuvent rencontrer...
 		qui se reconnaîtront ;-).
 
 
 INTRODUCTION
 ------------
 
-	AlBulle est une galerie photo basée sur la classe PanierDeFichiers
-que vous pouvez trouvez sur le site. AlBulle permet l'exploration de 
+	Albulle est une galerie photo basée sur la classe PanierDeFichiers
+que vous pouvez trouvez sur le site. Albulle permet l'exploration de 
 dossiers dans lesquels vous pouvez classer vos photos.
 
 	Le script gère automatiquement la création des miniatures des photos
 que vous ajoutez dans vos albums et supporte les 3 formats que sont :
 GIF, JPEG et PNG.
 
-	AlBulle propose un panier dans lequel vous pouvez ajouter des photos
+	Albulle propose un panier dans lequel vous pouvez ajouter des photos
 au grès de votre navigation dans les albums. Lorsque votre sélection est
 terminée, vous pouvez alors la télecharger directement via une archive au
 format de compression ZIP. Il ne vous reste plus qu'à la décompresser pour
@@ -61,7 +66,7 @@ profiter de ces photos sur votre ordinateur !
 CONFIGURATION REQUISE
 ---------------------
 
-	Vous devez, pour pouvoir utiliser AlBulle, disposer d'un serveur web qui
+	Vous devez, pour pouvoir utiliser Albulle, disposer d'un serveur web qui
 permette l'exécution de code PHP. Ce serveur web doit avoir les caractéristiques
 suivantes :
 
@@ -69,7 +74,15 @@ suivantes :
 	- Extension GD active sur le serveur PHP (pour le traitement des images),
 	- Extension zlib active (pour l'utilisation du panier d'images).
 	
-	Aucune base de données n'est nécessaire pour l'utilisation d'AlBulle.
+	Aucune base de données n'est nécessaire pour l'utilisation d'Albulle.
+
+	Indépendament de la configuration serveur, préférez l'utilisation d'un autre
+navigateur que Internet Explorer...comme FireFox ;-). Albulle est prévu pour s'afficher
+relativement correctement sous IE, mais ce n'est pas terrible : l'utilisation de gif à la
+place des png pour avoir la transparence rend ces images de piètre qualité (256 couleurs
+ça fait juste pour avoir des belles icones/images) même si c'est toujours mieux
+que de ne pas avoir de transparence du tout. Invitez donc vos utilisateurs à utiliser
+FireFox (ou Flock, ou Opéra, ou un autre !).
 
 
 AVERTISSEMENT
@@ -105,80 +118,96 @@ http://openweb.eu.org/articles/jeux_caracteres/ )
 MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
 ----------------------------------------
 
-*	Si vous venez d'une version autre que la 0.6, vous devez supprimer tous les
-fichiers. Vous pouvez garder votre dossier de photos mais devez supprimer tous les dossiers
-qui contiennent les miniatures.
-
-*	Si vous venez de la version 0.6, supprimez tous les fichiers et mettez les nouveaux.
-Vous pouvez garder vos dossiers de photos ainsi que les dossiers de miniatures.
-
-	Ouvrez le fichier config.php pour l'adapter selon vos besoins.
-
-	Si vous aviez des thèmes installés, vous devrez télécharger les nouvelles versions
-de ceux ci pour la cette version d'AlBulle.
-
-*	Si vous venez de la version 0.7.x, seuls les fichiers suivants ont changés :
-
-	- explore.php
-	- includes/config.php
-	- classes/panierdefichiers.class.php
-	- classes/util.class.php
+* Cette version 0.9 ayant subi de profonds changements il est obligatoire de supprimer
+intégralement votre ancienne installation. Vous devez aussi supprimer les dossiers
+miniatures présents dans votre dossier de photos vu que toutes les miniatures sont
+maintenant stockées dans un unique dossier.
 
 
-UTILILISATION
--------------
+INSTALLATION
+------------
 
-	Vous avez dû trouver après décompression de l'archive d'AlBulle,
-des fichiers textes à la racine (dont celui que vous lisez actuellement),
-ainsi qu'un dossier, nommé AlBulle qui contient les fichiers du script.
-Ils peuvent être utilisés aussi bien sur un serveur PHP4 que PHP5.
+	Voici ce que vous avez dû trouver en décompressant l'archive d'Albulle :
 
-	Pour utiliser le script, vous devez envoyer le dossier 'AlBulle' sur
-votre serveur Web (par l'intermédiaire de votre client FTP). Envoyer le
-dossier si vous souhaitez inclure AlBulle dans votre site, ou bien uniquement
-son contenu si AlBulle doit être votre page principale.
+	/extras		-> Dossier qui contient des éléments supplémentaires pour peaufiner
+				votre installation. Référez-vous aux fichiers textes présents
+				dans le dossier pour avoir de plus amples informations.
+	/ressources	-> Contient les sources photoshop des icones pour que vous puissiez 
+				les adapter si vous modifiez votre thème
+	/upload		-> Le dossier qui contient Albulle à envoyer sur votre serveur
 
-	Le fichier à lancer est explore.php. Si AlBulle doit être votre site
-principal, renommez ce fichier en index.php. Sinon, incluez explore.php dans
-votre site.
+	changelog.txt	-> Le récap de l'évolution d'Albulle depuis ses débuts.
+	licence.txt	-> Le texte de la licence sous laquelle se trouve Albulle
+	lisezmoi.txt	-> Ais-je vraiment besoin de le préciser ?
 
-	Une fois le script placé là où vous le souhaitiez sur votre serveur,
-vous pouvez y placer vos photos. Vous devez créer des répertoires dans le
-dossier 'photos/'. Placez dans ces répertoires vos photos et autres
-sous-dossiers. ATTENTION : ne mettez pas de photos directement à la racine
-du dossier 'photos/'. Elles ne seront jamais affichées.
+1/	La première chose à faire, vous l'avez déjà faite puisque vous êtes en train
+de lire ces lignes, et c'est bien !
 
-	Lors de l'envoi de vos photos, faites attention à ne pas envoyer les fichiers
-cachés qui peuvent être présents. N'étant pas au format image, AlBulle générera une
-erreur lorsqu'il rencontrera des fichiers autres que gif, jpg et png.
+2/	La deuxième chose à faire sera de vous connecter à votre serveur Web (grâce à votre
+client FTP favori) pour envoyer le contenu du dossier upload/ qui est le suivant :
 
-----
-	ATTENTION (bis) : LORSQUE VOUS AJOUTEZ UN DOSSIER DE PHOTOS DANS VOTRE
-REPERTOIRE D'ALBUM, VOUS DEVEZ LUI ATTRIBUER LES DROITS D'ECRITURE : C'EST-A-DIRE
-QUE CHAQUE DOSSIER DOIT ETRE EN 777. POUR CE FAIRE, UTILISEZ VOTRE CLIENT FTP
-ET CHANGEZ LES DROITS DANS LES PROPRIETES DU/DES DOSSIERS AJOUTES. SI VOUS NE
-FAITES PAS CELA, LES MINIATURES NE POURRONT PAS ETRE CREEES ET LE SCRIPT GENERERA
-UNE ERREUR POUR VOUS LE SIGNALER.
-----
+	/upload
+		/albulle	-> Le noyau dur ;-)
+		index.php	-> l'appel du noyau dur !
 
-	AlBulle pouvant naviguer dans une arborescence. Vous pouvez faire autant
-de dossiers et sous-dossiers que nécessaire pour organiser au mieux vos photos.
+3/	C'est bon ? Les fichiers sont envoyés ? Bien passons à la suite et voyons le contenu
+de ce fameux noyau (je ne mets que ce qui nous intéresse, pour le détail avancé il faudra vous
+reporter à la documentation orienté développeur qui sera rédigée le plus tôt possible) :
 
-	Il est possible de remplacer dans les noms des dossiers de vos photos les
-espaces par des tirets bas ('_'). Ils seront automatiquement affichés avec des
-espaces dans l'explorateur d'AlBulle. La même chose est désormais aussi possible
-depuis la version 0.8 (cf. paramètrage du programme).
+	/albulle
+		/...
+		/miniatures	-> Le dossier qui contiendra les miniatures
+		/photos		-> Le dossier qui contiendra vos albums photos
+		/...
 
+	Toujours avec votre client FTP favori, vous allez devoir modifier les droits d'accès au
+dossier miniatures/. Pour ce faire, accédez aux propriétés du dossier pour appliquer un chmod
+minimum de 755 (si cela ne suffit pas, appliquez alors un chmod 777). Si vous ne faites pas
+cette manipulation, Albulle vous gratifiera d'un beau message d'erreur vous disant que le dossier
+miniatures/ n'est pas autorisé en écriture.
+
+	Pour ceux qui arrivent d'une version précédente, n'oubliez pas de supprimer tous les 
+dossiers des miniatures qui ont été créés dans les sous-dossiers du dossier photos/. Sinon, ils 
+seront visibles dans l'arborescence.
+
+4/	Il ne vous reste plus qu'à uploader vos dossiers de photos de vacances dans le dossier
+photos/ et le tour est joué !
+
+	/!\ Remarque importante :
+
+!	Si, à la place des miniatures de vos photos, vous voyez une image par défaut (un rond
+!	barré), c'est que les photos uploadées ont une quantité de pixels supérieure à 5,3 millions
+!	de pixels. C'est une limitation interne de la librairie de gestion des images de PHP ; il
+!	n'est donc pas possible de passer outre et les miniatures ne peuvent être générée.
+!	L'unique solution consiste à redimensionner vos images avant de les uploader. En général,
+!	les dimensions max pour une photo au format classique sont 2560 x 1920 pixels.
+
+	Autre remarque sur l'utilisation du dossier photos/ : vous ne devez pas mettre de 
+fichiers directement à la racine de photos/. Enfin, vous le pouvez mais ces photos
+n'apparaîtront jamais dans l'arborescence ! Utilisez donc toujours des sous-dossiers.
+	
 
 PARAMETRAGE DU PROGRAMME
 ------------------------
 
-	Vous pouvez parametrer le script pour l'adapter à vos besoins. Pour
-cela, vous devrez éditer le fichier "config.php".
+	La configuration par défaut livrée avec Albulle ne vous convient pas ? 
+Pas de problème, tout est prévu ! Le comportement d'Albulle est régi par un fichier 
+de configuration qui vous permettra de paramétrer votre installation selon vos 
+désirs : config.php.
 
-	Ce fichier contient toutes les explications nécessaires pour le paramètrage
-d'AlBulle prenez le temps de lire les commentaires pour ne pas faire de fausse
-manipulation.
+	Pour trouver ce fichier, suivez le guide :
+
+	/archive téléchargée
+		/extras
+		/ressources
+		/upload
+			/albulle
+				config.php	<= il est ici !
+			index.php
+
+	Ce fichier contient toutes les explications nécessaires pour le paramètrage 
+d'Albulle. Je vous invite à prendre le temps de lire les commentaires pour ne pas 
+faire de fausse manipulation.
 
 
 REDEFINIR SON PROPRE CLASSEMENT
@@ -188,32 +217,32 @@ REDEFINIR SON PROPRE CLASSEMENT
 par le système d'exploitation. Ainsi, si vous souhaitez changer cet ordre (pour
 faire un classement chronologique par exemple) il vous faut surement avoir recours
 à un préfixe devant les noms (Ex : 01_..., 02_..., etc). Hors vous ne souhaitez
-peut-être pas que ce préfixe apparaisse dans la page d'AlBulle.
+peut-être pas que ce préfixe apparaisse dans la page d'Albulle.
 
-	Vous pouvez, depuis la version 0.8, indiquer à AlBulle que vous utilisez des
+	Vous pouvez, depuis la version 0.8, indiquer à Albulle que vous utilisez des
 préfixes et que vous ne souhaitez pas qu'ils apparaissent !
 
 	Une explication complète du paramètrage à effectuer se trouve directement dans
-le fichier de configuration (includes/config.php). Rassurez-vous, ce paramètrage est
+le fichier de configuration (config.php). Rassurez-vous, ce paramètrage est
 extrèmement simple !
 
 
 UTILISATION D'ALBULLE EN CENTRE DE TELECHARGEMENT
 -------------------------------------------------
 
-	En activant le mode "centre de téléchargement" d'AlBulle, vous devez créer
+	En activant le mode "centre de téléchargement" d'Albulle, vous devez créer
 un dossier du même nom que celui que vous indiquerez dans la configuration ('centre'
-par défaut) à la racine d'AlBulle.
+par défaut) à la racine d'Albulle.
 
 	Désormais, chaque photo que vous ajouterez correspondra à un fichier que vous
 mettez à disposition de vos internautes. Ce fichier devra être placé dans le dossier
 'centre', devra OBLIGATOIREMENT porter le MEME NOM que le nom de la photo qui lui
 est associée et être de l'extension que vous aurez défini dans la configuration.
 
-Donc par exemple, si vous ajoutez une photo MaPhoto_01.png dans n'importe quel dossier
-dans vos albums, vous devrez mettre dans centre/ un fichier MaPhoto_01.zip (Zip car 
-c'est cette extension que j'ai pris ici, mais si vous changez, il faudra adapter dans
-le dossier).
+	Donc par exemple, si vous ajoutez une photo MaPhoto_01.png dans n'importe quel 
+dossier dans vos albums, vous devrez mettre dans centre/ un fichier MaPhoto_01.zip 
+(Zip car c'est cette extension que j'ai pris ici, mais si vous changez, il faudra 
+adapter dans le dossier).
 
 	Pour le reste, le fonctionnement ne change pas.
 
@@ -221,41 +250,70 @@ le dossier).
 INTEGRER ALBULLE DANS UN SITE INTERNET
 --------------------------------------
 
-	Rendez-vous sur le forum http://forums.jebulle.net rubrique Script, classes
-et ressources PHP pour lire l'astuce qui traite ce sujet.
+	Rendez-vous sur le forum http://forums.jebulle.net rubrique Albulle pour lire
+l'astuce qui traite ce sujet.
 
 
 CHANGER LE STYLE DE LA PAGE
 ---------------------------
 
-	Pour créer un nouveau thème pour AlBulle, je ne saurais que vous conseiller
-de prendre le thème par défaut, livré avec AlBulle, d'en faire une copie au nom de
+	Pour créer un nouveau thème pour Albulle, je ne saurais que vous conseiller
+de prendre le thème par défaut, livré avec Albulle, d'en faire une copie au nom de
 votre nouveau thème et de partir de lui.
 
-	Toute la structure HTML d'AlBulle est contenu dans le fichier html.php.
-Ce fichier contient du code php qu'il est obligatoire de conserver ! Vous devez
-respecter la structure PHP et articuler votre structure HTML autour.
+	Je redigerai dès que possible une documentation complète pour la création de thèmes
+mais en attendant, je vous livre une présentation succinte qui vous permettra déjà d'avoir
+un aperçu de la façon dont est structurée un thème.
 
-	La structure HTML est accompagné d'un fichier CSS (style.css) qui vous permet
-de spécifier les couleurs, les images et autres placements des objets HTML. 
+	Voici donc la structure que vous pourrez trouvez pour le thème par défaut :
+
+	/upload
+	  /albulle
+	    /themes		-> c'est ici que sont stockés les thèmes (1 dossier = 1 thème)
+	      /albulle		-> Le thème par défaut
+		/css		-> Ce dossier contient tous les fichiers css
+		/html		-> Contient les patrons au format xhtml des éléments
+					constitutifs des pages d'Albulle
+		/images		-> Toutes les images du thème sont stockées là
+		/js		-> Se trouvent ici les codes javascripts
+
+	Dans les patrons XHTML vous trouverez deux choses qui n'ont rien à voir avec l'XHTML :
+
+	* {TOTO} : ces éléments sont des pseudos-variables qui seront remplacées automatiquement
+			lors de la génération des pages. Vous pouvez changer tout ce que vous 
+			souhaitez dans le code xhtml, mais vous devez IMPERATIVEMENT conserver 
+			ces pseudos-variables. Sinon, les informations dynamiques ne seront pas
+			affichées.
+			Repérez donc ces variables avant de faire des modifications et structurez
+			votre code XHTML autour.
+
+	* <!-- SI QUELQUE_CHOSE-->...<!-- FINSI QUELQUE_CHOSE-->
+
+		Ces deux commentaires représentent un bloc conditionnel. Vous devez au même titre
+		que les pseudos-variables les conserver et organiser votre code XHTML autour pour
+		respecter l'ordre d'affichage des données.
+		Ces blocs sont nommés ('QUELQUE_CHOSE') et reconnu par Albulle. Ils permettent d'avoir
+		dans un patron des éléments qui vont être affichés ou cachés selon une condition
+		donnée.
+
+	Tout le reste n'est qu'XHTML et CSS ! Autrement dit, si vous ne comprenez rien à ce que
+vous pourrez trouver dans les fichiers *.thm.php et *.css, commencez par apprendre les bases
+de l'XHTML et du CSS ;-) !
 
 	Pour vous aider dans votre intégration du script, j'ai joint à l'archive un dossier
-'Ressources' dans lequel vous trouverez les fichiers PSD originaux qui m'ont servit
-à créer les images d'AlBulle (ainsi que la police de caractère utilisée). Vous pourrez
+'ressources' dans lequel vous trouverez les fichiers PSD originaux qui m'ont servit
+à créer les images d'Albulle (ainsi que la police de caractère utilisée). Vous pourrez
 alors repartir de ces PSD pour changer les polices de textes, ou les couleurs de fonds,
-par exemples !
-
-	Autrement dit, pour faire un nouveau thème, vous devez avoir quelques connaissances
-en HTML et CSS ;-).
+par exemple !
 
 
 PROBLEMES CONNUS
 ----------------
 
-	Il se peut que, selon le serveur sur lequel vous allez mettre AlBulle, vous ayez des
+1/	Il se peut que, selon le serveur sur lequel vous allez mettre Albulle, vous ayez des
 problèmes avec les noms de dossiers qui comportent des accents et autres caractères spéciaux.
 Cela vient du fait que chaque serveur, selon sa nature (windows, linux, mac,...), peut avoir
-un encodage différent. Or, selon cet encodage, AlBulle peut ne pas afficher correctement les
+un encodage différent. Or, selon cet encodage, Albulle peut ne pas afficher correctement les
 dossiers. Cela ne devrait normalement pas porter préjudice au fonctionnement général et ne
 devrait pas empêcher la navigation.
 
@@ -267,12 +325,31 @@ plus ou moins bien les différents charset).
 corrompue ou que la navigation provoquerait une erreur), n'hésitez pas à vous rendre sur le
 forum et signaler votre erreur ou m'ecrire un courriel.
 
+2/	Le thème par défaut à été conçu pour être compatible avec les 3 navigateurs références
+que sont Safari, Firefox et Internet Explorer. Malgré tout, il reste quelques éléments qui ne sont
+pas parfaits :
+
+	- sous IE, les calages ne sont pas parfait au niveau des vignettes et je n'arrive pas à placer
+		correctement le formulaire pour le défilement automatique des images.
+	- sous FireFox : RAS, tout est nickel. Je vous encourage fortement à utiliser ce
+		navigateur ! (http://www.mozilla-europe.org/fr/)
+	- sous Safari, il y a un souci de dimensionnement des images en mode diaporama :
+		cela est du à un bogue du max-with présent dans Safari qui est déjà corrigé
+		dans les nigthly bluids et qui le sera donc surement dans la prochaine version.
+		Si vous êtes connaisseurs et que l'aventure vous tente, vous trouverez la version
+		de développement de Safari à cette adresse : http://nightly.webkit.org/
+		( /!\ réservé à ceux qui maitrisent le sujet !)
+		Patience donc, un jour meilleur viendra !
+
+	Si vous êtes pro CSS et que vous avez des corrections à apporter, n'hésitez pas, je
+suis ouvert aux critiques et suggestions !
+
 
 AUTRES QUESTIONS
 ----------------
 
-	Si vous avez des problèmes, des questions, des suggestions, des critiques ou
-tout autre chose, un forum est à votre disposition à l'adresse suivante :
+	Si vous avez des problèmes, des questions, des suggestions, des critiques, etc, un forum
+est à votre disposition à l'adresse suivante :
 
 	http://forums.jebulle.net,
-	Rubrique "Scripts, classes et ressources PHP".
+	Rubrique "Albulle".

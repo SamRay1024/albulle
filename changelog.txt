@@ -1,8 +1,74 @@
 :: Albulle
-:: Version 0.8
+:: Version 0.9
 
 WHAT's NEW :
 ------------
+
+Version 0.9 - 11/09/2006
+
+	* Ajout du mode diaporama,
+
+	* Affichage des données EXIF en mode diaporama si elles existent pour les fichiers JPEG,
+
+	* Ajout de la possibilité de voir le contenu du panier,
+
+	* Intégration de la dernière version de la classe PanierDeFichier qui apporte les nouveautés suivantes :
+
+		- Changement de la librairie de gestion des archives qui implique les améliorations 
+			qui suivent,
+		- Le poids des archives n'est plus limité à l'espace mémoire autorisé dans la 
+			configuration de PHP,
+		- Il est alors maintenant possible de limiter la contenance du panier par son poids (en Mo),
+		- Le poids des archives n'est plus limité à la quantité de RAM allouée par le serveur PHP
+			(qui est généralement à 8Mo par défaut),
+
+	* Changement de la gestion des miniatures : les miniatures sont désormais toutes stockées dans 
+	  un unique dossier,
+
+	* Changement de la structure générale d'Albulle : le fichier explore.php ne fait désormais plus 
+	  office d'index.php. Albulle fait maintenant partie d'un dossier et un fichier index.php 
+	  a été ajouté au même niveau que ce dossier. C'est ce fichier qui inclu explore.php. Cela 
+	  permet d'avoir une installation quasiment prête pour le cas où vous souhaitez faire une
+	  intégration d'Albulle dans un autre site web,
+
+	* Modification complète de la structure des thèmes :
+
+		- La couche HTML a été entièrement extraite de la couche PHP pour rendre encore plus 
+		  facile la création de nouveau thèmes. Il n'est alors plus nécessaire de connaître
+		  PHP pour faire un thème. Cette couche HTML donne une plus grande souplesse de 
+		  personnalisation de votre copie d'Albulle.
+		- Il reste toujours un fichier pur PHP qui contruit la page, devenu commun à tous les 
+		  thèmes (ce qui permet d'alléger le poids des thèmes) mais qui peut toujours être
+		  relatif à chaque thème, et qui peut être modifié pour les plus savants d'entres
+		  vous ;-),
+
+	* Intégration du script Javascript LightBox v2.02 pour l'affichage des photos,
+
+	* Ajout d'une entête à la page qui comprend un logo, un titre et un sous-titre,
+
+	* Ajout de la possibilité de rappeler les sous-dossiers du dossier courant dans la partie de 
+	  droite après les vignettes soit pour tous les dossiers, soit uniquement pour les dossiers 
+	  qui n'ont pas de photos,
+
+	* Les noms des photos affichés sur chaque vignette sont tronqués automatiquement pour ne pas 
+	  déformer la cohérence d'affichage des vignettes. Le nom des photos pouvant servir de 
+	  description, on peut difficilement afficher un roman dans la vignette ;-),
+
+	* Refonte du thème par défaut et tentative d'avoir une interface la plus compatible avec Safari,
+	  Firefox et IE,
+
+	* Suppression de l'erreur bloquante qui survenait si un fichier de type non-image était présent
+	  dans un dossier. Albulle ne prend désormais plus que les fichiers jpg, gif et png quel 
+	  que soit le contenu des dossiers,
+
+	* Correction de la notice 'Undefined offset: -1 ...',
+
+	* Lorsqu'un dossier ne comporte pas d'images, on peut choisir dans la configuration d'afficher
+	  ou non le '(0)' à côté du nom du dossier dans l'arborescence,
+
+	* Gestion des images qui font plus de 5 millions de pixels : affichage d'une miniature par défaut,
+
+	* Améliorations et corrections diverses du code.
 
 Version 0.8 - 25/01/2006
 

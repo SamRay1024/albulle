@@ -1,0 +1,216 @@
+/*
+ * Fichier : structure.css
+ * Date : 07/09/2006
+ * Auteur : SamRay1024 - http://jebulle.net
+ *
+ * AlBulle CSS - Structure uniquement - Pour version 0.9
+ *
+ */
+
+/* Cette classe n'est utilisée que si AlBulle n'est pas intégré à
+ * un site Web : elle défini le body de la page et permet donc de ne pas
+ * empiéter sur la définition éventuelle lors d'une intégration.
+ */
+.al_body { margin: 0px; padding: 0px; }
+
+/* le bloc d'albulle */
+#albulle {
+	margin:					auto;
+	width:					100%;
+}
+
+/* L'entête de titre */
+#albulle #entete {
+	height:					60px;
+	margin:					3px 3px 0px 3px;
+	position:				relative;
+}
+
+#albulle h1, #albulle h2	{ position: absolute; }
+#albulle h1					{ position: relative; height: 100%; width: 100%;}
+#albulle h1 span			{ position: absolute; left: 5px; top: 5px; }
+#albulle h2					{ left: 5px; top: 35px; }
+
+/* pour agrandir les div automatiquement */
+#albulle .spacer			{ clear: both; }
+
+/* spacer spécial à cause de Safari pour retrouver l'écart du h3 placé après les vignettes */
+#albulle .spacer_post_float	{ clear: both; height: 1px; width: 100%; }
+
+/* Le cadre titre qui contient le chemin du dossier courant */
+#albulle h3 {
+	margin:					3px 3px 0px 0px;
+	padding:				2px 0px 2px 2px;
+}
+
+/* Complément du hack sur le spacer pour Safari */
+#albulle h3.post_float { margin-top: 2px; }
+
+/* colonne gauche */
+#albulle .gauche {
+	float:					left;
+	width:					300px;
+}
+
+/* colonne droite */
+#albulle .droite {
+	float:					right;
+	margin-left:			-300px;
+	width:					100%;
+}
+#albulle .contenu			{ margin-left: 303px; margin-bottom: 3px; }
+
+/* cadre d'accueil si aucun dossier sélectionné */
+#albulle .texte {
+	margin:					3px 3px 0px 0px;
+	padding:				10px;
+}
+
+/* Cadre générique */
+#albulle .cadre					{ margin: 3px 3px 0px 0px; }
+
+/* les puces de liens d'ajout et de retrait */
+#albulle .puceAjout,
+#albulle .puceRetrait {
+    overflow:				hidden;
+    text-indent:			-10000em;
+    display:				block;
+    width:					20px;
+    height:					20px;
+}
+
+#albulle #puceAjoutPage,
+#albulle #puceRetraitPage	{ height: 20px; width: 20px; padding: 2px 11px; }
+
+/* le copyright */
+#albulle .copyright			{ margin: 3px; }
+
+/* pour les deux cadres */
+#albulle .dossiers,
+#albulle .panier {
+	margin:					3px 0px 0px 3px;
+	padding:				5px;
+}
+
+/* Titres des cadres */
+#albulle .dossiers .titre,
+#albulle .panier .titre		{ display: block; height: 64px; width: 100%; text-align: center; text-indent: -10000px; }
+
+
+/* le texte qui contient le nombre de fichiers dans le panier */
+#albulle .panier p			{ margin-top: 10px; }
+
+/* menu des dossiers et du panier */
+#albulle .menu				{ margin: 10px 0px 0px 5px; }
+#albulle .menu li			{ margin: 1px; }
+#albulle .panier .menu		{ margin: 10px 0px 0px 15px; }
+
+/* la sous-liste des sous-dossiers */
+#albulle .menu ul 			{ margin: 2px 0px 2px -20px; }
+#albulle .menu ul li		{ padding-left: 34px; }
+
+/* icones des puces des items */
+#albulle .puceDossier,
+#albulle .puceVide,
+#albulle .puceRemonter,
+#albulle .puceNoPhoto		{ line-height: 24px; padding-left: 30px; }
+
+/* hauteur différente pour les icones du menu du panier */
+#albulle .puceDownload,
+#albulle .puceVoir,
+#albulle .puceVider,
+#albulle .complement		{ line-height: 32px; padding-left: 35px; }
+
+
+/**
+ * BARRE DE MENU
+ */
+
+#albulle .menubar		{ margin: 3px 3px 0px 0px; }
+
+#albulle .menubar a,
+#albulle .menubar page,
+#albulle .menubar span {
+	display:				block;
+	float:					left;
+	height: 				20px;
+	line-height:			20px;
+	margin-right:			3px;
+	padding:				0px 2px;
+}
+
+#albulle .menubar .page,
+#albulle .menubar .pageActive { margin-right: 1px; }
+
+
+/**
+ * Le formulaire de défilement automatique
+ */
+#albulle .defilement {
+	position:				absolute;
+	left:					22px;
+	top:					9px;
+	width:					300px;
+}
+#albulle .defilement .type_texte { width: 25px; height: 13px; }
+
+
+/**
+ * VIGNETTES
+ */
+
+/* Une vignette contient : une image miniature, les infos de l'image qu'elle représente
+   un lien pour l'ajouter au panier. */
+
+/* cadre de la vignette */
+#albulle .vignette,
+#albulle .vignetteDiapo {
+	float:					left;
+	position:				relative;
+	margin:					3px 3px 0px 0px;
+	padding:				2px;
+}
+
+#albulle .vignette img { margin-top: 3px; }
+
+#albulle .vignette							{ height: 160px; width: 160px; }
+#albulle .vignetteDiapo						{ height: 61px; width: 80px; }
+#albulle .vignetteDiapo .miniature_defaut	{ max-width: 50px; max-height: 50px; }
+
+/* fiche infos de l'image */
+#albulle .infosImg {
+	position:				absolute;
+	left:					4px;
+	bottom:					4px;
+}
+
+/* bouton d'ajout / retrait du panier */
+#albulle .puce {
+	position:				absolute;
+	right:					4px;
+	bottom:					4px;
+}
+
+/* La classe de la diapo utilisé en mode diaporama */
+#albulle #diapo				{ clear: both; margin: 3px 3px 0px 0px; position: relative; }
+#albulle #diapo #image		{ max-width: 95%; max-height: 71%; }
+#albulle #diapo .navDiapos	{ margin-top: 2px; }
+
+/* Le cadre des information sur l'image courante lorsque l'on se trouve en mode diaporama */
+#albulle #diapo .informations	{ width: 100%; }
+#albulle #diapo .fiche			{ float: left; max-width: 45%; min-width: 45%; margin: 5px; padding: 5px; }
+#albulle #diapo .fiche ul		{ margin-left: 10px; margin-top: 3px; }
+
+/* Petite subtilité nécessaire quand il n'y a qu'une image dans un dossier et que l'on se trouve en mode diaporama */
+#albulle #diapo #image			{ margin-top: 5px; }		/* Permet de décoller l'image du bord du cadre quand les boutons de navigations ne sont pas affichés */
+#albulle #diapo .navDiapos		{ margin-bottom: -5px; }	/* Sauf que quand les boutons sont affichés, le margin-top précédent s'ajoute à la marge des boutons, donc on contrecarre avec la valeur négative */
+#albulle #diapo .informations	{ margin-top: 5px; }		/* valeur négative que l'on rajoute au cadre d'infos qui se trouve lui aps les boutons en bas de l'image ... */
+
+
+/**
+ * RAPPEL DES SOUS-DOSSIERS
+ */
+
+#albulle #rappel ul	li			{ float: left; width: 160px; margin: 4px; }
+
+/* EOF */
