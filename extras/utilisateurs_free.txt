@@ -1,11 +1,7 @@
-Si vous êtes chez Free, vous devez sûrement avoir des problèmes avec la
-génération des archives. La solution du problème n'est pas encore complètement
-résolue de mon côté.
-
-Cependant, je vous invite à vous rendre à l'adresse suivante :
+Si vous êtes chez Free et que vous avez des problèmes avec la génération 
+des archives, je vous invite à vous rendre à l'adresse suivante :
 
 	http://matheret.free.fr/albulle.vOM.html
 
-
-Vous pourrez y trouver une version alternative d'Albulle faite par un 
-utilisateur des services de Free.fr qui fonctionne donc chez Free.
+Vous pourrez y trouver une version alternative d'Albulle qui fonctionne 
+chez Free.

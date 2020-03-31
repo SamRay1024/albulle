@@ -54,8 +54,8 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name Albulle
- * @since 03/10/2006
- * @version 0.9.2
+ * @since 11/11/2006
+ * @version 1.0rc1
  */
 
 // Fonction qui affiche les erreurs et quitte le programme
@@ -83,6 +83,7 @@ function inclure( $sFichier ) {
 				Ce fichier est nécessaire pour le fonctionnement d\'Albulle.');
 }
 
+
 // Vérification que la racine est bien définie
 if( !defined('JB_AL_ROOT') )
 	erreur( 'La constante JB_AL_ROOT doit être définie et pointer sur une installation valide d\'Albulle.' );
@@ -93,10 +94,18 @@ define( '_JB_INCLUDE_AUTH', 1 );
 // INCLUSION DES FICHIERS NECESSAIRES
 //
 inclure( 'config.php' );
-inclure( 'includes/fonctions.php' );
-inclure( 'includes/classes/panierdefichiers.class.php' );
-inclure( 'includes/classes/url.class.php' );
-inclure( 'includes/classes/util.class.php' );
+inclure( 'core/includes/fonctions.php' );
+inclure( 'core/includes/classes/panierdefichiers.class.php' );
+inclure( 'core/includes/classes/url.class.php' );
+inclure( 'core/includes/classes/util.class.php' );
+
+// Vérifier si la galerie est ouverte
+if( JB_AL_FERMER === true || file_exists(JB_AL_ROOT.'lock') )
+	exit( '
+		<p style="background-color: azure; border: 3px solid steelblue; margin: 40px; padding: 10px; text-align: center;">
+			'.JB_AL_MSG_FERMETURE.'
+		</p>'
+	);
 
 
 // ====================
@@ -107,13 +116,13 @@ $_MINIATURES	= array();	// Tableau qui contiendra les miniatures
 $_JB_AL_GET		= array();	// Tableau qui contiendra les paramètres reçus dans l'URL
 $_JB_AL_POST	= array();	// Tableau qui contiendra les paramètres reçus par les formulaires
 
-$_JB_AL_VARS['s_version']		= '0.9.2';
+$_JB_AL_VARS['s_version']		= '1.0rc1';
 
 $_JB_AL_VARS['s_acces_theme']	= JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF;
 $_JB_AL_VARS['s_arborescence'] = $_JB_AL_VARS['s_menu_panier'] = '';
 $_JB_AL_VARS['s_lien_panier_tout_ajouter'] = $_JB_AL_VARS['s_lien_panier_tout_supprimer'] = '';
 $_JB_AL_VARS['s_navigation'] = $_JB_AL_VARS['s_pagination'] = '';
-$_JB_AL_VARS['s_chemin_diapo'] = $_JB_AL_VARS['s_classe_css_vignette'] = '';
+$_JB_AL_VARS['s_classe_css_vignette'] = '';
 $_JB_AL_VARS['s_texte_mode_affichage'] = $_JB_AL_VARS['s_lien_mode_affichage'] = '';
 $_JB_AL_VARS['b_defilement_auto'] = false;
 
@@ -124,13 +133,13 @@ $aListePhotos	= array();	// Tableau qui contiendra la liste des photos pour la p
 $iDiapo = $iImgAAfficher = 0;
 
 $oOutils	= new Util();
-$oUrl		= new Url(JB_AL_CONSERVER_URL_HOTE);
+$oUrl		= new Url(JB_AL_CONSERVER_URL_HOTE, array('rep', 'page', 'act', 'img', 'diapo', 'voir', 'diaporama'));
 
 set_magic_quotes_runtime(0);
 ini_set('session.use_trans_sid', '0');
 
 // Envoi des entêtes HTTP que si on n'est pas en intégration et que si les entêtes n'ont pas déjà été envoyées
-(JB_AL_INTEGRATION_SITE && !headers_sent()) or header( 'Content-type: text/html; charset=utf-8' );		// Force l'encodage de sortie à l'UTF-8
+(JB_AL_INTEGRATION_SITE === true && !headers_sent()) or header( 'Content-type: text/html; charset=utf-8' );		// Force l'encodage de sortie à l'UTF-8
 
 
 // ====================
@@ -194,6 +203,7 @@ switch ( $_JB_AL_GET['s_action'] )
 if( !empty($_JB_AL_GET['s_rep_courant']) )
 {
 	$aDossiersUrl = $oOutils->nettoyerCheminURL( $_JB_AL_GET['s_rep_courant'] );
+	$_JB_AL_VARS['s_rep_courant_url'] = $oOutils->preparerUrl($_JB_AL_GET['s_rep_courant']);
 
 	// Vérification que le dossier passé dans l'url existe sinon on l'efface
 	// ce qui a pour effet de revenir à la page d'accueil.
@@ -203,6 +213,7 @@ if( !empty($_JB_AL_GET['s_rep_courant']) )
 		$aDossiersUrl = array();
 	}
 }
+else $_JB_AL_VARS['s_rep_courant_url'] = '';
 
 
 // ====================
@@ -241,9 +252,12 @@ $iNbPhotos = sizeof( $aListePhotos );
 
 // Si exploration du panier demandée, il faut nettoyer tous les chemins de la liste du panier
 // pour enlever le dossier racine des photos
-if($_JB_AL_GET['b_voir_panier'])
+if($_JB_AL_GET['b_voir_panier']) {
+	$iPosCoupe = strpos($aListePhotos[0], JB_AL_DOSSIER_PHOTOS) + strlen(JB_AL_DOSSIER_PHOTOS);
+
 	for( $i = 0 ; $i < $iNbPhotos ; $i++ )
-		$aListePhotos[$i] = $oOutils->sousChaineDroite( $aListePhotos[$i], '/', 2);
+		$aListePhotos[$i] = substr($aListePhotos[$i], $iPosCoupe);
+}
 
 if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS.$_JB_AL_GET['s_rep_courant'] )) || $_JB_AL_GET['b_voir_panier']) &&  $iNbPhotos > 0 )
 {
@@ -255,21 +269,24 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 	$iNbPages = ceil( sizeof( $aListePhotos ) / abs(JB_AL_VIGNETTES_PAR_PAGE) );
 
 	// génération de la pagination
-	$_JB_AL_VARS['s_pagination'] = $oOutils->paginer( $iNbPages, $_JB_AL_GET['i_page_courante'], $oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).$aActions['voir'].$aActions['diaporama'] ) );
+	$_JB_AL_VARS['s_pagination'] = $oOutils->paginer( $iNbPages, $_JB_AL_GET['i_page_courante'], $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].$aActions['voir'].$aActions['diaporama'] ) );
 
 	// CREATION DES VIGNETTES
 	$_MINIATURES = array();
-	$j = 0;		// compteur pour le tableau (il doit être indépendant du compteur de boucle)
+	$iDiapoCourante = $j = 0;		// compteur pour le tableau (il doit être indépendant du compteur de boucle)
+	$_JB_AL_VARS['i_diapo_courante'] = 0;
 
 	// vérification qu'on ne dépasse pas la taille du tableau
 	$iImgAAfficher = ( ( ($_JB_AL_GET['i_page_courante']-1) * JB_AL_VIGNETTES_PAR_PAGE ) >$iNbPhotos - JB_AL_VIGNETTES_PAR_PAGE ) ? $iNbPhotos - ( ($_JB_AL_GET['i_page_courante']-1) * JB_AL_VIGNETTES_PAR_PAGE ) : JB_AL_VIGNETTES_PAR_PAGE;
 
-	// pour chaque photo dans l'intervalle de la page
+	//
+	// Pour chaque image dans l'intervalle de la page
+	//
 	for ( $i = ($_JB_AL_GET['i_page_courante'] - 1) * JB_AL_VIGNETTES_PAR_PAGE ; $i < ( ($_JB_AL_GET['i_page_courante'] - 1) * JB_AL_VIGNETTES_PAR_PAGE ) + $iImgAAfficher ; $i++ )
 	{
 		$sRepCourant = $_JB_AL_GET['s_rep_courant'];	// On utilise une variable car elle doit être modifiée en mode diaporama
 
-		// Si on se trouve en mode exploration du panier, il faut définir $_JB_AL_GET['s_rep_courant'] à chaque fois,
+		// Si on se trouve en mode exploration du panier, il faut définir $sRepCourant à chaque fois,
 		// et écraser le chemin de l'image pour qu'il n'y ai que le nom de l'image.
 		if($_JB_AL_GET['b_voir_panier'])
 		{
@@ -277,7 +294,9 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 			$aListePhotos[$i]	= $oOutils->sousChaineDroite($aListePhotos[$i], '/', substr_count($aListePhotos[$i], '/'));
 		}
 
+		//
 		// Definition chemin de la photo courante et de sa miniature
+		//
 		$aFichier 		= explode( '.', $aListePhotos[$i] );
 		$sNomFichier 	= $aFichier[0];
 		$sExtension		= $aFichier[1];
@@ -286,11 +305,17 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 		$sCheminPhotoMd5	= md5($sCheminPhoto);
 		$sCheminMiniature	= JB_AL_ROOT.JB_AL_DOSSIER_MINIATURES.$sNomFichier.'_'.$iMinLargeur.'x'.$iMinHauteur.'_'.$sCheminPhotoMd5.'.'.$sExtension;
 
+		//
 		// Lectures infos image courante
+		//
 		$sTypeMime	= $oOutils->imageTypeMime($sCheminPhoto);
 		$aImgInfos	= getimagesize( $sCheminPhoto );
 		$iPoids		= filesize( $sCheminPhoto );
 		$sPoids		= (intval( $iPoids / 1024 ) < 1) ? $iPoids.' Octets' : intval( $iPoids / 1024 ).' Ko';
+
+		//
+		// Création miniature
+		//
 
 		// Si l'image ne dépasse pas la limite de 5,3 millions de pixels, on peut lancer le traitement
 		if( ($aImgInfos[0] * $aImgInfos[1]) <= 5300000 ) {
@@ -299,7 +324,7 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 			// si la miniature n'existe pas ou que la photo est plus récente que la miniature => création ou remplacement
 			if ( !file_exists($sCheminMiniature) || ( filemtime($sCheminMiniature) < filemtime($sCheminPhoto) ) )
 			{
-				$oOutils->processImgFile( $sTypeMime, $sCheminPhoto, $sCheminMiniature, $iMinLargeur, $iMinHauteur, '' );
+				$oOutils->processImgFile( $sTypeMime, $sCheminPhoto, $sCheminMiniature, $iMinLargeur, $iMinHauteur, '', JB_AL_VIGNETTES_QUALITE );
 				@chmod( $sCheminMiniature, JB_AL_CHMOD_FICHIERS );
 			}
 		}
@@ -320,94 +345,141 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 			case 'rien':	$oPanier->Supprimer( $sCheminPhoto ); if($_JB_AL_GET['b_voir_panier']) continue; break;
 		}
 
-		// définition des chaines d'ajout et de retrait des images dans le panier
+		//
+		// Définition des chaines d'ajout et de retrait de l'image dans le panier
+		//
 		if( JB_AL_MODE_CENTRE === true )
 		{
 			$sChemin	= JB_AL_ROOT.JB_AL_DOSSIER_CENTRE.$oOutils->SousChaineGauche( basename($aListePhotos[$i]), '.', 1 ).JB_AL_EXTENSION_FICHIERS;
 
-			$sAjout		= '<a href="'.$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=ajouter&amp;img='.rawurlencode(stripslashes( $sChemin )).$aActions['voir'].$aActions['diaporama'].'" class="puceAjout" title="Ajouter l\'image">+</a>' );
-			$sRetrait	= '<a href="'.$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=supprimer&amp;img='.rawurlencode(stripslashes( $sChemin )).$aActions['voir'].$aActions['diaporama'].'" class="puceRetrait" title="Retirer l\'image">-</a>' );
+			$sUrlAjout		= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=ajouter&amp;img='.$oOutils->preparerUrl($sChemin).$aActions['voir'].$aActions['diaporama'] );
+			$sUrlRetrait	= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=supprimer&amp;img='.$oOutils->preparerUrl($sChemin).$aActions['voir'].$aActions['diaporama'] );
 		}
 		else
 		{
 			$sParamDiapo = ($_JB_AL_GET['s_diapo_courante'] !== '') ? '&amp;diapo='.basename($_JB_AL_GET['s_diapo_courante']) : '';
 
-			$sAjout		= '<a href="'.$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;page='.$_JB_AL_GET['i_page_courante'].$sParamDiapo.'&amp;act=ajouter&amp;img='.rawurlencode(stripslashes( $sCheminPhoto )).$aActions['voir'].$aActions['diaporama'].'" class="puceAjout" title="Ajouter l\'image">+</a>' );
-			$sRetrait	= '<a href="'.$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;page='.$_JB_AL_GET['i_page_courante'].$sParamDiapo.'&amp;act=supprimer&amp;img='.rawurlencode(stripslashes( $sCheminPhoto )).$aActions['voir'].$aActions['diaporama'].'" class="puceRetrait" title="Retirer l\'image">-</a>' );
+			$sUrlAjout		= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].$sParamDiapo.'&amp;act=ajouter&amp;img='.$oOutils->preparerUrl($sCheminPhoto).$aActions['voir'].$aActions['diaporama'] );
+			$sUrlRetrait	= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].$sParamDiapo.'&amp;act=supprimer&amp;img='.$oOutils->preparerUrl($sCheminPhoto).$aActions['voir'].$aActions['diaporama'] );
 		}
 
-		// Si ouverture des photos demandé avec target="_blank"
-		$sTargetBlank = ( (JB_AL_OUVERTURE_BLANK===true) && (JB_AL_OUVERTURE_JAVASCRIPT===false) ) ? ' target="_blank"' : '';
+		//
+		// Sauvegarde l'indice de la photo visionnée si on est en mode diaporama
+		// OU placement sur la première diapo s'il n'y en a pas de définie, uniquement quand on se trouve sur la 1ère itération de la boucle.
+		//
+		if( $_JB_AL_VARS['b_mode_diaporama'] &&
+			($aListePhotos[$i] === $_JB_AL_GET['s_diapo_courante'] || empty($_JB_AL_GET['s_diapo_courante'])) ) {
 
-		// Si ouverture demandée par Popup Javascript (Ouverture prioritaire par rapport au target blank)
-		$sLienHref = $sBaliseLightBox = '';
-		if( JB_AL_OUVERTURE_JAVASCRIPT === true && !$_JB_AL_VARS['b_mode_diaporama'] )
-		{
-			if( JB_AL_OUVERTURE_LIGHTBOX === false )
-			{
-				// Détermination de la largeur et de la hauteur de la popup si demandé dans la config
-				$iLargeurMax = ( (JB_AL_POPUP_LARGEUR !== 0) && ($aImgInfos[0] > JB_AL_POPUP_LARGEUR) ) ? JB_AL_POPUP_LARGEUR : $aImgInfos[0];
-				$iHauteurMax = ( (JB_AL_POPUP_HAUTEUR !== 0) && ($aImgInfos[1] > JB_AL_POPUP_HAUTEUR) ) ? JB_AL_POPUP_HAUTEUR : $aImgInfos[1];
-
-				// Réajustement des dimensions
-				$fRatioImage = $aImgInfos[0] / $aImgInfos[1];
-				if( (JB_AL_POPUP_HAUTEUR === 0 || JB_AL_POPUP_HAUTEUR !== 0) && JB_AL_POPUP_LARGEUR !== 0 )
-					$iHauteurMax = JB_AL_POPUP_LARGEUR * (1/$fRatioImage);
-
-				if( JB_AL_POPUP_HAUTEUR !== 0 && JB_AL_POPUP_LARGEUR === 0 )
-					$iLargeurMax = JB_AL_POPUP_HAUTEUR * $fRatioImage;
-
-				$sLienHref = 'javascript:popup( \''.addslashes($sCheminPhoto)."', $iLargeurMax, $iHauteurMax );";
-			}
-			else
-			{
-				$sLienHref = $sCheminPhoto;
-				$sDescTitle = $aListePhotos[$i];
-				if( JB_AL_FILTRE_PREFIXES_ACTIF )	$sDescTitle = $oOutils->enleverPrefixe( $sDescTitle, JB_AL_PREFIXES_SEPARATEUR );
-				if( JB_AL_REMPLACER_TIRETS_BAS )	$sDescTitle = str_replace( '_', ' ', $sDescTitle );
-				if( !JB_AL_AFFICHER_EXTENSION )	    $sDescTitle = $oOutils->SousChaineGauche( $sDescTitle, '.', 1 );
-
-				$sBaliseLightBox = ' rel="lightbox[albulle]" title="['.$aImgInfos[0].' x '.$aImgInfos[1].' | '.$sPoids.'] » '.$sDescTitle.'"';
-			}
-		}
-		else
-		{
-			// Placement sur la première diapo s'il n'y en a pas de définie, uniquement quand on se trouve sur la 1ère itération de la boucle.
-			if( $i === ($_JB_AL_GET['i_page_courante'] - 1) * JB_AL_VIGNETTES_PAR_PAGE ) {
-				$_JB_AL_VARS['s_diapo_courante']	= $aListePhotos[$i];
-				$_JB_AL_VARS['s_chemin_diapo']		= JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS.$sRepCourant.'/'.$aListePhotos[$i];
-				$_JB_AL_VARS['i_diapo_courante']	= $j;
-				$iDiapo								= $i;
-			}
-
-			$sLienHref = (!$_JB_AL_VARS['b_mode_diaporama']) ? $sCheminPhoto : $oUrl->construireUrl( 'rep='.$_JB_AL_GET['s_rep_courant'].'&amp;page='.$_JB_AL_GET['i_page_courante'].$aActions['voir'].$aActions['diaporama'].'&amp;diapo='.$aListePhotos[$i], 'marqueur' );
-			$bPremiereDiapo = (empty($_JB_AL_GET['s_diapo_courante']) && ($i === ($_JB_AL_GET['i_page_courante'] - 1) * JB_AL_VIGNETTES_PAR_PAGE));
-			$_MINIATURES[$j]['DIAPO_COURANTE'] = ( $_JB_AL_VARS['b_mode_diaporama'] && ($_JB_AL_GET['s_diapo_courante'] === $aListePhotos[$i] || $bPremiereDiapo) ) ? ' id="diapoCourante"' : '';
-		}
-
-		$_MINIATURES[$j]['CHEMIN_PHOTO']	= $sCheminPhoto;
-		$_MINIATURES[$j]['LIEN_PHOTO']		= array(
-												'HREF'			=> $sLienHref,
-												'TARGET'		=> $sTargetBlank,
-												'LIGHTBOX'		=> $sBaliseLightBox,
-												'CHEMIN_MIN'	=> $sCheminMiniature,
-												'CLASSE_CSS'	=> $sCssClasseVignette,
-												'ALT'			=> $sCheminPhoto
-											);
-		$_MINIATURES[$j]['NOM_PHOTO']		= ( JB_AL_AFFICHER_NOMS === true || $_JB_AL_VARS['b_mode_diaporama'] )	? $aListePhotos[$i] : '';
-		$_MINIATURES[$j]['DIM_PHOTO']		= ( JB_AL_AFFICHER_DIMENSIONS === true )			? $aImgInfos[0].' x '.$aImgInfos[1] : '';
-		$_MINIATURES[$j]['SIZE_PHOTO']		= ( JB_AL_AFFICHER_POIDS === true )					? $sPoids : '' ;
-		$_MINIATURES[$j]['TYPE_MIME']		= $sTypeMime;
-		$_MINIATURES[$j]['AJOUT_PANIER']	= ( $oPanier->EstDansLePanier( $sChemin ) !== false ) ? $sRetrait : $sAjout;
-
-		// On sauvegarde l'indice de la photo visionnée si on est en mode diaporama
-		if( $_JB_AL_VARS['b_mode_diaporama'] && $aListePhotos[$i] === $_JB_AL_GET['s_diapo_courante'] ) {
 			$iDiapo								= $i;
 			$_JB_AL_VARS['i_diapo_courante']	= $j;
-			$_JB_AL_VARS['s_chemin_diapo']		= JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS.$sRepCourant.'/'.$_JB_AL_GET['s_diapo_courante'];
+			$iDiapoCourante						= $j;
+			if( empty($_JB_AL_GET['s_diapo_courante']) )	$_JB_AL_GET['s_diapo_courante'] = $sCheminPhoto;
+		}
+		else $iDiapoCourante = -1;
+
+		//
+		// Construction du lien de la vignette de la photo
+		//
+
+		$sLienHref = $oOutils->preparerUrl($sCheminPhoto, true);		// lien par défaut
+
+		$sLienHrefJS = $sBaliseLightBox = '';
+
+		// Si ouverture des photos demandé avec target="_blank"
+		$sTargetBlank = ( (JB_AL_OUVERTURE_BLK === true) && (JB_AL_OUVERTURE_JS === false) ) ? ' target="_blank"' : '';
+
+		// Ouverture avec Javascript sans Lightbox
+		if( ($_JB_AL_VARS['b_mode_diaporama'] === false && JB_AL_OUVERTURE_JS === true && JB_AL_OUVERTURE_LBX === false) ||
+			($_JB_AL_VARS['b_mode_diaporama'] === true && JB_AL_OUVERTURE_JS_DIAPO === true && JB_AL_OUVERTURE_LBX_DIAPO === false &&
+			 $iDiapoCourante === $j) )
+		{
+			// Détermination de la largeur et de la hauteur de la popup si demandé dans la config
+			$iLargeurMax = ( (JB_AL_POPUP_LARGEUR !== 0) && ($aImgInfos[0] > JB_AL_POPUP_LARGEUR) ) ? JB_AL_POPUP_LARGEUR : $aImgInfos[0];
+			$iHauteurMax = ( (JB_AL_POPUP_HAUTEUR !== 0) && ($aImgInfos[1] > JB_AL_POPUP_HAUTEUR) ) ? JB_AL_POPUP_HAUTEUR : $aImgInfos[1];
+
+			// Réajustement des dimensions
+			$fRatioImage = $aImgInfos[0] / $aImgInfos[1];
+			if( (JB_AL_POPUP_HAUTEUR === 0 || JB_AL_POPUP_HAUTEUR !== 0) && JB_AL_POPUP_LARGEUR !== 0 )
+				$iHauteurMax = JB_AL_POPUP_LARGEUR * (1/$fRatioImage);
+
+			if( JB_AL_POPUP_HAUTEUR !== 0 && JB_AL_POPUP_LARGEUR === 0 )
+				$iLargeurMax = JB_AL_POPUP_HAUTEUR * $fRatioImage;
+
+			$sLienHrefJS = ' onclick="javascript:popup( encodeURI(\''.$oOutils->preparerUrl($sCheminPhoto, true).'\'), '.$iLargeurMax.', '.$iHauteurMax.' ); return false;"';
 		}
 
-		// Application filtres
+		// Ouverture avec Javascript et Lightbox (pas besoin d'écraser le lien mais il faut construire la balise rel)
+		if( (JB_AL_OUVERTURE_JS === true && JB_AL_OUVERTURE_LBX === true) && (
+			($_JB_AL_VARS['b_mode_diaporama'] === false) ||
+			($_JB_AL_VARS['b_mode_diaporama'] === true && $iDiapoCourante === $j) ) )
+		{
+			$sDescTitle = $aListePhotos[$i];
+
+			if( JB_AL_FILTRE_PREFIXES_ACTIF )	$sDescTitle = $oOutils->enleverPrefixe( $sDescTitle, JB_AL_PREFIXES_SEPARATEUR );
+			if( JB_AL_REMPLACER_TIRETS_BAS )	$sDescTitle = str_replace( '_', ' ', $sDescTitle );
+			if( !JB_AL_AFFICHER_EXTENSION )	    $sDescTitle = $oOutils->SousChaineGauche( $sDescTitle, '.', 1 );
+
+			$sBaliseLightBox = ' rel="lightbox'.($_JB_AL_VARS['b_mode_diaporama'] === true ? '' : '[albulle]').'" title="['.$aImgInfos[0].' x '.$aImgInfos[1].' | '.$sPoids.'] » '.utf8_encode($sDescTitle).'"';
+		}
+
+		// En mode diaporama, il faut écraser le lien pour afficher les images
+		if( $_JB_AL_VARS['b_mode_diaporama'] ) {
+			$sLienHref = $oUrl->construireUrl(
+									'rep='.$_JB_AL_VARS['s_rep_courant_url'].
+									'&amp;page='.$_JB_AL_GET['i_page_courante']
+									.$aActions['voir'].
+									$aActions['diaporama'].
+									'&amp;diapo='.$oOutils->preparerUrl($aListePhotos[$i]),
+									'marqueur' );
+		}
+
+
+		//
+		// Ajout de la vignette dans le tableau global
+		//
+
+		$_MINIATURES[$j]['CHEMIN_PHOTO']		= $sCheminPhoto;
+		$_MINIATURES[$j]['CHEMIN_PHOTO_URL']	= $oOutils->preparerUrl($sCheminPhoto, true);
+		$_MINIATURES[$j]['LIEN_PHOTO']			= array(
+													'HREF'			=> $sLienHref,
+													'TARGET'		=> $sTargetBlank,
+													'JAVASCRIPT'	=> ($_JB_AL_VARS['b_mode_diaporama'] === false) ? $sLienHrefJS : '',
+													'LIGHTBOX'		=> ($_JB_AL_VARS['b_mode_diaporama'] === false) ? $sBaliseLightBox : '',
+													'CHEMIN_MIN'	=> $oOutils->preparerUrl($sCheminMiniature, true),
+													'CLASSE_CSS'	=> $sCssClasseVignette,
+													'ALT'			=> $sCheminPhoto
+												);
+		$_MINIATURES[$j]['NOM_PHOTO']			= ( JB_AL_AFFICHER_NOMS === true || $_JB_AL_VARS['b_mode_diaporama'] )	? utf8_encode($aListePhotos[$i]) : '';
+		$_MINIATURES[$j]['DIM_PHOTO']			= ( JB_AL_AFFICHER_DIMENSIONS === true )			? $aImgInfos[0].' x '.$aImgInfos[1] : '';
+		$_MINIATURES[$j]['SIZE_PHOTO']			= ( JB_AL_AFFICHER_POIDS === true )					? $sPoids : '' ;
+		$_MINIATURES[$j]['TYPE_MIME']			= $sTypeMime;
+		$_MINIATURES[$j]['EXIF']				= $oOutils->afficherExif($sCheminPhoto);
+
+		// Lien pour l'ajout/retrait du panier
+		if( $oPanier->EstDansLePanier( $sCheminPhoto ) !== false ) {
+			$_MINIATURES[$j]['PANIER']['MODE']	= 'retrait';
+			$_MINIATURES[$j]['PANIER']['URL']	=  $sUrlRetrait;
+		}
+		else {
+			$_MINIATURES[$j]['PANIER']['MODE']	= 'ajout';
+			$_MINIATURES[$j]['PANIER']['URL']	=  $sUrlAjout;
+		}
+
+		// Diapositive courante si mode diaporama actif
+		if( $_JB_AL_VARS['b_mode_diaporama'] && $iDiapoCourante === $j ) {
+			$_MINIATURES[$j]['LIEN_DIAPO'] = array(
+												'HREF'			=> $_MINIATURES[$j]['CHEMIN_PHOTO_URL'],
+												'TARGET'		=> $sTargetBlank,
+												'JAVASCRIPT'	=> $sLienHrefJS,
+												'LIGHTBOX'		=> (JB_AL_OUVERTURE_JS_DIAPO === true && JB_AL_OUVERTURE_LBX_DIAPO === true) ? $sBaliseLightBox : '',
+												'ALT'			=> $sCheminPhoto
+											);
+		}
+
+
+		//
+		// Application filtres sur le nom de la photo
+		//
 		if( JB_AL_FILTRE_PREFIXES_ACTIF )	$_MINIATURES[$j]['NOM_PHOTO'] = $oOutils->enleverPrefixe( $_MINIATURES[$j]['NOM_PHOTO'], JB_AL_PREFIXES_SEPARATEUR );
 		if( JB_AL_REMPLACER_TIRETS_BAS )	$_MINIATURES[$j]['NOM_PHOTO'] = str_replace( '_', ' ', $_MINIATURES[$j]['NOM_PHOTO'] );
 		if( !JB_AL_AFFICHER_EXTENSION )	    $_MINIATURES[$j]['NOM_PHOTO'] = $oOutils->SousChaineGauche( $_MINIATURES[$j]['NOM_PHOTO'], '.', 1 );
@@ -416,32 +488,37 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 	}
 }
 
+//echo '<pre>';
+//print_r($_MINIATURES);
+//echo '</pre>';
 
 // ====================
 // GESTION DES LIENS DU PANIER
 //
 
-// création des liens si des fichiers se trouvent dans le panier
-if ( $oPanier->CompterFichiers() > 0 )
-{
-	$_JB_AL_VARS['s_menu_panier']	.= '<ul class="menu">'."\n";
-	$_JB_AL_VARS['s_menu_panier']	.= '<li class="puceDownload"><a href="'.JB_AL_ROOT.'download.php">Télécharger les images</a></li>'."\n";
-	$_JB_AL_VARS['s_menu_panier'] 	.= '<li class="puceVoir"><a href="'.$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;voir'.$aActions['diaporama'] ).'">Voir le panier</a></li>'."\n";
+// état du panier : plein ou pas, nombre de fichiers dans le panier, poids estimé de l'archive
+$_JB_AL_VARS['a_panier']['b_plein']			= $oPanier->PanierPlein();
+$_JB_AL_VARS['a_panier']['i_nb_fichiers']	= $oPanier->CompterFichiers();
 
-	$sLienVider = ($_JB_AL_GET['b_voir_panier']) ? '' : '&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;';
-	$_JB_AL_VARS['s_menu_panier'] 	.= '<li class="puceVider"><a href="'.$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).$sLienVider.'&amp;act=vider'.$aActions['diaporama'] ).'">Vider le panier</a></li>'."\n";
-	$_JB_AL_VARS['s_menu_panier'] 	.= "</ul>\n";
+$iPoidsEstime = $oPanier->CalculerPoids();
+$_JB_AL_VARS['a_panier']['s_poids_estime']	= (intval( $iPoidsEstime / 1024 ) < 1) ? $iPoidsEstime.' Octets' : intval( $iPoidsEstime / 1024 ).' Ko';
+
+// création des liens si des fichiers se trouvent dans le panier
+if ( $_JB_AL_VARS['a_panier']['i_nb_fichiers'] > 0 )
+{
+	$_JB_AL_VARS['a_menu_panier']['s_url_download']	= JB_AL_ROOT.'core/download.php';
+	$_JB_AL_VARS['a_menu_panier']['s_url_voir']		= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;voir'.$aActions['diaporama'] );
+	$_JB_AL_VARS['a_menu_panier']['s_url_vider']	= $oUrl->construireUrl(
+															'rep='.$_JB_AL_VARS['s_rep_courant_url']
+															.($_JB_AL_GET['b_voir_panier'] ? '' : '&amp;page='.$_JB_AL_GET['i_page_courante'])
+															.'&amp;act=vider'
+															.$aActions['diaporama']
+														);
 }
 
-// définition du nombre de fichiers dans le panier et des liens pour les ajouts / suppressions multiples
-$_JB_AL_VARS['s_nb_fichiers_panier']	= ( $oPanier->PanierPlein() ) ? '<span class="plein">'.$oPanier->CompterFichiers().' (Panier plein)</span>' : $oPanier->CompterFichiers();
-
-$iPoidsEstime					= $oPanier->CalculerPoids();
-$_JB_AL_VARS['s_poids_estime']	= (intval( $iPoidsEstime / 1024 ) < 1) ? $iPoidsEstime.' Octets' : intval( $iPoidsEstime / 1024 ).' Ko';
-
 // Liens pour les ajouts / retraits globaux
-$_JB_AL_VARS['s_lien_panier_tout_ajouter']		= ( $iNbPhotos > 0 && !$_JB_AL_GET['b_voir_panier'] ) ? '<a href="'.$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=tout'.$aActions['voir'].$aActions['diaporama'] ).'" class="bouton" title="Ajouter toutes les images de la page"><span class="tout"></span></a>' : '';
-$_JB_AL_VARS['s_lien_panier_tout_supprimer']	= ( $iNbPhotos > 0 && !$_JB_AL_GET['b_voir_panier'] ) ? '<a href="'.$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $_JB_AL_GET['s_rep_courant'] )).'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=rien'.$aActions['voir'].$aActions['diaporama'] ).'" class="bouton" title="Retirer toutes les images de la page"><span class="rien"></span></a>' : '';
+$_JB_AL_VARS['s_lien_panier_tout_ajouter']		= ( $iNbPhotos > 0 && !$_JB_AL_GET['b_voir_panier'] ) ? $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=tout'.$aActions['voir'].$aActions['diaporama'] ) : '';
+$_JB_AL_VARS['s_lien_panier_tout_supprimer']	= ( $iNbPhotos > 0 && !$_JB_AL_GET['b_voir_panier'] ) ? $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=rien'.$aActions['voir'].$aActions['diaporama'] ) : '';
 
 
 // ====================
@@ -457,7 +534,7 @@ if( !empty($_JB_AL_GET['s_rep_courant']) )
 	if(!$_JB_AL_GET['b_voir_panier'])
 	{
 		$sTitreFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( $aDossiersUrl[$iNiveau-1], JB_AL_PREFIXES_SEPARATEUR ) : $aDossiersUrl[$iNiveau-1];
-		$sTitreFiltre = str_replace( '_', ' ', $sTitreFiltre );
+		$sTitreFiltre = utf8_encode(str_replace( '_', ' ', $sTitreFiltre ));
 	}
 	else $sTitreFiltre = 'panier';
 }
@@ -478,12 +555,12 @@ else
 		$sDossierFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( $aDossiersUrl[$i], JB_AL_PREFIXES_SEPARATEUR ) : $aDossiersUrl[$i];
 
 		$sLien .= ( $i !== 0 ) ? '/'.$aDossiersUrl[$i] : $aDossiersUrl[$i];
-		$_JB_AL_VARS['s_navigation'] .= '<a href="'.$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $sLien )).$aActions['voir'].$aActions['diaporama'] ).'">'.str_replace( '_', ' ', $sDossierFiltre ).'</a> » ';
+		$_JB_AL_VARS['s_navigation'] .= '<a href="'.$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLien).$aActions['voir'].$aActions['diaporama'] ).'">'.str_replace( '_', ' ', utf8_encode($sDossierFiltre) ).'</a> » ';
 	}
 
 	// Nettoyage préfixe
 	if(!$_JB_AL_GET['b_voir_panier'])
-		$sDossierFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( $aDossiersUrl[$iNiveau-1], JB_AL_PREFIXES_SEPARATEUR ) : $aDossiersUrl[$iNiveau-1];
+		$sDossierFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( utf8_encode($aDossiersUrl[$iNiveau-1]), JB_AL_PREFIXES_SEPARATEUR ) : $aDossiersUrl[$iNiveau-1];
 	else $sDossierFiltre = 'Photos dans le panier';
 
 	$_JB_AL_VARS['s_navigation'] .= str_replace( '_', ' ', $sDossierFiltre );
@@ -516,7 +593,7 @@ else
 		}
 
 		// Construction liens précédente / suivante
-		$_JB_AL_VARS['s_href_photo_precedente'] = $_JB_AL_VARS['s_href_photo_suivante'] = $_JB_AL_VARS['s_url_img_suivante'] = '';
+		$_JB_AL_VARS['s_url_img_precedente'] = $_JB_AL_VARS['s_url_img_suivante'] = '';
 		$sPagePrecedente = $sPageSuivante = '&amp;page=';
 
 		// S'il y a des images précédentes
@@ -524,8 +601,7 @@ else
 		{
 			$sPagePrecedente .= ( $iDiapo === ($_JB_AL_GET['i_page_courante'] - 1) * JB_AL_VIGNETTES_PAR_PAGE ) ? $_JB_AL_GET['i_page_courante'] - 1 : $_JB_AL_GET['i_page_courante'];
 
-			$_JB_AL_VARS['s_href_photo_precedente'] = '<a href="'.$oUrl->construireUrl( 'rep='.$_JB_AL_GET['s_rep_courant'].$sPagePrecedente.$aActions['voir'].$aActions['diaporama'] ).'&amp;diapo='.$aListePhotos[$iDiapo - 1].'#marqueur" class="precedente" title="Précedente">
-														<span></span></a>';
+			$_JB_AL_VARS['s_url_img_precedente'] = $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].$sPagePrecedente.$aActions['voir'].$aActions['diaporama'].'&amp;diapo='.$oOutils->preparerUrl($aListePhotos[$iDiapo - 1]), 'marqueur');
 		}
 
 		// S'il y a des images qui suivent
@@ -533,39 +609,29 @@ else
 		{
 			$sPageSuivante .= ( $iDiapo === ((($_JB_AL_GET['i_page_courante'] - 1) * JB_AL_VIGNETTES_PAR_PAGE) + $iImgAAfficher) - 1 ) ? $_JB_AL_GET['i_page_courante'] + 1 : $_JB_AL_GET['i_page_courante'];
 
-			$_JB_AL_VARS['s_url_img_suivante']		= $oUrl->construireUrl( 'act=diapo&amp;rep='.$_JB_AL_GET['s_rep_courant'].$sPageSuivante.$aActions['voir'].$aActions['diaporama'] ).'&amp;diapo='.$aListePhotos[$iDiapo + 1].'#marqueur';
-			$_JB_AL_VARS['s_href_photo_suivante']	= '<a href="'.$_JB_AL_VARS['s_url_img_suivante'].'" class="suivante" title="Suivante">
-														<span></span></a>';
+			$_JB_AL_VARS['s_url_img_suivante']		= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].$sPageSuivante.$aActions['voir'].$aActions['diaporama'].'&amp;diapo='.$oOutils->preparerUrl($aListePhotos[$iDiapo + 1]), 'marqueur');
 		}
 
 		if( $iDiapo === ($iNbPhotos - 2) )	$_SESSION['DIAPORAMA_INTERVALLE'] = 0;
 
-	 	$_JB_AL_VARS['s_lien_mode_affichage']	= $oUrl->construireUrl( 'rep='.$_JB_AL_GET['s_rep_courant'].'&amp;page='.$_JB_AL_GET['i_page_courante'].$aActions['voir'] );
+	 	$_JB_AL_VARS['s_lien_mode_affichage']	= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].$aActions['voir'] );
 		$_JB_AL_VARS['s_texte_mode_affichage']	= 'Mode galerie';
 		$_JB_AL_VARS['s_classe_css_vignette']	= 'vignetteDiapo';
 	}
 	else
 	{
-		$_JB_AL_VARS['s_lien_mode_affichage']	= $oUrl->construireUrl( 'rep='.$_JB_AL_GET['s_rep_courant'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;diaporama'.$aActions['voir'], 'marqueur' );
+		$_JB_AL_VARS['s_lien_mode_affichage']	= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;diaporama'.$aActions['voir'], 'marqueur' );
 		$_JB_AL_VARS['s_texte_mode_affichage']	= 'Mode diaporama';
 		$_JB_AL_VARS['s_classe_css_vignette']	= 'vignette';
 	}
 
 }
 
-// pour la version
-$_JB_AL_VARS['s_version'] = ( JB_AL_AFFICHER_VERSION === true ) ? ' v'.$_JB_AL_VARS['s_version'] : '';
-
-// pour le lien de retour vers un site principal (si défini)
-$_JB_AL_VARS['s_lien_retour_site'] = ( JB_AL_HOME_HREF !== '' && JB_AL_HOME_TEXTE !== '' ) ? '<a href="'.JB_AL_HOME_HREF.'">'.JB_AL_HOME_TEXTE."</a> |\n" : '';
-
 
 // ====================
 // Affichage
 //
-if( file_exists($_JB_AL_VARS['s_acces_theme'].'html.php') )
-	return require_once( $_JB_AL_VARS['s_acces_theme'].'html.php' );
-else
-	return require_once( 'includes/html.php' );
+$sPageFinale = file_exists($_JB_AL_VARS['s_acces_theme'].'html.php') ? require_once( $_JB_AL_VARS['s_acces_theme'].'html.php' ) : require_once( 'includes/html.php' );
+return JB_AL_SORTIE_ISO === true ? utf8_decode($sPageFinale) : $sPageFinale;
 
 ?>

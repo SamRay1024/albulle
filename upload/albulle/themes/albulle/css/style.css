@@ -63,6 +63,8 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 	text-align:				justify;
 }
 
+#albulle .texte h5			{ font-size: 1.2em; }
+
 #albulle .puceAjout,
 #albulle .puceRetrait,
 #albulle #puceAjoutPage,

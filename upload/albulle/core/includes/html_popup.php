@@ -12,8 +12,8 @@
  * @author SamRay1024
  * @copyright Bubulles Creations
  * @link http://jebulle.net
- * @since 11/06/2006
- * @version 0.1
+ * @since 10/11/2006
+ * @version 1.0 rc1
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) { 
@@ -31,6 +31,6 @@ $aPseudosVariables = array(
 require_once( JB_AL_ROOT.'includes/classes/util.class.php' );
 $oOutils = new util();
 
-return $oOutils->parser(JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'html/popup.thm.php', $aPseudosVariables);
+return $oOutils->parser(JB_AL_ROOT.'../'.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'html/popup.thm.php', $aPseudosVariables);
 
 ?>

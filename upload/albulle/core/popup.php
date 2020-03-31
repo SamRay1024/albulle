@@ -48,50 +48,37 @@
 ///////////////////////////////
 
 /**
- * @name download.php
+ * @name popup.php
  * @author SamRay1024
  * @copyright Bubulles Creations
  * @link http://jebulle.net
- * @since 07/09/2006
- * @version 0.9
+ * @since 10/11/2006
+ * @version 1.0rc1
  */
 
 define( '_JB_INCLUDE_AUTH', 1 );
 define( 'JB_AL_ROOT',		dirname(__FILE__).'/' );
 
-require_once( JB_AL_ROOT.'config.php' );
-require_once( JB_AL_ROOT.'includes/classes/panierdefichiers.class.php' );
-require_once( JB_AL_ROOT.'includes/classes/util.class.php' );
+require_once( JB_AL_ROOT.'../config.php' );
+require_once( JB_AL_ROOT.'includes/classes/util.class.php');
 
-$oPanier = new PanierDeFichiers( JB_AL_PANIER_CAPACITE_MAX );
+$sCheminImg = isset( $_GET['img'] ) ? rawurldecode( $_GET['img'] ) : '';
 
-if( $oPanier->CompterFichiers() !== 0 )
-{
-	// Définition nom archive
-	$sNomArchive = ( JB_AL_MODE_CENTRE === true ) ? 'Fichiers' : JB_AL_PANIER_NOM_ARCHIVE;
+// On remet le chemin relatif à popup.php
+$oOutils = new Util();
+$sCheminImg = '../'.$oOutils->sousChaineDroite($sCheminImg, '/', 1);
 
-	//
-	// Nécessité de modifier les chemins des éléments du panier car ils sont relatifs au script qui exécute
-	// Albulle, soit le index.php de l'installation par défaut. Il faut donc enlever le 1er dossier de
-	// chaque chemin et redéfinir le panier avant de créer l'archive.
-	//
+if( !file_exists($sCheminImg) )
+    exit( '# ALBULLE # <strong>[ Erreur ]</strong> =>
+            Impossible de trouver le fichier <em>'.$sCheminImg.'</em>.<br />
+            <a href="javascript: history.go(-1)">Revenir</a>' );
 
-	// Lecture nombre d'éléments dans le panier
-	$iNbPanier = $oPanier->CompterFichiers();
+$sHeadTitre = 'Affichage de '.utf8_encode(basename($sCheminImg));
+$sCheminImg = $oOutils->preparerUrl($sCheminImg, true);
 
-	$aChangementChemins = $oPanier->obtenirPanier();
-	$oOutils = new Util();
-
-	for( $i = 0 ; $i < $iNbPanier ; $i++ )
-		$aChangementChemins[$i] = $oOutils->sousChaineDroite($aChangementChemins[$i], '/', 1);
-
-	$oPanier->CreerArchive( $sNomArchive, $aChangementChemins );
-}
+if( file_exists(JB_AL_ROOT.'../'.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'html_popup.php') )
+	echo require_once( JB_AL_ROOT.'../'.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'html_popup.php' );
 else
-{
-	header( 'Content-type: text/html; charset=utf-8' );
-	echo('# ALBULLE # <strong>[ Erreur ]</strong> => Le panier est vide, il n\'y a rien à télécharger !<br /><a href="javascript: history.go(-1)">Revenir</a>' );
-}
+	echo require_once( JB_AL_ROOT.'includes/html_popup.php' );
 
-exit();
 ?>

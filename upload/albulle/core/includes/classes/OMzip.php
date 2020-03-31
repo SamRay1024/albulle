@@ -52,18 +52,30 @@ require_once( 'OMzip/ConvertCharset.class.php' );
  * The download starts almost immediately, as the ZIP is not created before sending
  *
  * @param  name     name to give to the ZIP file
- * @param  array    array of files to include
+ * @param  files    array of files to include
+ * @param  infiles	array of new dir in the zip file for each file added
  *
  * @return integer  the size of the zip in bytes
  *
  * @access public
  */
-function OnTheFlyZIP ($name, $files )
+function OnTheFlyZIP ($name, $files, $infiles = array() )
 {
     $zipsize = 0;
     $zip = new zipfile ($name, false);
-    foreach ($files as $file)
-        $zipsize = $zip -> addFile ($file, $file, false);
+
+    $size1 = sizeof($files);
+    $size2 = sizeof($infiles);
+
+    if( $size1 == $size2 ) {
+    	for( $i = 0 ; $i < $size1 ; $i++ )
+    		$zipsize = $zip -> addFile ($files[$i], $infiles[$i], false);
+    }
+    else {
+	    foreach ($files as $file)
+    	    $zipsize = $zip -> addFile ($file, $file, false);
+    }
+
     $zipsize += $zip -> finalize ();
 
     if (!empty($name))
@@ -73,8 +85,16 @@ function OnTheFlyZIP ($name, $files )
         sleep(1);
 
         $zip = new zipfile ($name, true);
-        foreach ($files as $file)
-            $zip -> addFile ($file, $file, false);
+
+        if( $size1 == $size2 ) {
+	    	for( $i = 0 ; $i < $size1 ; $i++ )
+	    		$zipsize = $zip -> addFile ($files[$i], $infiles[$i], false);
+	    }
+	    else {
+		    foreach ($files as $file)
+	    	    $zipsize = $zip -> addFile ($file, $file, false);
+	    }
+
         $zip -> finalize ();
     }
     return $zipsize;

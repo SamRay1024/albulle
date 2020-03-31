@@ -46,7 +46,7 @@
  */
 
 define( 'JB_AL_ROOT', 'albulle/' );
-echo require_once( JB_AL_ROOT.'explore.php' );
+echo require_once( JB_AL_ROOT.'core/explore.php' );
 
 // ==================================================================================================
 
@@ -74,7 +74,7 @@ define( 'JB_AL_ROOT',					'albulle/' );	// cf. exemple 1
 define( 'JB_AL_AFFICHER_ENTETE',		true );			// Afficher / cacher l'entête de page (Tite, sous-titre & logo)
 define( 'JB_AL_DOSSIER_THEME_ACTIF',	'albulle/' );	// Choisir un thème : le nom du dossier dans le dossier des thèmes + /
 
-echo require_once( JB_AL_ROOT.'explore.php' );
+echo require_once( JB_AL_ROOT.'core/explore.php' );
 
 // ==================================================================================================
 
@@ -114,8 +114,10 @@ echo require_once( JB_AL_ROOT.'explore.php' );
  * 			Oui, cela vous oblige à avoir votre propre site en UTF-8 ; mais cela devrait déjà être le cas ;-)
  * 			Si ça ne l'est pas déjà, ça sera l'occasion de faire la transition !
  * 
- * 			Bon, si vraiment vous ne souhaitez pas passer à l'UTF-8, vous pouvez toujours faire un utf8_decode() :
- * 				$sAlbulle = utf8_decode( require_once( JB_AL_ROOT.'explore.php' ) );
+ * 			Bon, si vraiment vous ne souhaitez pas passer à l'UTF-8, vous pouvez utiliser le paramètre
+ * 			JB_AL_SORTIE_ISO présent dans le fichier de configuration et le mettre à vrai. Le contenu
+ *			récupéré sera alors en Iso-8859-1 mais cela prendra un peu plus de ressource pour la
+ *			conversion.
  * 
  * Un cas pratique de mise en oeuvre de toutes ces options serait d'avoir une configuration fixe config.php
  * qui permette l'utilisation d'Albulle en mode standard et de pouvoir à la fois l'inclure dans un site en 
@@ -144,9 +146,12 @@ define( 'JB_AL_AFFICHER_ENTETE',		false );		// cf. exemple 2
 define( 'JB_AL_DOSSIER_THEME_ACTIF',	'albulle/' );	// cf. exemple 2
 
 define( 'JB_AL_INTEGRATION_SITE',		true );			// Voici la constante qui indique qu'Albulle est intégré à un site.
-define( 'JB_AL_CONSERVER_URL_HOTE', true );			// Activation de la conservation des paramètres de l'Url de l'hôte.
+define( 'JB_AL_CONSERVER_URL_HOTE', 	true );			// Activation de la conservation des paramètres de l'Url de l'hôte.
 
-$sAlbulle = require_once( JB_AL_ROOT.'explore.php' );
+define( 'JB_AL_SORTIE_ISO',				true );			// Demande le décodage Utf8 pour que le contenu de $sAlbulle soit
+														// au charset Iso-8859-1.
+
+$sAlbulle = require_once( JB_AL_ROOT.'core/explore.php' );
 
 echo $sThmCssMetas;
 echo $sAlbulle;

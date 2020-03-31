@@ -14,7 +14,7 @@
             img { border: none; }
         </style>
 
-		 		<script type="text/javascript">
+		<script type="text/javascript">
  		<!--
  	    function verifierDimensions() {
 
@@ -22,13 +22,13 @@
 			var iHauteur = (document.body.clientHeight);
 			var fRatio = iLargeur / iHauteur;
 
- 	    	var iLargeurEcran = screen.width - 60;
- 	    	var iHauteurEcran = screen.height - 60;
+ 	    	var iLargeurEcran = screen.width;
+ 	    	var iHauteurEcran = screen.height;
  	    	var bRedimensionner = false;
 
  	    	if( iLargeur > iLargeurEcran )
  	    	{
- 	    		iLargeur = iLargeurEcran;
+ 	    		iLargeur = iLargeurEcran - 60;
 				iHauteur = iLargeur * (1/fRatio);
 				document.images["monImage"].width = iLargeur;
 				bRedimensionner = true;
@@ -36,7 +36,7 @@
 
 			if( iHauteur > iHauteurEcran )
 			{
-				iHauteur = iHauteurEcran;
+				iHauteur = iHauteurEcran - 60;
 				iLargeur = iHauteur * fRatio;
 				document.images["monImage"].height = iHauteur;
 				bRedimensionner = true;
@@ -55,7 +55,7 @@
     <body onload="javascript:verifierDimensions();">
 
         <a href="javascript:window.close();">
-            <img name="monImage" src="{POPUP_SOURCE}" alt="Image de {POPUP_SOURCE}" />
+            <img id="monImage" src="{POPUP_SOURCE}" alt="Image de {POPUP_SOURCE}" />
         </a>
 
     </body>

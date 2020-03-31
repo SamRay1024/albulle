@@ -1,6 +1,6 @@
 				<div class="{CLASSE_VIGNETTE}"{DIAPO_COURANTE}>
 
-					<a href="{HREF_IMAGE}"{TARGET_BLANK}{LIGHTBOX}>
+					<a href="{HREF_IMAGE}"{TARGET_BLANK}{LIGHTBOX}{JAVASCRIPT}>
 						<img src="{CHEMIN_MINIATURE}" class="{CLASSE_MINIATURE}" alt="Photo {ALT_IMAGE}" />
 					</a>
 

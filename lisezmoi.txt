@@ -1,5 +1,5 @@
 :: Albulle - Lisez moi
-:: Version 0.9.2
+:: Version 1.0rc1
 :: Auteur : SamRay1024
 :: http://jebulle.net - http://forums.jebulle.net
 :: webmaster@jebulle.net
@@ -21,7 +21,7 @@ SOMMAIRE
 	* REDEFINIR SON PROPRE CLASSEMENT
 	* UTILISATION D'ALBULLE EN CENTRE DE TELECHARGEMENT
 	* INTEGRER ALBULLE DANS UN SITE INTERNET
-	* CHANGER LE STYLE DE LA PAGE
+	* CREER UN THEME
 	* PROBLEMES CONNUS
 	* AUTRES QUESTIONS
 	
@@ -40,6 +40,8 @@ les personnes suivantes :
 		alternative pour les personnes qui sont chez Free et pour lesquelles
 		la génération à la volée n'est pas possible.
 		(-> http://matheret.free.fr)
+
+	- Xixii et TontonBill, betâ testeurs de la version 1.0rc1
 
 	- Ainsi que tous les visiteurs et autres membres du forum qui proposent 
 		des suggestions, rapportent les erreurs qu'ils peuvent rencontrer...
@@ -128,16 +130,22 @@ MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
 
 * Vous utilisez actuellement la version 0.9.x :
 
-	Fichiers à mettre à jour (chemins relatifs au dossier upload/ de l'archive) :
+	Vous pouvez garder le dossier des photos. En revanche, l'organisation globale des 
+fichiers a changé. Il vous faudra donc déplacer ces dossiers dans le nouveau dossier datas/.
 
-		/albulle/config.php
-		/albulle/explore.php
-		/albulle/themes/albulle/*			(Supprimez le thème et mettez le nouveau à la place)
-		/albulle/includes/classes/util.class.php
-		/albulle/includes/classes/url.class.php
-		/albulle/includes/fonctions.php
-		/albulle/includes/html.php
+	En raison du changement de structure, il est fortement conseillé de vider votre dossier
+des miniatures. Certaines pourraient ne pas s'afficher avec la nouvelle version. Si vous ne
+voyez pas certaines miniatures, vider le dossier pour que le script les refasse.
 
+	Le texte d'accueil (texte_accueil.html) a subit une légérère modification au niveau
+de la sémantique. Il se trouve aussi désormais dans le dossier datas/. Je vous invite donc
+à conserver votre précédent fichier, à le placer à sa nouvelle place et à le corriger de sorte
+qu'il respecte la sémantique XHTML. Consultez le nouveau texte_accueil.html pour constater
+la modification (il s'agit du titre qui est maintenant encadré dans une vraie balise titre :
+<h5>...</h5>).
+
+	Pour le reste, vous pouvez tout supprimer intégralement et installer les nouveaux fichiers.
+	
 
 INSTALLATION
 ------------
@@ -162,26 +170,30 @@ de lire ces lignes, et c'est bien !
 client FTP favori) pour envoyer le contenu du dossier upload/ qui est le suivant :
 
 	/upload
-		/albulle	-> Le noyau dur ;-)
+		/albulle	-> Le dossier principal ;-)
 		index.php	-> l'appel du noyau dur !
 
 3/	C'est bon ? Les fichiers sont envoyés ? Bien passons à la suite et voyons le contenu
-de ce fameux noyau (je ne mets que ce qui nous intéresse, pour le détail avancé il faudra vous
-reporter à la documentation orienté développeur qui sera rédigée le plus tôt possible) :
+de ce dossier principal (je ne présente ici qu'une description succinte des différents
+éléments constitutifs du script ; une documentation avancée verra le jour dès que possible) :
 
 	/albulle
-		/...
-		/miniatures	-> Le dossier qui contiendra les miniatures
-		/photos		-> Le dossier qui contiendra vos albums photos
-		/...
+		/core				-> Le noyau d'Albulle. C'est ici que se trouve le "cerveau" du script.
+		/datas				-> Le dossier des données
+			/miniatures		-> Le dossier qui contiendra les miniatures
+			/photos			-> Le dossier qui contiendra vos albums photos
+			texte_accueil.html	-> Le texte d'accueil au format Xhtml.
+		/themes				-> Le dossier des thèmes pour changer l'apparence d'Albulle
+			/albulle		-> Le thème par défaut
+		config.php			-> Le fichier de configuration par défaut
 
 	Toujours avec votre client FTP favori, vous allez devoir modifier les droits d'accès au
-dossier miniatures/. Pour ce faire, accédez aux propriétés du dossier pour appliquer un chmod
+dossier datas/miniatures/. Pour ce faire, accédez aux propriétés du dossier pour appliquer un chmod
 minimum de 755 (si cela ne suffit pas, appliquez alors un chmod 777). Si vous ne faites pas
 cette manipulation, Albulle vous gratifiera d'un beau message d'erreur vous disant que le dossier
 miniatures/ n'est pas autorisé en écriture.
 
-	Pour ceux qui arrivent d'une version précédente, n'oubliez pas de supprimer tous les 
+	Pour ceux qui arrivent d'une version <= 0.8, n'oubliez pas de supprimer tous les 
 dossiers des miniatures qui ont été créés dans les sous-dossiers du dossier photos/. Sinon, ils 
 seront visibles dans l'arborescence.
 
@@ -269,8 +281,8 @@ INTEGRER ALBULLE DANS UN SITE INTERNET
 l'astuce qui traite ce sujet.
 
 
-CHANGER LE STYLE DE LA PAGE
----------------------------
+CREER UN THEME
+--------------
 
 	Pour créer un nouveau thème pour Albulle, je ne saurais que vous conseiller
 de prendre le thème par défaut, livré avec Albulle, d'en faire une copie au nom de
@@ -288,7 +300,7 @@ un aperçu de la façon dont est structurée un thème.
 	      /albulle		-> Le thème par défaut
 		/css		-> Ce dossier contient tous les fichiers css
 		/html		-> Contient les patrons au format xhtml des éléments
-					constitutifs des pages d'Albulle
+						constitutifs des pages d'Albulle
 		/images		-> Toutes les images du thème sont stockées là
 		/js		-> Se trouvent ici les codes javascripts
 
@@ -326,26 +338,20 @@ de l'XHTML et du CSS ;-) !
 alors repartir de ces PSD pour changer les polices de textes, ou les couleurs de fonds,
 par exemple !
 
+	/!\ Remarque très importante !
+
+!	Dernière chose mais non des moindres ! Vous devez IMPERATIVEMENT paramétrer votre éditeur
+!	pour que les fins de lignes soient de type Unix ! C'est-à-dire LF (line feed = retour
+!	chariot).
+!	Dans le cas contraire, vous verrez des pseudos-variables s'afficher dans la page alors
+!	qu'elles ne le devrait pas.
+!	Plus d'infos sur les fins de lignes : http://fr.wikipedia.org/wiki/Saut_de_ligne
+
 
 PROBLEMES CONNUS
 ----------------
 
-1/	Il se peut que, selon le serveur sur lequel vous allez mettre Albulle, vous ayez des
-problèmes avec les noms de dossiers qui comportent des accents et autres caractères spéciaux.
-Cela vient du fait que chaque serveur, selon sa nature (windows, linux, mac,...), peut avoir
-un encodage différent. Or, selon cet encodage, Albulle peut ne pas afficher correctement les
-dossiers. Cela ne devrait normalement pas porter préjudice au fonctionnement général et ne
-devrait pas empêcher la navigation.
-
-	Pour les mêmes raisons, il se peut aussi que les accents passent mals dans l'archive que
-vous générerez (selon sur quel type de machine vous ouvrirez l'archive ; chaque machine décodant
-plus ou moins bien les différents charset).
-
-	Si ce problème était bloquant chez vous (c'est-à-dire qu'une archive serait illisible car
-corrompue ou que la navigation provoquerait une erreur), n'hésitez pas à vous rendre sur le
-forum et signaler votre erreur ou m'ecrire un courriel.
-
-2/	Le thème par défaut à été conçu pour être compatible avec les 3 navigateurs références
+1/	Le thème par défaut à été conçu pour être compatible avec les 3 navigateurs références
 que sont Safari, Firefox et Internet Explorer. Malgré tout, il reste quelques éléments qui ne sont
 pas parfaits :
 

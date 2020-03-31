@@ -53,8 +53,8 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 28/09/2006
- * @version 1.5
+ * @since 31/10/2006
+ * @version 1.6
  *
  */
 
@@ -137,10 +137,13 @@ class Util {
 	 * @param	[STRING]	[$haut_mini_max]	Lauteur max de la miniature.
 	 * @param	[STRING]	[$prefixe]			Si ce champ est indiqué, on génère une miniature préfixé de la chaîne que contient cette variable
 	 *											sinon, on écrase le fichier d'entrée si le dossier de destination est le même que celui de l'image originale.
-	 *
+	 * @param	[INTEGER]	[$iQualite]			Uniquement pour les images Jpeg : permet de régler la qualité des miniatures sur une échelle de 0 à 100.
+	 * 												75 : par défaut
+	 * 												0 : mauvaise qualité, petit fichier
+	 * 												100 : meilleure qualité, gros fichier
 	 * @return	[STRING]						Chemin d'accès à la miniature qui vient d'être générée.
 	 */
-	function processImgFile( $type, $srcFile, $destFile, $larg_mini_max = 0, $haut_mini_max = 0, $prefix = '' )
+	function processImgFile( $type, $srcFile, $destFile, $larg_mini_max = 0, $haut_mini_max = 0, $prefix = '', $iQualite = 75 )
 	{
 
 		// Recuperation des infos du fichier de destination
@@ -179,7 +182,7 @@ class Util {
 			case 'image/pjpeg':
 			case 'image/jpeg':
 				// ecriture de la miniature au format jpeg
-				ImageJpeg( $img_dst, $destFile);
+				ImageJpeg( $img_dst, $destFile, $iQualite);
 				break;
 
 			case 'image/x-png':
@@ -483,6 +486,19 @@ class Util {
 	}
 
 	/**
+	 * Prépare un chemin d'accès à un fichier pour être utilisé comme Url (href ou src).
+	 *
+	 * @param	[STRING]	$sUrl			Le chemin à formater.
+	 * @param	[BOOLEAN]	$bSansSlashs	Si True, les slashs ne seront pas encodés.
+	 * @return	[STRING]					L'Url formatée.
+	 */
+	function preparerUrl( $sUrl, $bSansSlashs = false )
+	{
+		$sUrl = rawurlencode($sUrl);
+		return ( $bSansSlashs === true ) ? str_replace( '%2F', '/', $sUrl ) : $sUrl;
+	}
+
+	/**
 	 * Enlèver le préfixe d'une chaine.
 	 *
 	 * Permet d'effacer tout ce qui se trouve avant un séparateur dans une chaine.
@@ -671,13 +687,13 @@ class Util {
 
 	/**
 	 * Lit le type MIME d'une image.
-	 * 
+	 *
 	 * La fonction fonctionne de deux façons différentes :
 	 *  - si les extensions pour le support EXIF sont chargées : utilisation de la fonction exif_imagetype.
 	 * 		Tous les formats d'images sont alors supportés.
 	 * 	- si les extensions ne sont pas chargées : code perso qui lit l'extension du fichier pour en déterminer
 	 *      le type MIME. Seul sont détectées les jpg, gif et png.
-	 * 
+	 *
 	 * Les valeurs de retour possibles sont les suivantes :
 	 * 	- image/jpeg
 	 *  - image/gif
@@ -691,10 +707,10 @@ class Util {
 		if( function_exists('exif_imagetype') )
 			return image_type_to_mime_type(exif_imagetype($sCheminImg));
 		else {
-		
+
 			$aExplode = explode( '.', $sCheminImg );
 			$sExt = strtolower( $aExplode[sizeof( $aExplode ) - 1] );
-			 
+
 			switch ( $sExt )
 			{
 				case 'jpg':
@@ -703,7 +719,7 @@ class Util {
 				case 'gif': $sTypeMime = 'image/gif'; break;
 				case 'png': $sTypeMime = 'image/png'; break;
 			}
-			
+
 			return $sTypeMime;
 		}
 	}

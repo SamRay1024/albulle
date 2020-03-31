@@ -53,24 +53,24 @@
  *
  * @author		SamRay1024
  * @copyright	Bubulles Creation - http://jebulle.net
- * @since		03/10/2006
- * @version		1.0
+ * @since		12/11/2006
+ * @version		1.0.1
  *
  */
 
 class Url {
-	
+
 	/**
-	 * Définit si l'on doit construire une Url en respectant $_SERVER['REQUEST_URI'] ou 
+	 * Définit si l'on doit construire une Url en respectant $_SERVER['REQUEST_URI'] ou
 	 * en utilisant simplement $_SERVEUR['PHP_SELF'].
-	 * 
+	 *
 	 * Si cet attribut vaut True, alors il faut respecter $_SERVER['REQUEST_URI'].
 	 *
 	 * @var		boolean
 	 * @access	public
 	 */
 	var $bRequestUri = false;
-	
+
 	/**
 	 * Chaîne qui stockera les Url générées.
 	 *
@@ -78,7 +78,7 @@ class Url {
 	 * @access	public
 	 */
 	var $sUrl = '';
-	
+
 	/**
 	 * Le fichier exécuté avec son chemin d'accès depuis la racine.
 	 * (pour http://hostname.com/dir1/dir2/index.php, $sPath vaudra '/dir1/dir2/index.php')
@@ -87,7 +87,7 @@ class Url {
 	 * @access	public
 	 */
 	var $sPath = '';
-	
+
 	/**
 	 * Le tableau associatif qui contient les paramètres et leur valeurs passés dans l'Url.
 	 *
@@ -95,7 +95,15 @@ class Url {
 	 * @access	public
 	 */
 	var $aQuery = array();
-	
+
+	/**
+	 * Tableau indexé des paramètres qu'il faut systématiquement effacer de l'Url d'origine.
+	 *
+	 * @var		array
+	 * @access	public
+	 */
+	var $aParamQueryToClean = array();
+
 	/**
 	 * Tout ce qui se trouve après la hachure # (comme les ancres).
 	 *
@@ -103,29 +111,31 @@ class Url {
 	 * @access	public
 	 */
 	var $sFragment = '';
-	
+
 	/**
 	 * Constructeur.
 	 *
 	 * @param	boolean 	$bModeRequestUri	Indique le mode de construction de l'Url.
+	 * @param	array		$aParamsToClean		Tableau des paramètres qu'il faut systématiquement effacer de l'Url d'origine.
 	 * @return	Url
 	 */
-	function Url( $bModeRequestUri )
+	function Url( $bModeRequestUri, $aParamsToClean = array() )
 	{
 		if( !is_bool($bModeRequestUri) ) $bModeRequestUri = false;
-		
+		$this->aParamQueryToClean = $aParamsToClean;
+
 		if( ($this->bRequestUri = $bModeRequestUri) === true )
 		{
 			$aUrl = parse_url( $_SERVER['REQUEST_URI'] );
-			
+
 			$this->sPath		= $aUrl['path'];
-			$this->sFragment	= $aUrl['fragment'];
-			$this->aQuery		= $this->explodeParams( $aUrl['query'] );
+			$this->sFragment	= isset($aUrl['fragment'])	? $aUrl['fragment'] : '';
+			$this->aQuery		= isset($aUrl['query'])		? $this->explodeParams( str_replace('&amp;', '&', $aUrl['query']) ) : array();
 		}
 	}
-	
+
 	/**
-	 * Contruit une Url.
+	 * Construit une Url.
 	 *
 	 * @param	string	$sQuery		Paramètres à ajouter dans l'url.
 	 * @param	string	$sFragment	Element à ajouter après la hachure (remplace l'élément courant dans le cas du respect de REQUEST_URI).
@@ -134,36 +144,38 @@ class Url {
 	function construireUrl( $sQuery, $sFragment = '' )
 	{
 		if( $sFragment !== '' )	$this->sFragment = $sFragment;
-		
+
+		$sQuery = $this->nettoyerQuery($sQuery);
+
 		if( $this->bRequestUri === false )
-			
+
 			$this->sUrl = $_SERVER['PHP_SELF']
 							.( $sQuery !== '' ? '?'.$sQuery : '' )
 							.( $sFragment !== '' ? '#'.$sFragment : '' );
-		
+
 		else {
 			// Suppression des paramètres redéfinis dans la nouvelle chaîne du tableau des paramètres d'origine
 			$this->verifierDoublons( $this->explodeParams($sQuery) );
-			
+
 			// Génération des paramètres originaux moins les nouveaux
 			$sOriginalQuery = $this->implodeParams($this->aQuery);
-			
+
 			// Concaténation de l'url
 			$this->sUrl = $_SERVER['PHP_SELF'];
-			
+
 			if( !empty($sOriginalQuery) || !empty($sQuery) )	$this->sUrl .= '?';
 			if( !empty($sOriginalQuery) &&  empty($sQuery) )	$this->sUrl .= $sOriginalQuery;
 			if(  empty($sOriginalQuery) && !empty($sQuery) )	$this->sUrl .= $sQuery;
 			if( !empty($sOriginalQuery) && !empty($sQuery) )	$this->sUrl .= $sOriginalQuery.'&amp;'.$sQuery;
 			if( !empty($this->sFragment) ) 						$this->sUrl .= '#'.$this->sFragment;
 		}
-				
+
 		return $this->sUrl;
 	}
-	
+
 	/**
 	 * Transforme la chaine des paramètres d'une Url en un tableau associatif.
-	 * 
+	 *
 	 * Le tableau est de la forme Tab['paramètre'] = valeur.
 	 *
 	 * @param	string	$sQuery		Chaîne de paramètres de la forme param1=valeur1&param2=valeur2&...
@@ -172,21 +184,27 @@ class Url {
 	function explodeParams( $sQuery )
 	{
 		$aParams = array();
-		
-		$aTemp = explode( '&', $sQuery );
-		
-		foreach( $aTemp as $key => $value )
+
+		if( !empty($sQuery) )
 		{
-			$aParam = explode('=', $value);
-			$aParams[$aParam[0]] = (sizeof($aParam) > 0 ? $aParam[1] : '');
+			$aTemp = explode( '&', str_replace('&amp;', '&',$sQuery) );
+
+			foreach( $aTemp as $key => $value )
+			{
+				$aParam = explode('=', $value);
+				switch( sizeof($aParam) ) {
+					case 1: if( !empty($aParam[0]) ) $aParams[$aParam[0]] = ''; break;
+					case 2: if( !empty($aParam[1]) ) $aParams[$aParam[0]] = $aParam[1]; break;
+				}
+			}
 		}
-		
+
 		return $aParams;
 	}
-	
+
 	/**
 	 * Transforme un tableau associatif de paramètres d'Url en une chaîne formatée pour une Url.
-	 * 
+	 *
 	 * Le tableau reçu doit être de la forme Tab['paramètre'] = valeur.
 	 *
 	 * @param	array	$aParams	Le tableau associatif des paramètres.
@@ -195,37 +213,56 @@ class Url {
 	function implodeParams( $aParams )
 	{
 		$aTemp = array();
-		
+
 		foreach($aParams as $key => $value)
 			if( !empty($key) )
 				$aTemp[] = $key.( !empty($value) ? '='.$value : '' );
-			
+
 		return (sizeof($aTemp) > 0 ? implode( '&amp;', $aTemp ) : '');
 	}
-	
+
 	/**
-	 * Supprime les paramètres originaux qui sont redéfinis dans les nouveaux.
+	 * Supprime les paramètres originaux qui sont redéfinis dans les nouveaux ainsi
+	 * que les paramètres qui doivent être effacés.
 	 *
 	 * @param	array	$aParams	Tableau associatif des nouveaux paramètres.
 	 */
 	function verifierDoublons( $aParams )
 	{
-		// Récupérations paramètres originaux et nouveaux paramètres 
-		$aParamsOriginaux	= array_keys( $this->aQuery );
-		$aParamsNouveaux	= array_keys( $aParams );
-		
+		// Récupérations paramètres originaux et nouveaux paramètres
+		$aOriginalsParams	= array_keys( $this->aQuery );
+		$aNewsParams		= array_keys( $aParams );
+
 		// Recherche paramètres originaux qui sont aussi dans les nouveaux paramètres
-		$aParamsDoubles		= array_intersect( $aParamsOriginaux, $aParamsNouveaux );
-		
+		$aDoubleParams		= array_intersect( $aOriginalsParams, $aNewsParams );
+
+		// Recherche paramètres à supprimer
+		$aUnsetParams		= array_intersect( $aOriginalsParams, $this->aParamQueryToClean );
+
 		// Suppression des paramètres en double
-		foreach( $aParamsDoubles as $key => $value )
+		foreach( $aDoubleParams as $key => $value )
 			unset( $this->aQuery[$value] );
+
+		// Suppression des paramètres qui doivent toujours être supprimés
+		foreach( $aUnsetParams as $key => $value )
+			if( isset($this->aQuery[$value]) )	unset( $this->aQuery[$value] );
 	}
-	
-	function pre($tab)
+
+	/**
+	 * Enlève de la chaine reçue les paramètres dont la valeur est vide.
+	 *
+	 * @param	string	$sQuery		Chaîne de paramètres de la forme param1=valeur1&param2=valeur2&...
+	 * @return	string				La chaîne nettoyée.
+	 */
+	function nettoyerQuery( $sQuery )
 	{
-		echo '<pre>';
-		print_r($tab);
-		echo '</pre>';
+		$aClean = array();
+		$aParams = explode( '&', str_replace('&amp;', '&', $sQuery) );
+
+		foreach($aParams as $key => $value) {
+			if( preg_match('`^.*=$`', $value ) == 0 )	$aClean[] = $value;
+		}
+
+		return  implode( '&amp;', $aClean);
 	}
 }

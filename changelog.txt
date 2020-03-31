@@ -1,8 +1,31 @@
 :: Albulle
-:: Version 0.9.2
+:: Version 1.0-rc1
 
 WHAT's NEW :
 ------------
+
+Version 1.0-rc1 - 15/11/2006
+
+	* Correction de l'appel invalide du fichier blank.gif dans les css du thème par défaut,
+	* Correction de l'affichage de l'icone ajout / retrait du panier sur les vignettes,
+	* Correction erreur fonction inclure lors du téléchargement,
+	* Correction sémantique XHTML du texte d'accueil,
+	* Correction pixel d'écart sur le bloc détail de la boite lightbox,
+	* Corrections class url.class.php (undefined index),
+	* Amélioration gestion des vignettes,
+	* Ajout de la gestion des accents pour les noms de dossiers et fichiers,
+	* Ajout de la gestion de la qualité des miniatures dans la configuration,
+	* Ajout de paramètres pour que l'ouverture des images puisse être différente selon le
+	  mode d'affichage des images (galerie ou diaporama),
+	* Ajout de la possibilité de fermer le site,
+	* Ajout de la possibilité de convertir la page finale en iso pour faciliter l'intégration
+	  dans un site,
+	* Ajout de la vérification de la présence des fichiers présents dans le panier pour ne pas
+	  provoquer d'erreur si un fichier présent dans un panier est supprimé du disque,
+	* Modification de la struture des fichiers pour faciliter les mises-à-jour,
+	* Adaptation de la classe du panier et de celle de génération des archives à cette
+	  nouvelle structure,
+	* Optimisations & corrections diverses.
 
 Version 0.9.2 - 06/10/2006
 

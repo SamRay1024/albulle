@@ -14,7 +14,7 @@
  * Les éléments de configuration sont classés par thème. N'hésitez pas à lire
  * les commentaires associés à chaque paramètre pour être sûr de ne pas fausser
  * la configuration.
- * 
+ *
  * Tous les éléments (sauf quelques uns particuliers) sont surchargables. Il
  * est alors possible de définir des configurations relatives aux thèmes que vous possédez.
  * Pour ce faire, vous devez créer un fichier du nom de 'config_thm.php' à la racine
@@ -26,6 +26,10 @@ if( !defined( '_JB_INCLUDE_AUTH' ) ) {
 	header( 'Content-type: text/html; charset=utf-8' );
 	exit( 'Vous n\'êtes pas autorisé à afficher cette page.' );
 }
+
+// Fermer vos galeries
+if( !defined('JB_AL_FERMER') )					define( 'JB_AL_FERMER',					false );
+if( !defined('JB_AL_MSG_FERMETURE') )			define( 'JB_AL_MSG_FERMETURE',			'Les galeries sont temporairement fermées. Elle seront réouvertes dès que possible. <br /><br />Merci de votre patience et de votre compréhension.' );
 
 
 // ================
@@ -41,12 +45,12 @@ if( !defined('JB_AL_DOSSIER_THEME_ACTIF') )		define( 'JB_AL_DOSSIER_THEME_ACTIF'
 
 // Inclusion d'un éventuel fichier de configuration relatif au thème courant
 if( file_exists(JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'config_thm.php') )
-	inclure( JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'config_thm.php' );
+	require_once( JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'config_thm.php' );
 
-if( !defined('JB_AL_DOSSIER_PHOTOS') )			define( 'JB_AL_DOSSIER_PHOTOS',			'photos/' );			// Le nom du dossier qui contiendra vos albums photos.
-if( !defined('JB_AL_DOSSIER_MINIATURES') )		define( 'JB_AL_DOSSIER_MINIATURES',		'miniatures/' );		// Le nom du dossier qui contiendra les miniatures générées.
+if( !defined('JB_AL_DOSSIER_PHOTOS') )			define( 'JB_AL_DOSSIER_PHOTOS',			'datas/photos/' );			// Le nom du dossier qui contiendra vos albums photos.
+if( !defined('JB_AL_DOSSIER_MINIATURES') )		define( 'JB_AL_DOSSIER_MINIATURES',		'datas/miniatures/' );		// Le nom du dossier qui contiendra les miniatures générées.
 
-if( !defined('JB_AL_FICHIER_ACCUEIL') )			define( 'JB_AL_FICHIER_ACCUEIL',		'texte_accueil.html' );	// Chemin d'accès au fichier qui contiendra le texte d'accueil.
+if( !defined('JB_AL_FICHIER_ACCUEIL') )			define( 'JB_AL_FICHIER_ACCUEIL',		'datas/texte_accueil.html' );	// Chemin d'accès au fichier qui contiendra le texte d'accueil.
 
 
 // ================
@@ -113,17 +117,24 @@ if( !defined('JB_AL_PREFIXES_SEPARATEUR') )		define( 'JB_AL_PREFIXES_SEPARATEUR'
 // MODES D'AFFICHAGE DES IMAGES
 //
 
+// Pour le mode galerie
+
 // Ouvrir les images dans une nouvelle fenêtre sans Javascript. La nouvelle fenêtre ne sera
 // pas aux dimensions de l'images et les barres d'outils seront visibles. L'utilisation de cette
 // option invalide la compatibilité XHTML Strict à cause du target="_blank".
-if( !defined('JB_AL_OUVERTURE_BLANK') )			define( 'JB_AL_OUVERTURE_BLANK',		false );
+if( !defined('JB_AL_OUVERTURE_BLK') )			define( 'JB_AL_OUVERTURE_BLK',			false );
 
 // Ouvrir les images dans une nouvelle fenêtre par Javascript.
 // Cela permet à l'inverse du paramètre précédent de disposer d'une fenêtre sans barres d'outils
 // et aux dimensions de l'images. Vous conservez la validité XHTML, mais vous prenez le risque de
 // rendre Albulle inutilisable pour les personnes qui auraient interdit l'exécution de code Javascript.
-if( !defined('JB_AL_OUVERTURE_JAVASCRIPT') )	define( 'JB_AL_OUVERTURE_JAVASCRIPT',	true );
-if( !defined('JB_AL_OUVERTURE_LIGHTBOX') )		define( 'JB_AL_OUVERTURE_LIGHTBOX',		true );		// Uniquement si l'ouverture javascript est activée : essayer-ce mode, c'est l'adopter !
+if( !defined('JB_AL_OUVERTURE_JS') )			define( 'JB_AL_OUVERTURE_JS',			true );
+if( !defined('JB_AL_OUVERTURE_LBX') )			define( 'JB_AL_OUVERTURE_LBX',			true );		// Uniquement si l'ouverture javascript est activée : essayer-ce mode, c'est l'adopter !
+
+// Pour le mode diaporama
+if( !defined('JB_AL_OUVERTURE_BLK_DIAPO') )		define( 'JB_AL_OUVERTURE_BLK_DIAPO',	false );
+if( !defined('JB_AL_OUVERTURE_JS_DIAPO') )		define( 'JB_AL_OUVERTURE_JS_DIAPO',		false );
+if( !defined('JB_AL_OUVERTURE_LBX_DIAPO') )		define( 'JB_AL_OUVERTURE_LBX_DIAPO',	false );
 
 // Vous pouvez redimensionner l'image qui s'affichera dans la popup
 // Mettez les deux valeurs à 0 pour prendre la taille réelle.
@@ -150,6 +161,10 @@ if( !defined('JB_AL_VIGNETTES_HAUTEUR') )		define( 'JB_AL_VIGNETTES_HAUTEUR',		1
 if( !defined('JB_AL_VIGNETTES_DP_LARGEUR') )	define( 'JB_AL_VIGNETTES_DP_LARGEUR', 	78 );		// Idem paramètres précédents
 if( !defined('JB_AL_VIGNETTES_DP_HAUTEUR') )	define( 'JB_AL_VIGNETTES_DP_HAUTEUR',	59 );		// Idem
 
+// Qualite des vignettes (uniquement pour les images Jpeg)
+// Permet de régler la qualité des miniatures sur une échelle de 0 à 100.
+// 0 : mauvaise qualité, petit fichier - 100 : meilleure qualité, gros fichier
+if( !defined('JB_AL_VIGNETTES_QUALITE') )		define( 'JB_AL_VIGNETTES_QUALITE',		80 );
 
 // /!\
 // Si vous changez la largeur ou la hauteur, il faut supprimer toutes les miniatures existantes pour les regénérer
@@ -176,6 +191,11 @@ define( 'JB_AL_PANIER_NO_READFILE', false);
 // à 'true'. Cela aura pour effet d'enlever les entêtes HTML lors de la génération des pages
 // d'Albulle pour qu'il n'y ait pas de redondance avec votre propre site.
 if( !defined('JB_AL_INTEGRATION_SITE') )		define( 'JB_AL_INTEGRATION_SITE',		false );
+
+// Par défaut, Albulle produit du contenu en utf8. En metttant ce paramètre à vrai vous pourrez
+// récupérer le contenu en iso-8859-1 si vous n'utilisez pas l'utf8 pour votre site. Cette
+// conversion est cependant plus gourmande que de laisser l'utf8.
+if( !defined('JB_AL_SORTIE_ISO') )				define( 'JB_AL_SORTIE_ISO',				false );
 
 // Ce paramètre permet d'activer la conservation d'éventuels paramètres utilisé par le site
 // hôte dans lequel vous vous insérez. Désactivez-le si vous êtes en mode standard.

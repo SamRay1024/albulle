@@ -416,7 +416,7 @@ Lightbox.prototype = {
 			document.images["lightboxImage"].width = iImgLarg;
 			document.images["lightboxImage"].height = iImgHaut;
 
-			myLightbox.resizeImageContainer(iImgLarg, iImgHaut);
+			myLightbox.resizeImageContainer( parseInt(iImgLarg), iImgHaut );
 			//myLightbox.resizeImageContainer(imgPreloader.width, imgPreloader.height);
 		}
 		imgPreloader.src = imageArray[activeImage][0];

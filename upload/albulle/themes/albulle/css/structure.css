@@ -66,7 +66,8 @@
 	padding:				10px;
 }
 
-#albulle .texte p 			{ margin: 5px 0px; }
+#albulle .texte h5			{ margin: 0px; padding: 0px; }
+#albulle .texte p 			{ margin: 10px 0px; }
 
 /* Cadre générique */
 #albulle .cadre					{ margin: 3px 3px 0px 0px; }

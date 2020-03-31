@@ -10,7 +10,9 @@
 					</div>
 					<!-- FINSI PLUSIEURS_DIAPOS -->
 
-					<img src="{SOURCE_DIAPO}" id="image" alt="Image de {SOURCE_DIAPO}" />
+					<a href="{HREF_IMAGE}"{TARGET_BLANK}{LIGHTBOX}{JAVASCRIPT}>
+						<img src="{SOURCE_DIAPO}" id="image" alt="Image de {ALT_DIAPO}" />
+					</a>
 
 					<!-- SI PLUSIEURS_DIAPOS -->
 					<div class="navDiapos">
@@ -45,7 +47,7 @@
 					<!-- FINSI DIAPO_NON_VIDE -->
 
 					<!-- SI DIAPO_VIDE -->
-					<p>Choisissez une image dans la liste pour la visualiser !</p>
+					<p class="puceNoPhoto">Choisissez une image dans la liste pour la visualiser !</p>
 					<!-- FINSI DIAPO_VIDE -->
 
 				</div><!-- diapositive du mode diaporama -->

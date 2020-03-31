@@ -120,17 +120,17 @@ function verifications()
  * Cette fonction permet de contruire une liste HTML <ul>...</ul> dont les éléments <li>...</li>
  * représentent les sous-dossiers présents dans celui de base.
  *
- * @param [STRING]		$sBaseRep						Répertoire de base
- * @param [STRING]		$sRepCourant					Répertoire sélectionné
- * @param [INTEGER]		$iNiveau						Profonfeur du répertoire demandé
- * @param [ARRAY]		$aDossiersInterdits				Tableau des dossiers à ne pas afficher
- * @param [ARRAY]		$aExtensionsFichiersAutorises	Extension des fichiers autorisés
- * @param [BOOLEAN]		$bAfficherNbFichiers			Afficher le nombre de fichiers dans un dossier
- * @param [BOOLEAN]		$bAfficherNbSiVide				Afficher ce nombre même si le dossier est vide
- * @param [BOOLEAN] 	$bDeroulerTout					Dérouler tous les noeuds ou seulement celui sélectionné
- * @param [BOOLEAN] 	$bFiltrerPrefixes				Filtrer les noms des dossiers
- * @param [STRING]		$sSeparateurFiltres				Si le paramètre précédent est vrai, le séparateur qui sépare préfixe et nom du dossier.
- * @return [STRING]										La chaîne HTML de l'arborescence complète.
+ * @param	[STRING]	$sBaseRep						Répertoire de base
+ * @param	[STRING]	$sRepCourant					Répertoire sélectionné
+ * @param	[INTEGER]	$iNiveau						Profonfeur du répertoire demandé
+ * @param	[ARRAY]		$aDossiersInterdits				Tableau des dossiers à ne pas afficher
+ * @param	[ARRAY]		$aExtensionsFichiersAutorises	Extension des fichiers autorisés
+ * @param	[BOOLEAN]	$bAfficherNbFichiers			Afficher le nombre de fichiers dans un dossier
+ * @param	[BOOLEAN]	$bAfficherNbSiVide				Afficher ce nombre même si le dossier est vide
+ * @param	[BOOLEAN] 	$bDeroulerTout					Dérouler tous les noeuds ou seulement celui sélectionné
+ * @param	[BOOLEAN] 	$bFiltrerPrefixes				Filtrer les noms des dossiers
+ * @param	[STRING]	$sSeparateurFiltres				Si le paramètre précédent est vrai, le séparateur qui sépare préfixe et nom du dossier.
+ * @return	[STRING]									La chaîne HTML de l'arborescence complète.
  */
 function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInterdits, $aExtensionsFichiersAutorises,
 								$bAfficherNbFichiers, $bAfficherNbSiVide, $bDeroulerTout, $bFiltrerPrefixes, $sSeparateurFiltres = '' )
@@ -172,7 +172,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 	if( $iNiveau > 1 )
 		$sArborescenceHTML = str_replace(
 								'{HREF_REMONTER}',
-								$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $sRepParent )).$aActions['diaporama'] ),
+								$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sRepParent).$aActions['diaporama'] ),
 								$sLiRemonter
 							)."\n";
 
@@ -214,8 +214,8 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 								array( '`{ID_COURANT}`', '`{HREF_DOSSIER}`', '`{NOM_DOSSIER}`', '`{NB_IMAGES}`' ),
 								array(
 									$sCssIdCourant,
-									$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $sLienNiveau1 )).$aActions['diaporama'] ),
-									str_replace( '_', ' ', $sNomRep ),
+									$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLienNiveau1).$aActions['diaporama'] ),
+									utf8_encode(str_replace( '_', ' ', $sNomRep )),
 									$sNbPhotos
 								),
 								$sLiCourant
@@ -250,8 +250,8 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 										array( '`{ID_COURANT}`', '`{HREF_DOSSIER}`', '`{NOM_DOSSIER}`', '`{NB_IMAGES}`' ),
 										array(
 											'',
-											$oUrl->construireUrl( 'rep='.rawurlencode(stripslashes( $sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j] )).$aActions['diaporama'] ),
-											str_replace( '_', ' ', $sNomSousRep ),
+											$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j]).$aActions['diaporama'] ),
+											utf8_encode(str_replace( '_', ' ', $sNomSousRep )),
 											$sNbPhotos
 										),
 										$sLiCourant
