@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL | E_NOTICE);
 
 ////////////////////////////////////////
 // Encodage du fichier : UTF-8
@@ -54,8 +55,8 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name Albulle
- * @since 11/11/2006
- * @version 1.0rc1
+ * @since 30/11/2006
+ * @version 1.0rc2
  */
 
 // Fonction qui affiche les erreurs et quitte le programme
@@ -116,7 +117,7 @@ $_MINIATURES	= array();	// Tableau qui contiendra les miniatures
 $_JB_AL_GET		= array();	// Tableau qui contiendra les paramètres reçus dans l'URL
 $_JB_AL_POST	= array();	// Tableau qui contiendra les paramètres reçus par les formulaires
 
-$_JB_AL_VARS['s_version']		= '1.0rc1';
+$_JB_AL_VARS['s_version']		= '1.0rc2';
 
 $_JB_AL_VARS['s_acces_theme']	= JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF;
 $_JB_AL_VARS['s_arborescence'] = $_JB_AL_VARS['s_menu_panier'] = '';
@@ -138,8 +139,9 @@ $oUrl		= new Url(JB_AL_CONSERVER_URL_HOTE, array('rep', 'page', 'act', 'img', 'd
 set_magic_quotes_runtime(0);
 ini_set('session.use_trans_sid', '0');
 
-// Envoi des entêtes HTTP que si on n'est pas en intégration et que si les entêtes n'ont pas déjà été envoyées
-(JB_AL_INTEGRATION_SITE === true && !headers_sent()) or header( 'Content-type: text/html; charset=utf-8' );		// Force l'encodage de sortie à l'UTF-8
+// Envoi des entêtes HTTP
+$sCharset = ( JB_AL_INTEGRATION_SITE === true && JB_AL_SORTIE_ISO === true ) ? 'iso-8859-1' : 'utf-8';
+if(!headers_sent()) header( 'Content-type: text/html; charset='.$sCharset );		// Force l'encodage de sortie à l'UTF-8
 
 
 // ====================
@@ -167,7 +169,7 @@ if($_JB_AL_VARS['b_mode_diaporama']) $aActions['diaporama'] = '&amp;diaporama';
 // ====================
 // GESTION DU PANIER
 //
-$oPanier = new PanierDeFichiers( JB_AL_PANIER_CAPACITE_MAX, JB_AL_PANIER_POIDS_MAX );
+$oPanier = new PanierDeFichiers( JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS, JB_AL_PANIER_CAPACITE_MAX, JB_AL_PANIER_POIDS_MAX );
 
 // Lancement des actions.
 // L'action de télechargement est désormais située dans le fichier download.php (ou le nom que nous lui avez donné).
@@ -250,15 +252,6 @@ $aListePhotos							= !$_JB_AL_GET['b_voir_panier'] ? $aResultats['fichiers_doss
 //
 $iNbPhotos = sizeof( $aListePhotos );
 
-// Si exploration du panier demandée, il faut nettoyer tous les chemins de la liste du panier
-// pour enlever le dossier racine des photos
-if($_JB_AL_GET['b_voir_panier']) {
-	$iPosCoupe = strpos($aListePhotos[0], JB_AL_DOSSIER_PHOTOS) + strlen(JB_AL_DOSSIER_PHOTOS);
-
-	for( $i = 0 ; $i < $iNbPhotos ; $i++ )
-		$aListePhotos[$i] = substr($aListePhotos[$i], $iPosCoupe);
-}
-
 if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS.$_JB_AL_GET['s_rep_courant'] )) || $_JB_AL_GET['b_voir_panier']) &&  $iNbPhotos > 0 )
 {
 	// Choix des dimensions des miniatures
@@ -339,29 +332,22 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 		// avant d'afficher chaque vignette, on l'ajoute au panier. Idem si on demande le
 		// retrait.
 		//
+		$sChemin = substr($sCheminPhoto, strpos($sCheminPhoto, JB_AL_DOSSIER_PHOTOS) + strlen(JB_AL_DOSSIER_PHOTOS) );
+		
 		switch ( $_JB_AL_GET['s_action'] )
 		{
-			case 'tout':	$oPanier->Ajouter( $sCheminPhoto ); break;
-			case 'rien':	$oPanier->Supprimer( $sCheminPhoto ); if($_JB_AL_GET['b_voir_panier']) continue; break;
+			case 'tout':	$oPanier->Ajouter( $sChemin ); break;
+			case 'rien':	$oPanier->Supprimer( $sChemin ); if($_JB_AL_GET['b_voir_panier']) continue; break;
 		}
 
-		//
 		// Définition des chaines d'ajout et de retrait de l'image dans le panier
-		//
 		if( JB_AL_MODE_CENTRE === true )
-		{
-			$sChemin	= JB_AL_ROOT.JB_AL_DOSSIER_CENTRE.$oOutils->SousChaineGauche( basename($aListePhotos[$i]), '.', 1 ).JB_AL_EXTENSION_FICHIERS;
+			$sChemin		= JB_AL_ROOT.JB_AL_DOSSIER_CENTRE.$oOutils->SousChaineGauche( basename($aListePhotos[$i]), '.', 1 ).JB_AL_EXTENSION_FICHIERS;
 
-			$sUrlAjout		= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=ajouter&amp;img='.$oOutils->preparerUrl($sChemin).$aActions['voir'].$aActions['diaporama'] );
-			$sUrlRetrait	= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;act=supprimer&amp;img='.$oOutils->preparerUrl($sChemin).$aActions['voir'].$aActions['diaporama'] );
-		}
-		else
-		{
-			$sParamDiapo = ($_JB_AL_GET['s_diapo_courante'] !== '') ? '&amp;diapo='.basename($_JB_AL_GET['s_diapo_courante']) : '';
-
-			$sUrlAjout		= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].$sParamDiapo.'&amp;act=ajouter&amp;img='.$oOutils->preparerUrl($sCheminPhoto).$aActions['voir'].$aActions['diaporama'] );
-			$sUrlRetrait	= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].$sParamDiapo.'&amp;act=supprimer&amp;img='.$oOutils->preparerUrl($sCheminPhoto).$aActions['voir'].$aActions['diaporama'] );
-		}
+		$sParamDiapo	= ($_JB_AL_GET['s_diapo_courante'] !== '') ? '&amp;diapo='.basename($_JB_AL_GET['s_diapo_courante']) : '';
+		
+		$sUrlAjout		= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].$sParamDiapo.'&amp;act=ajouter&amp;img='.$oOutils->preparerUrl($sChemin).$aActions['voir'].$aActions['diaporama'] );
+		$sUrlRetrait	= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].$sParamDiapo.'&amp;act=supprimer&amp;img='.$oOutils->preparerUrl($sChemin).$aActions['voir'].$aActions['diaporama'] );
 
 		//
 		// Sauvegarde l'indice de la photo visionnée si on est en mode diaporama
@@ -456,7 +442,7 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 		$_MINIATURES[$j]['EXIF']				= $oOutils->afficherExif($sCheminPhoto);
 
 		// Lien pour l'ajout/retrait du panier
-		if( $oPanier->EstDansLePanier( $sCheminPhoto ) !== false ) {
+		if( $oPanier->EstDansLePanier( $sChemin ) !== false ) {
 			$_MINIATURES[$j]['PANIER']['MODE']	= 'retrait';
 			$_MINIATURES[$j]['PANIER']['URL']	=  $sUrlRetrait;
 		}
@@ -632,6 +618,6 @@ else
 // Affichage
 //
 $sPageFinale = file_exists($_JB_AL_VARS['s_acces_theme'].'html.php') ? require_once( $_JB_AL_VARS['s_acces_theme'].'html.php' ) : require_once( 'includes/html.php' );
-return JB_AL_SORTIE_ISO === true ? utf8_decode($sPageFinale) : $sPageFinale;
+return (JB_AL_INTEGRATION_SITE === true && JB_AL_SORTIE_ISO === true) ? utf8_decode($sPageFinale) : $sPageFinale;
 
 ?>

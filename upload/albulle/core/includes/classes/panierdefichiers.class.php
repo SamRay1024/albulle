@@ -49,8 +49,8 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 15/11/2006
- * @version 1.0rc1
+ * @since 29/11/2006
+ * @version 1.0rc2
  *
  */
 
@@ -62,6 +62,14 @@ define( 'COMPRESS_LIB', 'OMzip.php' );
 
 class PanierDeFichiers {
 
+	/**
+	 * Dossier racine où sont stockés les fichiers ajoutés au panier.
+	 *
+	 * @var	[STRING]
+	 * @access [PRIVATE]
+	 */
+	var $_sRoot = '';
+	
 	/**
 	 * Nombre maximum de fichiers dans le panier.
 	 *
@@ -84,11 +92,12 @@ class PanierDeFichiers {
 	 * Peut recevoir un nombre maximum de fichiers pour limiter le contenu du panier.
 	 * Si aucun paramètre ou que le nombre passé vaut 0 ou est négatif le panier est illimité.
 	 *
+	 * @param [STRING]	$sRoot			Dossier racine où se situent les fichiers du panier.
 	 * @param [INTEGER]	$iNbFichiersMax	Nombre de fichiers que l'on peut mettre dans le panier.
 	 * @param [FLOAT]	$fPoidsMax		Poids maximum en Mo que peut prendre l'archive du panier.
 	 * @return [VOID]
 	 */
-	function PanierDeFichiers( $iNbFichiersMax = 0, $fPoidsMax = 0 )
+	function PanierDeFichiers( $sRoot, $iNbFichiersMax = 0, $fPoidsMax = 0 )
 	{
 		// verification que le module de compression est actif sur le serveur
 		if( !extension_loaded( 'zlib' ) )
@@ -96,6 +105,8 @@ class PanierDeFichiers {
 
 		// s'il n'y a pas de session démarrée, il faut la créer
 		if( session_id() === '' )	session_start();
+		
+		$this->_sRoot = $sRoot;
 
 		// creation du panier s'il n'existe pas déjà
 		if( !isset( $_SESSION[NOM_PANIER_SESSION] ) )	$_SESSION[NOM_PANIER_SESSION] = array();
@@ -164,22 +175,26 @@ class PanierDeFichiers {
 	 * le navigateur du client qui demande le téléchargement de son panier.
 	 *
 	 * @param [STRING]	$sNomArchive		Nom à donner à l'archive sans extension. Valeur par défaut : 'Panier'.
-	 * @param [ARRAY]	$aChangerPanier		Utilisez ce tableau si vous avez besoin de modifier les éléments du panier
-	 * 											sans modifier le panier pour que l'archive puisse être créée.
-	 * 											L'utilisation de ce tableau devient prioritaire sur le tableau
-	 * 											interne du panier.
 	 * @param [ARRAY]	$aNomsInternes		Utilisez ce tableau si la structure interne de l'archive doit être différente de la structure
 	 * 											des fichiers d'origine. Pour fonctionner, ce tableau doit contenir autant d'éléments que
 	 * 											le panier. Chacun d'eux correspond au nouveau chemin + nom de l'élément dans l'archive.
 	 * @return [VOID]
 	 */
-	function CreerArchive( $sNomArchive = 'Panier', $aChangerPanier = array(), $aNomsInternes = array() )
+	function CreerArchive( $sNomArchive = 'Panier', $aNomsInternes = array() )
 	{
 		// inclusion de la librairie de compression zip
 		require_once ( COMPRESS_LIB );
 
 		// Initialisation tableau des éléments
-		$aElementsPourArchive = (sizeof($aChangerPanier) > 0) ? $aChangerPanier : $_SESSION[NOM_PANIER_SESSION];
+		$aElementsPourArchive = $_SESSION[NOM_PANIER_SESSION];
+		foreach( $aElementsPourArchive as $key => $value )
+			$aElementsPourArchive[$key] = $this->_sRoot.$value;
+		
+		// On place tous les éléments du panier dans un dossier racine du même nom que l'archive
+		if( sizeof($aNomsInternes) == 0 ) {
+			foreach( $_SESSION[NOM_PANIER_SESSION] as $key => $value )
+				$aNomsInternes[] = $sNomArchive.'/'.$_SESSION[NOM_PANIER_SESSION][$key];
+		}
 
 		// tri des index du panier qui peuvent n'être plus bon aps des suppressions
 		sort($aElementsPourArchive);
@@ -205,7 +220,7 @@ class PanierDeFichiers {
 	 function CalculerPoids()
 	 {
 	 	$fPoids = 0;
-	 	foreach( $_SESSION[NOM_PANIER_SESSION] as $key => $value )	$fPoids += filesize($value);
+	 	foreach( $_SESSION[NOM_PANIER_SESSION] as $key => $value )	$fPoids += filesize($this->_sRoot.$value);
 	 	return $fPoids * (97/100);	// On ramène le poids de l'archive à 97% de la taille totale (ratio généralement constaté pour zip & tar)
 	 }
 
@@ -251,7 +266,7 @@ class PanierDeFichiers {
 	function verifierPanier()
 	{
 		foreach($_SESSION[NOM_PANIER_SESSION] as $key => $value) {
-			if( !file_exists($value))
+			if( !file_exists($this->_sRoot.$value))
 				unset( $_SESSION[NOM_PANIER_SESSION][$key] );
 		}
 

@@ -1,8 +1,13 @@
 :: Albulle
-:: Version 1.0-rc1
+:: Version 1.0-rc2
 
 WHAT's NEW :
 ------------
+
+Version 1.0-rc2 - 30/11/2006
+
+	* Correction bogue du panier vide,
+	* Corrections pour la gestion de la sortie iso-8859-1 pour l'intégration dans un site.
 
 Version 1.0-rc1 - 15/11/2006
 

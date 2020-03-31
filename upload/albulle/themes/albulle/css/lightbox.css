@@ -70,7 +70,7 @@
 
 #imageData #linkRealSize{ display: block; float: left; padding-bottom: 1.0em; }
 #imageData #linkRealSize a { text-decoration: none; color: #c33; }
-#imageData #linkRealSize a:before { content: "» "; }
+#imageData #linkRealSize a:before { content: "\BB\20"; }
 #imageData #linkRealSize a:hover { text-decoration: underline; }
 
 #imageData #bottomNavClose{ width: 90px; float: right;  padding-bottom: 0.7em;	}
