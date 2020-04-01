@@ -1,8 +1,13 @@
 :: Albulle
-:: Version 1.0-rc2
+:: Version 1.0-rc3
 
 WHAT's NEW :
 ------------
+
+Version 1.0-rc3 - 06/01/2007
+
+	* Correction bogue des entêtes envoyées lors du téléchargement de l'archive pour les installations
+	  sur serveur Windows.
 
 Version 1.0-rc2 - 30/11/2006
 

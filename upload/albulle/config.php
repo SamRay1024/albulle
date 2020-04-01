@@ -161,6 +161,9 @@ if( !defined('JB_AL_VIGNETTES_HAUTEUR') )		define( 'JB_AL_VIGNETTES_HAUTEUR',		1
 if( !defined('JB_AL_VIGNETTES_DP_LARGEUR') )	define( 'JB_AL_VIGNETTES_DP_LARGEUR', 	78 );		// Idem paramètres précédents
 if( !defined('JB_AL_VIGNETTES_DP_HAUTEUR') )	define( 'JB_AL_VIGNETTES_DP_HAUTEUR',	59 );		// Idem
 
+// N.b. : si vous changez les dimensions des vignettes, vous devrez très certainement faire des adaptations dans
+// les CSS (fichier structure.css).
+
 // Qualite des vignettes (uniquement pour les images Jpeg)
 // Permet de régler la qualité des miniatures sur une échelle de 0 à 100.
 // 0 : mauvaise qualité, petit fichier - 100 : meilleure qualité, gros fichier

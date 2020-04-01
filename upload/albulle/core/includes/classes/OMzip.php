@@ -81,7 +81,7 @@ function OnTheFlyZIP ($name, $files, $infiles = array() )
     if (!empty($name))
     {
         header( 'Content-length: '.$zipsize);
-        flush();
+//        flush();
         sleep(1);
 
         $zip = new zipfile ($name, true);

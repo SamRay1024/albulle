@@ -1,5 +1,5 @@
 :: Albulle - Lisez moi
-:: Version 1.0rc2
+:: Version 1.0rc3
 :: Auteur : SamRay1024
 :: http://jebulle.net - http://forums.jebulle.net
 :: webmaster@jebulle.net
@@ -160,6 +160,11 @@ la modification (il s'agit du titre qui est maintenant encadré dans une vraie ba
 
 	- Remplacez le dossier /core par le nouveau
 	- Remplacez le fichier lightbox.css du thème albulle par le nouveau
+
+* Vous utilisez actuellement la version 1.0rc2, la liste des fichiers modifiés est la suivante :
+
+	- albulle/core/explore.php
+	- albulle/core/classes/OMzip.php
 	
 
 INSTALLATION
@@ -339,7 +344,7 @@ un aperçu de la façon dont est structurée un thème.
 		Ces deux commentaires représentent un bloc conditionnel. Vous devez au même titre
 		que les pseudos-variables les conserver et organiser votre code XHTML autour pour
 		respecter l'ordre d'affichage des données.
-		Ces blocs sont nommés ('QUELQUE_CHOSE') et reconnu par Albulle. Ils permettent d'avoir
+		Ces blocs sont nommés ('QUELQUE_CHOSE') et reconnus par Albulle. Ils permettent d'avoir
 		dans un patron des éléments qui vont être affichés ou cachés selon une condition
 		donnée.
 
@@ -377,6 +382,18 @@ pas parfaits :
 
 	Si vous êtes pro CSS et que vous avez des corrections à apporter, n'hésitez pas, je
 suis ouvert aux critiques et suggestions !
+
+2/	Les accents présents dans vos noms de dossiers et fichiers peuvent ne pas apparaître correctement
+sur les pages d'Albulle. Le script à été optimisé pour que ce problème soit minimisé au maximum mais il
+est toujours possible que, selon l'encodage du serveur sur lequel vous installez Albulle, vous ayez des 
+caractères bizarres.
+
+	Une solution (trouvée par un utilisateur d'Albulle) consiste à écrire les caractères accentués
+directement avec leur équivalents Html : &eacute; pour é, &egrave pour è, &ecirc; pour ê, etc.
+
+	Consultez la page suivante pour connaître toutes ces équivalences :
+
+	http://fr.selfhtml.org/html/generalites/signes.htm
 
 
 AUTRES QUESTIONS
