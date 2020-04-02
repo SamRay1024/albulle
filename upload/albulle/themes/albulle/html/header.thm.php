@@ -8,7 +8,7 @@
 
 {>METAS}
 
-		<title>.: AlBulle :. .: {TITRE_PAGE} :.</title>
+		<title>{TITRE_PAGE} - AlBulle</title>
 
 	</head>
 

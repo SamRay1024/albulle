@@ -12,8 +12,9 @@
  * @author SamRay1024
  * @copyright Bubulles Creations
  * @link http://jebulle.net
- * @since 10/11/2006
- * @version 1.0 rc1
+ * @since 11/06/2006
+ * @last 10/11/2006
+ * @version 1.0
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) { 

@@ -54,8 +54,9 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name AlBulle
- * @since 22/05/2007
- * @version 1.0rc4
+ * @since 11/09/2006
+ * @last 03/02/2008
+ * @version 1.0
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -125,6 +126,7 @@ function verifications()
  * @param	[INTEGER]	$iNiveau						Profonfeur du répertoire demandé
  * @param	[ARRAY]		$aDossiersInterdits				Tableau des dossiers à ne pas afficher
  * @param	[ARRAY]		$aExtensionsFichiersAutorises	Extension des fichiers autorisés
+ $ @param	[ARRAY]		$aTypesMimeAutorises			Types MIME autorisés
  * @param	[BOOLEAN]	$bAfficherNbFichiers			Afficher le nombre de fichiers dans un dossier
  * @param	[BOOLEAN]	$bAfficherNbSiVide				Afficher ce nombre même si le dossier est vide
  * @param	[BOOLEAN] 	$bDeroulerTout					Dérouler tous les noeuds ou seulement celui sélectionné
@@ -132,7 +134,7 @@ function verifications()
  * @param	[STRING]	$sSeparateurFiltres				Si le paramètre précédent est vrai, le séparateur qui sépare préfixe et nom du dossier.
  * @return	[STRING]									La chaîne HTML de l'arborescence complète.
  */
-function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInterdits, $aExtensionsFichiersAutorises,
+function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInterdits, $aExtensionsFichiersAutorises, $aTypesMimeAutorises,
 								$bAfficherNbFichiers, $bAfficherNbSiVide, $bDeroulerTout, $bFiltrerPrefixes, $sSeparateurFiltres = '' )
 {
 	global $_JB_AL_VARS, $aActions, $oOutils, $oUrl;
@@ -187,7 +189,8 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 		$mResultat = $oOutils->advScanDir(	$sDossierLecture.'/'.$aListeTotale['dir'][$i],	// Le dossier à lire
 											'TOUT',												// Ce qu'il faut lire
 											$aDossiersInterdits,					// Les dossiers à exclure
-											$aExtensionsFichiersAutorises			// Les extensions des fichiers à lister
+											$aExtensionsFichiersAutorises,			// Les extensions des fichiers à lister
+											$aTypesMimeAutorises					// Les types MIME autorisés
 										);
 		$aListeSousRepPhotos = ( $mResultat === false ) ? array() : $mResultat;
 
@@ -292,6 +295,9 @@ function isIE() { return !(strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) === fal
  * @return	[STRING]				Equivalence du chemin.
  */
 function cheminDansPanier( $sChemin ) {
+
+	global $oOutils;
+
 	if( JB_AL_MODE_CENTRE === true ) {
 		$sCheminDansPanier = JB_AL_DOSSIER_CENTRE.$oOutils->SousChaineGauche( $sChemin, '.', 1 ).JB_AL_EXTENSION_FICHIERS;
 		if( !file_exists(JB_AL_ROOT.JB_AL_DOSSIER_DATA.$sCheminDansPanier) ) $sCheminDansPanier = JB_AL_DOSSIER_PHOTOS.$sChemin;

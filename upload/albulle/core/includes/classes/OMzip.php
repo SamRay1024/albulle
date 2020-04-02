@@ -15,6 +15,7 @@
  * Author/Copyright : Olivier MATHERET
  *   matheret@free.fr  http://matheret.free.fr
  * Licenced under CeCILL2
+ * Last modification : 11/01/2008 - SamRay1024
  *
  * Based on :
  *
@@ -226,7 +227,7 @@ class zipfile
     {
         if ($this -> process) {
             $cchset = new ConvertCharset();
-            $name = $cchset -> Convert( str_replace('./', '', str_replace('\\', '/', $name)) , "CP1252", "CP437" );
+            $name = $cchset -> Convert( str_replace('./', '', str_replace('\\', '/', $name)) , (JB_AL_FICHIERS_UTF8 ? 'utf-8' : 'CP1252'), 'CP437' );
         }
         else {
             $name = str_replace('./', '', str_replace('\\', '/', $name));

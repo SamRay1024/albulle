@@ -1,8 +1,21 @@
 :: Albulle
-:: Version 1.0-rc6
+:: Version 1.0
 
 WHAT's NEW :
 ------------
+
+Version 1.0 - 16/02/2008
+
+	* Ajouté : création d'une miniature par défaut pour les images corrompues qui auraient réussi à passer
+	  au travers des mailles du filet !
+	* Ajouté : nouveau paramètre JB_AL_FICHIERS_UTF8 pour la gestion des accents. Cela permet d'indiquer
+	  à Albulle que le système de fichier où il est hébergé est en UTF8
+	* Modifié : lecture des images pour ne plus prendre les images corrompues
+	* Corrigé : oubli de la déclaration globale de l'objet $oOutils dans la fonction cheminDansPanier()
+	* Corrigé : vérification des fichiers du panier qui ne fonctionnait pas sous Windows et qui rendait
+	  le panier inopérant (problème de séparateur des dossiers)
+	* Corrigé : variables indéfinies en mode panier inactif
+	* Corrigé : tous les problèmes liés aux accents. Enfin !
 
 Version 1.0-rc6 - 25/06/2007
 

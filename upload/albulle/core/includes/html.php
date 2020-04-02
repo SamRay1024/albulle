@@ -12,8 +12,9 @@
  * @author SamRay1024
  * @copyright Bubulles Creations
  * @link http://jebulle.net
- * @since 19/06/2007
- * @version 1.0 rc5
+ * @since 11/06/2006
+ * @last 19/06/2007
+ * @version 1.0
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -185,11 +186,15 @@ else
 			else $aPseudosVariables[$i]['`<!-- SI MODE_GALERIE -->.*<!-- FINSI MODE_GALERIE -->\n`s'] = '';
 
 			// Lien pour le panier
-			$sLienPanierPuce 	= $_MINIATURES[$i]['PANIER']['MODE'] == 'ajout' ? 'puceAjout' : 'puceRetrait';
-			$sLienPanierTitle	= $_MINIATURES[$i]['PANIER']['MODE'] == 'ajout' ? 'Ajouter l\'image' : 'Retirer l\'image';
+			if(JB_AL_PANIER_ACTIF === true)
+			{
+				$sLienPanierPuce 	= $_MINIATURES[$i]['PANIER']['MODE'] == 'ajout' ? 'puceAjout' : 'puceRetrait';
+				$sLienPanierTitle	= $_MINIATURES[$i]['PANIER']['MODE'] == 'ajout' ? 'Ajouter l\'image' : 'Retirer l\'image';
 
-			$aPseudosVariables[$i]['`{PUCE_AJOUT_PANIER}`'] = '<a href="'.$_MINIATURES[$i]['PANIER']['URL']
-																.'" class="'.$sLienPanierPuce.'" title="'.$sLienPanierTitle.'">+</a>';
+				$aPseudosVariables[$i]['`{PUCE_AJOUT_PANIER}`'] = '<a href="'.$_MINIATURES[$i]['PANIER']['URL']
+																	.'" class="'.$sLienPanierPuce.'" title="'.$sLienPanierTitle.'">+</a>';
+			}
+			else $aPseudosVariables[$i]['`{PUCE_AJOUT_PANIER}`'] = '';
 		}
 
 		$sThmVignettes = $oOutils->parser( $_JB_AL_VARS['s_acces_theme'].'html/vignette.thm.php', $aPseudosVariables, true );
@@ -279,7 +284,6 @@ else
 // ================
 // ETAPE 4 : Construction menu panier
 //
-
 if( $_JB_AL_VARS['a_panier']['i_nb_fichiers'] > 0 )
 {
 	$aPseudosVariables['`{PANIER_URL_TELECHARCHER}`']	= $_JB_AL_VARS['a_menu_panier']['s_url_download'];
@@ -291,7 +295,6 @@ if( $_JB_AL_VARS['a_panier']['i_nb_fichiers'] > 0 )
 }
 // Sinon on prends juste les métas pour les link vers les Css et Javascripts
 else $sThmMenuPanier = '';
-
 
 // ================
 // ETAPE 5 : Construction page finale

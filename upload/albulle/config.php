@@ -54,6 +54,8 @@ if( !defined('JB_AL_DOSSIER_ORIGINALES') )		define( 'JB_AL_DOSSIER_ORIGINALES',	
 
 if( !defined('JB_AL_FICHIER_ACCUEIL') )			define( 'JB_AL_FICHIER_ACCUEIL',		'texte_accueil.html' );	// Chemin d'accès au fichier qui contiendra le texte d'accueil.
 
+// Indiquer si le système de fichier qui héberge votre copie d'Albulle est en Utf-8
+if( !defined('JB_AL_FICHIERS_UTF8') )			define( 'JB_AL_FICHIERS_UTF8',			true );
 
 // ================
 // TITRE ET SOUS TITRE

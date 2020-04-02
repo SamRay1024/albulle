@@ -52,8 +52,9 @@
  * @author SamRay1024
  * @copyright Bubulles Creations
  * @link http://jebulle.net
- * @since 10/11/2006
- * @version 1.0rc1
+ * @since 12/11/2005
+ * @last 10/11/2006
+ * @version 1.0
  */
 
 define( '_JB_INCLUDE_AUTH', 1 );

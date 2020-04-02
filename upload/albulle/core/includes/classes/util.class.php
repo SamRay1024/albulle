@@ -53,8 +53,9 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 31/10/2006
- * @version 1.6
+ * @since 06/07/2004
+ * @last 03/02/2008
+ * @version 1.7
  *
  */
 
@@ -81,7 +82,7 @@ class Util {
 		$img_dst = ImageCreateTrueColor ( $aNouvellesDimensions['largeur'], $aNouvellesDimensions['hauteur'] );
 
 		// On effectue une copie de l'image source vers la miniture
-		ImageCopyResized ( $img_dst, $img_src, 0, 0, 0, 0, $aNouvellesDimensions['largeur'], $aNouvellesDimensions['hauteur'], $larg, $haut);
+		imagecopyresampled ( $img_dst, $img_src, 0, 0, 0, 0, $aNouvellesDimensions['largeur'], $aNouvellesDimensions['hauteur'], $larg, $haut);
 
 		return $img_dst;
 	}
@@ -134,7 +135,7 @@ class Util {
 	 * @param	[STRING]	$srcFile			Chemin d'accès complet à l'image que l'on souhaite redimensionner.
 	 * @param	[STRING]	$destFile			Répertoire de destination de stockage de l'image redimensionnée.
 	 * @param	[STRING]	[$larg_mini_max]	Largeur max de la miniature.
-	 * @param	[STRING]	[$haut_mini_max]	Lauteur max de la miniature.
+	 * @param	[STRING]	[$haut_mini_max]	Hauteur max de la miniature.
 	 * @param	[STRING]	[$prefixe]			Si ce champ est indiqué, on génère une miniature préfixé de la chaîne que contient cette variable
 	 *											sinon, on écrase le fichier d'entrée si le dossier de destination est le même que celui de l'image originale.
 	 * @param	[INTEGER]	[$iQualite]			Uniquement pour les images Jpeg : permet de régler la qualité des miniatures sur une échelle de 0 à 100.
@@ -170,19 +171,29 @@ class Util {
 				$img_src = ImageCreateFromGif( $srcFile );
 				break;
 		}
-
+		
+		if(is_null($img_src))
+		{
+			$img_src = ImageCreateTrueColor (JB_AL_VIGNETTES_LARGEUR, JB_AL_VIGNETTES_HAUTEUR);
+			$bgc = ImageColorAllocate ($img_src, 255, 255, 255);
+			$tc = ImageColorAllocate ($img_src, 0, 0, 0);
+			ImageFilledRectangle ($img_src, 0, 0, JB_AL_VIGNETTES_LARGEUR, JB_AL_VIGNETTES_HAUTEUR, $bgc);
+			ImageString ($img_src, 1, 5, 5, "Image corrompue", $tc);
+			$type = 'image/jpeg';
+        }
+		
 		// si les deux longeurs max sont nulles, alors on ne redimensionne pas l'image
 		if( ($larg_mini_max != 0) && ($haut_mini_max != 0) )
 			$img_dst = $this->redimensionner( $img_src, $larg_mini_max, $haut_mini_max );
 		else $img_dst = $img_src;
-
+		
 		// Si un second parametre est indique a la fonction ImageJpeg, la miniature est sauvegardee mais elle ne sera pas affichee. Ex : ImageJpeg( $img_src, './miniatures/mini.jpg');
 		switch( $type )
 		{
 			case 'image/pjpeg':
 			case 'image/jpeg':
 				// ecriture de la miniature au format jpeg
-				ImageJpeg( $img_dst, $destFile, $iQualite);
+				ImageJpeg( $img_dst, $destFile, $iQualite );
 				break;
 
 			case 'image/x-png':
@@ -231,9 +242,10 @@ class Util {
 	 * @param	[ARRAY]		$aFiltresExtensions	Optionnel. Tableau à utiliser pour ne garder que les fichiers qui correspondent
 	 * 												aux extensions données.
 	 * 												Les extensions doivent être de la forme 'jpg', 'gif', 'exe', ...
+	 * @param	[ARRAY]		$aFiltresMime		Optionnel. Tableau qui contient les types MIME autorisés.
 	 * @return	[MIXED]							FALSE en cas d'erreur, tableau des éléments lus sinon.
 	*/
-	function advScanDir( $sDir, $sMode, $aFiltres = array(), $aFiltresExtensions = array() )
+	function advScanDir( $sDir, $sMode, $aFiltres = array(), $aFiltresExtensions = array(), $aFiltresMime = array() )
 	{
 		// creation du tableau qui va contenir les elements du dossier
 		$aItemsDir = $aItemsFile = array();
@@ -266,6 +278,13 @@ class Util {
 							if( !in_array($sExt, $aFiltresExtensions) )	$bAjouterFichier = false;
 						}
 
+						// Filtrage selon le type MIME si demandé
+						if( sizeof($aFiltresMime) !== 0 && $bAjouterFichier )
+						{
+							$sTypeMime = $this->imageTypeMime($sDir.$sItem);
+							if( !in_array($sTypeMime, $aFiltresMime) ) $bAjouterFichier = false;
+						}
+
 						// Ajout si autorisé
 						if($bAjouterFichier)	$aItemsFile[] = $sItem;
 					}
@@ -284,7 +303,7 @@ class Util {
 			{
 				case 'DOSSIERS_SEULEMENT' : return $aItemsDir; break;
 				case 'FICHIERS_SEULEMENT' : return $aItemsFile; break;
-				case  'TOUT' : return array( 'dir' => $aItemsDir, 'file' => $aItemsFile );
+				case 'TOUT' : return array( 'dir' => $aItemsDir, 'file' => $aItemsFile );
 			}
 
 			return array();
@@ -707,6 +726,7 @@ class Util {
 		if( function_exists('exif_imagetype') )
 			return image_type_to_mime_type(exif_imagetype($sCheminImg));
 		else {
+			$sTypeMime = '';
 
 			$aExplode = explode( '.', $sCheminImg );
 			$sExt = strtolower( $aExplode[sizeof( $aExplode ) - 1] );

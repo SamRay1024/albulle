@@ -55,9 +55,8 @@
 
 				<div class="copyright"><!-- copyright -->
 
-					<!-- Vous avez ici deux liens pour le copyright : un avec une image, un en texte.
-						Merci de laisser au moins un lien des deux ;-) -->
-					<a href="http://jebulle.net/?rubrique=albulle" title="T&eacute;l&eacute;chargez Albulle, Galerie Photos">
+					<!-- Merci de laisser au moins le lien vers le site d'Albulle ;-) -->
+					<a href="http://albulle.jebulle.net" title="T&eacute;l&eacute;chargez Albulle, Galerie Photos">
 						<img src="./{CHEMIN_THEME}images/AlBulle_80x15.png" width="80" height="15" title="T&eacute;l&eacute;chargez Albulle, Galerie Photos" alt="T&eacute;l&eacute;chargez Albulle, Galerie Photos" />
 					</a>
 					<br />

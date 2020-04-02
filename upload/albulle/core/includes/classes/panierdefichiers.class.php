@@ -49,8 +49,9 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 22/05/2007
- * @version 1.0rc3
+ * @since 16/05/2005
+ * @last 02/01/2008
+ * @version 1.0
  *
  */
 
@@ -106,7 +107,7 @@ class PanierDeFichiers {
 		// s'il n'y a pas de session démarrée, il faut la créer
 		if( session_id() === '' )	session_start();
 		
-		$this->_sRoot = realpath($sRoot).'/';
+		$this->_sRoot = realpath($sRoot).DIRECTORY_SEPARATOR;
 
 		// creation du panier s'il n'existe pas déjà
 		if( !isset( $_SESSION[NOM_PANIER_SESSION] ) )	$_SESSION[NOM_PANIER_SESSION] = array();
@@ -201,7 +202,7 @@ class PanierDeFichiers {
 
 		// tri des index du panier qui peuvent n'être plus bon aps des suppressions
 		sort($aElementsPourArchive);
-
+		
 		// Envoi de l'archive du panier
 		OnTheFlyZIP( $sNomArchive.'.zip', $aElementsPourArchive, $aNomsInternes );
 	}

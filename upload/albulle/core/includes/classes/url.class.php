@@ -53,7 +53,8 @@
  *
  * @author		SamRay1024
  * @copyright	Bubulles Creation - http://jebulle.net
- * @since		12/11/2006
+ * @since		03/10/2006
+ * @last		12/11/2006
  * @version		1.0.1
  *
  */
