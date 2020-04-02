@@ -1,0 +1,24 @@
+Le fichier albulle/core/include/js/jquery.lightbox.js étant compacté, sa modification
+n'est pas possible.
+
+Utilisez alors le fichier d'origine ci-joint jquery.lightbox.js si vous avez besoin
+de modifier le comportement de LightBox.
+
+Toutes les portions de code modifié sont encadrées par deux lignes de commentaires :
+
+	// MOD : quelque chose
+	...code modifié...
+	// MOD
+	
+Deux choses ont été apportées à la version d'origine du script :
+
+- Le redimensionnement par rapport à la zone client : fonction _set_image_to_view()
+- Le lien "Afficher l'image réelle" : <span id="linkRealSize"></span> ajouté dans
+	_set_interface(). D'autres modifications ont du être faites dans d'autres portions
+	pour ce lien. Pour les trouver, faites une recherche de "// MOD".
+
+Vous pouvez remplacer le fichier compacté par un nouveau fichier modifié non compacté
+sans problème et si vous souhaitez vous aussi compacter votre version, utilisez l'outil
+suivant :
+
+http://dean.edwards.name/packer/

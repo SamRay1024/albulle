@@ -1,8 +1,18 @@
 :: Albulle
-:: Version 1.0
+:: Version 1.1
 
 WHAT's NEW :
 ------------
+
+Version 1.1 - 12/11/2008 - rev. > 15
+
+	* Ajouté : flux RSS pour compatibilité avec Cooliris
+	* Ajouté : possibilité de placer un fichier texte.html dans un dossier pour afficher un résumé dans la page du dossier
+	* Ajouté : nouvelle constante JB_AL_ACCUEIL_ALT qui permet de surcharger le texte d'accueil
+	* Modifié : renommage des classes CSS du menu de pagination .page -> .btn-page et .pageActive -> .btn-page-active
+	* Modifié : LightBox2 remplacé par jQuery.Lightbox
+	* Corrigé : mauvaise URL du lien vers la page d'accueil dans le cas d'une intégration
+	* Corrigé : concaténation URL pour prendre en compte les sites qui utilisent la réécriture d'URL
 
 Version 1.0 - 16/02/2008
 

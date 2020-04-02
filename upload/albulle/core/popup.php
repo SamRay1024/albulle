@@ -53,8 +53,7 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @since 12/11/2005
- * @last 10/11/2006
- * @version 1.0
+ * @version 10/11/2006
  */
 
 define( '_JB_INCLUDE_AUTH', 1 );

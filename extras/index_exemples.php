@@ -151,6 +151,8 @@ define( 'JB_AL_CONSERVER_URL_HOTE', 	true );			// Activation de la conservation 
 define( 'JB_AL_SORTIE_ISO',				true );			// Demande le décodage Utf8 pour que le contenu de $sAlbulle soit
 														// au charset Iso-8859-1.
 
+define( 'JB_AL_ACCUEIL_ALT'				'<p>Autre texte d\'accueil</p>' );	// Surcharger le texte d'accueil définit dans texte_accueil.html
+														
 $sAlbulle = require_once( JB_AL_ROOT.'core/explore.php' );
 
 echo $sThmCssMetas;

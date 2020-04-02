@@ -1,3 +1,6 @@
+
+		<link rel="alternate" href="rss.php?rep={REP_COURANT}" type="application/rss+xml" title="Albulle RSS pour CoolIris" id="gallery" />
+
 		<style type="text/css" media="screen">@import url({CHEMIN_THEME}css/index.css);</style>
 
 		<!--[if IE]>
@@ -5,11 +8,11 @@
 		<![endif]-->
 
 		<!-- SI LIGHTBOX -->
-		<style type="text/css" media="screen">@import url({CHEMIN_THEME}css/lightbox.css);</style>
+		<style type="text/css" media="screen">@import url({CHEMIN_THEME}css/jquery.lightbox.css);</style>
 
-		<script type="text/javascript" src="{CHEMIN_ROOT}core/includes/js/prototype.js"></script>
-		<script type="text/javascript" src="{CHEMIN_ROOT}core/includes/js/scriptaculous.js?load=effects"></script>
-		<script type="text/javascript" src="{CHEMIN_THEME}js/lightbox.js"></script>
+		<script type="text/javascript" src="{CHEMIN_ROOT}core/includes/js/jquery.js"></script>
+		<script type="text/javascript" src="{CHEMIN_ROOT}core/includes/js/jquery.lightbox.js"></script>
+		<script type="text/javascript" src="{CHEMIN_THEME}js/main.js"></script>
 		<!-- FINSI LIGHTBOX -->
 
 		<!-- SI POPUP -->

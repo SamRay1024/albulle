@@ -54,9 +54,7 @@
  * @author		SamRay1024
  * @copyright	Bubulles Creation - http://jebulle.net
  * @since		03/10/2006
- * @last		12/11/2006
- * @version		1.0.1
- *
+ * @version		08/11/2008
  */
 
 class Url {
@@ -162,7 +160,7 @@ class Url {
 			$sOriginalQuery = $this->implodeParams($this->aQuery);
 
 			// Concaténation de l'url
-			$this->sUrl = $_SERVER['PHP_SELF'];
+			$this->sUrl = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'));
 
 			if( !empty($sOriginalQuery) || !empty($sQuery) )	$this->sUrl .= '?';
 			if( !empty($sOriginalQuery) &&  empty($sQuery) )	$this->sUrl .= $sOriginalQuery;

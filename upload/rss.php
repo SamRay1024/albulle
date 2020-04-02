@@ -16,7 +16,7 @@
 // webmaster@jebulle.net
 // http://jebulle.net
 //
-// Ce fichier fait partie d'AlBulle, script de gestion d'albums photos.
+// Albulle est un programme de galerie photos pour site internet.
 //
 // Ce logiciel est régi par la licence CeCILL soumise au droit français et
 // respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -48,48 +48,74 @@
 ///////////////////////////////
 
 /**
- * @name download.php
+ * Albulle - Galerie photos
+ *
+ * Génère un fichier RSS du dossier donné pour CoolIris.
+ * (http://cooliris.com)
+ *
  * @author SamRay1024
  * @copyright Bubulles Creations
  * @link http://jebulle.net
- * @since 04/08/2005
- * @version 26/05/2007
+ * @name Albulle
+ * @since 23/10/2008
+ * @version 30/10/2008
  */
+ 
+define('JB_AL_ROOT',		'albulle/');
 
 define( '_JB_INCLUDE_AUTH', 1 );
-define( 'JB_AL_ROOT',		dirname(__FILE__).'/' );
 
-require_once( JB_AL_ROOT.'../config.php' );
-require_once( JB_AL_ROOT.'includes/classes/panierdefichiers.class.php' );
-require_once( JB_AL_ROOT.'includes/classes/util.class.php' );
+require_once( JB_AL_ROOT.'config.php');
+require_once( JB_AL_ROOT.'core/includes/classes/util.class.php' );
+ 
+$_JB_AL_GET['s_rep_courant']	= isset( $_GET['rep']		)	? stripslashes(rawurldecode( (string) $_GET['rep'] ))	: '';
 
-//$oPanier = new PanierDeFichiers( '../'.JB_AL_DOSSIER_PHOTOS, JB_AL_PANIER_CAPACITE_MAX, JB_AL_PANIER_POIDS_MAX );
-$oPanier = new PanierDeFichiers( '../'.JB_AL_DOSSIER_DATA, JB_AL_PANIER_CAPACITE_MAX, JB_AL_PANIER_POIDS_MAX );
+header( 'Content-type: text/html; charset=utf-8' );
 
-if( $oPanier->CompterFichiers() !== 0 )
-{
-	// Définition nom archive
-	$sNomArchive = ( JB_AL_MODE_CENTRE === true ) ? 'Fichiers' : JB_AL_PANIER_NOM_ARCHIVE;
+echo '<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>';
 
-	// Création de la structure à l'intérieure de l'archive
-	$aPanier = $oPanier->obtenirPanier();
+// Si dossier donné
+if( !empty($_JB_AL_GET['s_rep_courant']) ) {
 	
-	foreach( $aPanier as $iKey => $sAdresse )
-	{
-		// Suppression des dossiers racines (photos, originales, centre)
-		if( strpos($sAdresse, JB_AL_DOSSIER_ORIGINALES) !== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_ORIGINALES), strlen($sAdresse));
-		if( strpos($sAdresse, JB_AL_DOSSIER_CENTRE)		!== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_CENTRE), strlen($sAdresse));
-		if( strpos($sAdresse, JB_AL_DOSSIER_PHOTOS) 	!== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_PHOTOS), strlen($sAdresse));
+	// Lecture des images présentes dans le dossier
+	$oOutils = new Util();
+
+	$aImages = $oOutils->advScanDir(
+						JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_PHOTOS.$_JB_AL_GET['s_rep_courant'],
+						'FICHIERS_SEULEMENT',
+						array(),
+						array( 'gif', 'jpe', 'jpeg', 'jpg', 'png' ),
+						array( 'image/jpeg', 'image/pjpeg', 'image/gif', 'image/x-png', 'image/png')
+						);
+						
+	$sItems = '';
+	foreach( $aImages as $sImage ) {
+		
+		$aImage 		= explode( '.', $sImage );
+
+		$sCheminPhoto	= JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_PHOTOS.$_JB_AL_GET['s_rep_courant'].'/'.$sImage;
+		$sUrlPhoto		= JB_AL_BASE_URL.$sCheminPhoto;
+		$sUrlMiniature	= JB_AL_BASE_URL.JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_MINIATURES.$aImage[0].'_'.JB_AL_VIGNETTES_LARGEUR.'x'.JB_AL_VIGNETTES_HAUTEUR.'_'.md5($sCheminPhoto).'.'.$aImage[1];
+		
+		$sTitre			= basename($sImage);
+		if( JB_AL_FILTRE_PREFIXES_ACTIF )	$sTitre = $oOutils->enleverPrefixe( $sTitre, JB_AL_PREFIXES_SEPARATEUR );
+		if( JB_AL_REMPLACER_TIRETS_BAS )	$sTitre = str_replace( '_', ' ', $sTitre );
+		if( !JB_AL_AFFICHER_EXTENSION )	    $sTitre = $oOutils->SousChaineGauche( $sTitre, '.', 1 );
+		
+		echo "\n\t\t<item>\n\t\t\t";
+		echo '<title>'.basename($sImage)."</title>\n\t\t\t";
+		echo '<link>'.$sUrlPhoto."</link>\n\t\t\t";
+		echo '<media:thumbnail url="'.$sUrlMiniature.'"/>'."\n\t\t\t";
+		echo '<media:content url="'.$sUrlPhoto."\"/>\n\t\t";
+		echo "</item>";
 	}
 	
-	// Création de l'archive et envoi au client
-	$oPanier->CreerArchive( $sNomArchive, $aPanier );
-}
-else
-{
-	header( 'Content-type: text/html; charset=utf-8' );
-	echo('# ALBULLE # <strong>[ Erreur ]</strong> => Le panier est vide, il n\'y a rien à télécharger !<br /><a href="javascript: history.go(-1)">Revenir</a>' );
 }
 
-exit();
+echo '
+	</channel>
+</rss>';
+ 
 ?>

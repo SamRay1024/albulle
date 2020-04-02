@@ -54,9 +54,7 @@
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
  * @since 06/07/2004
- * @last 03/02/2008
- * @version 1.7
- *
+ * @version 20/10/2008
  */
 
 class Util {
@@ -356,12 +354,12 @@ class Util {
 		}
 
 		if ($num_pages <= 1)
-		$pages = array('<span class="pageActive">1</span>');
+		$pages = array('<span class="btn-page-active">1</span>');
 		else
 		{
 			if ($cur_page > 3)
 			{
-				$pages[] = '<a href="'.$link_to.'&amp;page=1" class="page">1</a>';
+				$pages[] = '<a href="'.$link_to.'&amp;page=1" class="btn-page">1</a>';
 
 				if ($cur_page != 4)
 					$pages[] = '<span>&hellip;</span>';
@@ -373,9 +371,9 @@ class Util {
 				if ($current < 1 || $current > $num_pages)
 					continue;
 				else if ($current != $cur_page || $link_to_all)
-					$pages[] = '<a href="'.$link_to.'&amp;page='.$current.'" class="page">'.$current.'</a>';
+					$pages[] = '<a href="'.$link_to.'&amp;page='.$current.'" class="btn-page">'.$current.'</a>';
 				else
-					$pages[] = '<span class="pageActive">'.$current.'</span>';
+					$pages[] = '<span class="btn-page-active">'.$current.'</span>';
 			}
 
 			if ($cur_page <= ($num_pages-3))
@@ -383,7 +381,7 @@ class Util {
 				if ($cur_page != ($num_pages-3))
 					$pages[] = '<span>&hellip;</span>';
 
-				$pages[] = '<a href="'.$link_to.'&amp;page='.$num_pages.'" class="page">'.$num_pages.'</a>';
+				$pages[] = '<a href="'.$link_to.'&amp;page='.$num_pages.'" class="btn-page">'.$num_pages.'</a>';
 			}
 		}
 

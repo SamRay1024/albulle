@@ -13,8 +13,7 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @since 11/06/2006
- * @last 19/06/2007
- * @version 1.0
+ * @version 08/11/2008
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -29,7 +28,10 @@ if( !defined( '_JB_INCLUDE_AUTH' ) ) {
 // Ce tableau associatif contiendra l'intégralité des éléments à remplacer dans les fichiers de thèmes.
 // Les clés représentent les expressions régulières qu'il faudra remplacer par les valeurs correspondantes.
 $aPseudosVariables = array();
-$sThmPagination = $sThmSousDossiers = '';
+$sThmPagination = $sThmSousDossiers = $sTexteDossier = '';
+
+// Lecture patron html page simple
+$sThmTexte = file_get_contents( $_JB_AL_VARS['s_acces_theme'].'html/texte.thm.php' );
 
 // ================
 // ETAPE 1 : Construction des métas
@@ -65,6 +67,7 @@ else $aPseudosVariables['`<!-- SI DEFILEMENT_AUTO -->.*?<!-- FINSI DEFILEMENT_AU
 // Les autres pseudos-variables
 $aPseudosVariables['`{CHEMIN_THEME}`']	= $_JB_AL_VARS['s_acces_theme'];
 $aPseudosVariables['`{CHEMIN_ROOT}`']	= JB_AL_ROOT;
+$aPseudosVariables['`{REP_COURANT}`']	= $_JB_AL_VARS['s_rep_courant'];
 
 // Génération des entêtes
 $sThmCssMetas = $oOutils->parser($_JB_AL_VARS['s_acces_theme'].'html/metas.thm.php', $aPseudosVariables);
@@ -92,32 +95,30 @@ else $sThmHeader = '';
 $sContenuDroite = '';
 
 // Si pas de répertoire choisi, on affiche l'accueil
-if ( empty($_JB_AL_VARS['s_rep_courant']) && $_JB_AL_VARS['b_voir_panier'] === false )
-{
-	ob_start();
-	eval('require_once(JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_FICHIER_ACCUEIL);');
-	$sPageInclue = ob_get_contents();
-	ob_end_clean();
-
-	// Lecture patron html page simple
-	$sThmTexte = file_get_contents( $_JB_AL_VARS['s_acces_theme'].'html/texte.thm.php' );
-	$sThmTexte = str_replace( '{CONTENU_TEXTE}', $sPageInclue, $sThmTexte );
-
-	// Ajout du texte au contenu de droite
-	$sContenuDroite .= $sThmTexte;
-}
+if( isset($_JB_AL_VARS['accueil']) )
+	$sContenuDroite .= str_replace( '{CONTENU_TEXTE}', $_JB_AL_VARS['accueil'], $sThmTexte );
 
 // Sinon on affiche les images
 else
 {
+	// Recherche éventuel texte associé au dossier
+	if( file_exists($_JB_AL_VARS['s_chemin_rep'].JB_AL_FICHIER_DOSSIER_VIDE) )
+		$sTexteDossier = str_replace(
+			'{CONTENU_TEXTE}', 	
+			file_get_contents( $_JB_AL_VARS['s_chemin_rep'].JB_AL_FICHIER_DOSSIER_VIDE ),
+			$sThmTexte
+		);
+	
 	//
 	// Génération des miniatures
 	//
 	$iNbMiniatures = sizeof( $_MINIATURES );
 
 	// Si pas d'images dans le dossier courant
-	if( $iNbMiniatures === 0 )
-		$sContenuDroite .= file_get_contents( $_JB_AL_VARS['s_acces_theme'].'html/dossier_vide.thm.php' );
+	if( $iNbMiniatures === 0 ) {		
+		if( JB_AL_AFFICHER_TXT_VIDE || (!JB_AL_AFFICHER_TXT_VIDE && empty($sTexteDossier) ) )
+			$sContenuDroite .= file_get_contents( $_JB_AL_VARS['s_acces_theme'].'html/dossier_vide.thm.php' );
+	}
 
 	// Sinon, boucle sur les images
 	else
@@ -320,6 +321,7 @@ if( JB_AL_PANIER_CAPACITE_MAX > 0 && JB_AL_PANIER_POIDS_MAX === 0 )	$sCapacitePa
 $aPseudosVariables['`{>HEADER}`']					= $sThmHeader;
 $aPseudosVariables['`{NAVIGATION}`']				= $_JB_AL_VARS['s_navigation'];
 $aPseudosVariables['`{>BARRE_MENU}`']				= $sThmPagination;
+$aPseudosVariables['`{>TEXTE_DOSSIER}`']			= $sTexteDossier;
 $aPseudosVariables['`{>CONTENU_DROITE}`']			= $sContenuDroite;
 $aPseudosVariables['`{>SOUS_DOSSIERS}`']			= $sThmSousDossiers;
 $aPseudosVariables['`{ARBORESCENCE}`']				= $_JB_AL_VARS['s_arborescence'];
@@ -330,6 +332,7 @@ $aPseudosVariables['`{MENU_PANIER}`']				= $sThmMenuPanier;
 $aPseudosVariables['`{LIEN_RETOUR_SITE}`']			= ( JB_AL_HOME_HREF !== '' && JB_AL_HOME_TEXTE !== '' ) ? '<a href="'.JB_AL_HOME_HREF.'">'.JB_AL_HOME_TEXTE."</a> |\n" : '';
 $aPseudosVariables['`{CHEMIN_THEME}`']				= $_JB_AL_VARS['s_acces_theme'];
 $aPseudosVariables['`{CHEMIN_ROOT}`']				= JB_AL_ROOT;
+$aPseudosVariables['`{REP_COURANT}`']				= $_JB_AL_VARS['s_rep_courant'];
 $aPseudosVariables['`{VERSION}`']					= ( JB_AL_AFFICHER_VERSION === true ) ? ' v'.$_JB_AL_VARS['s_version'] : '';
 
 // Affichage pied de page si pas en mode intégration

@@ -55,8 +55,7 @@
  * @link http://jebulle.net
  * @name Albulle
  * @since 09/05/2005
- * @last 16/02/2008
- * @version 1.0
+ * @version 12/11/2008
  */
 
 // Fonction qui affiche les erreurs et quitte le programme
@@ -121,20 +120,22 @@ if( JB_AL_FERMER === true || file_exists(JB_AL_ROOT.'lock') )
 // ====================
 // INITIALISATIONS
 //
+global $_JB_AL_VARS, $aActions, $oOutils, $oUrl;
+
 $_JB_AL_VARS	= array();	// Tableau qui contiendra toutes les variables nécessaires et disponibles pour l'affichage
 $_MINIATURES	= array();	// Tableau qui contiendra les miniatures
 $_JB_AL_GET		= array();	// Tableau qui contiendra les paramètres reçus dans l'URL
 $_JB_AL_POST	= array();	// Tableau qui contiendra les paramètres reçus par les formulaires
 
-$_JB_AL_VARS['s_version']		= '1.0';
+$_JB_AL_VARS['s_version']					= '1.1';
 
-$_JB_AL_VARS['s_acces_theme']	= JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF;
-$_JB_AL_VARS['s_arborescence'] = $_JB_AL_VARS['s_menu_panier'] = '';
-$_JB_AL_VARS['s_lien_panier_tout_ajouter'] = $_JB_AL_VARS['s_lien_panier_tout_supprimer'] = '';
-$_JB_AL_VARS['s_navigation'] = $_JB_AL_VARS['s_pagination'] = '';
-$_JB_AL_VARS['s_classe_css_vignette'] = '';
-$_JB_AL_VARS['s_texte_mode_affichage'] = $_JB_AL_VARS['s_lien_mode_affichage'] = '';
-$_JB_AL_VARS['b_defilement_auto'] = false;
+$_JB_AL_VARS['s_acces_theme']				= JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF;
+$_JB_AL_VARS['s_arborescence']				= $_JB_AL_VARS['s_menu_panier'] = '';
+$_JB_AL_VARS['s_lien_panier_tout_ajouter']	= $_JB_AL_VARS['s_lien_panier_tout_supprimer'] = '';
+$_JB_AL_VARS['s_navigation']				= $_JB_AL_VARS['s_pagination'] = '';
+$_JB_AL_VARS['s_classe_css_vignette']		= '';
+$_JB_AL_VARS['s_texte_mode_affichage']		= $_JB_AL_VARS['s_lien_mode_affichage'] = '';
+$_JB_AL_VARS['b_defilement_auto']			= false;
 
 $aActions		= array( 'voir' => '' );	// Tableau des actions disponibles
 $aDossiersUrl	= array();	// Tableau qui contiendra la liste des dossiers du répertoire courant passé par l'url
@@ -513,6 +514,21 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 	}
 }
 
+// Affichage de l'accueil
+elseif( empty($_JB_AL_GET['s_rep_courant']) ) {
+
+	// Si pas de texte alternatif, on charge le document par défaut
+	if( !defined('JB_AL_ACCUEIL_ALT') ) {
+		
+		ob_start();
+		eval('require_once(JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_FICHIER_ACCUEIL);');
+		$_JB_AL_VARS['accueil'] = ob_get_contents();
+		ob_end_clean();
+	}
+	// Sinon, on affiche le texte alternatif
+	else $_JB_AL_VARS['accueil'] = JB_AL_ACCUEIL_ALT;
+}
+
 // ====================
 // GESTION DES LIENS DU PANIER
 //
@@ -552,8 +568,9 @@ else {
 // INITIALISATIONS DIVERSES POUR L'HTML
 //
 
-$_JB_AL_VARS['s_rep_courant'] = $_JB_AL_GET['s_rep_courant'];
-$_JB_AL_VARS['b_voir_panier'] = $_JB_AL_GET['b_voir_panier'];
+$_JB_AL_VARS['s_chemin_rep']		= JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_PHOTOS.$_JB_AL_GET['s_rep_courant'].'/';
+$_JB_AL_VARS['s_rep_courant']		= $oOutils->preparerUrl($_JB_AL_GET['s_rep_courant']);
+$_JB_AL_VARS['b_voir_panier']		= $_JB_AL_GET['b_voir_panier'];
 
 // Nettoyage préfixe et tirets bas
 if( !empty($_JB_AL_GET['s_rep_courant']) )
@@ -574,7 +591,7 @@ if( empty($_JB_AL_GET['s_rep_courant']) && !$_JB_AL_GET['b_voir_panier'] )	$_JB_
 else
 {
 	$sLien = '';
-	$_JB_AL_VARS['s_navigation'] = '<a href="'.$_SERVER['PHP_SELF'].'">Accueil</a> » ';
+	$_JB_AL_VARS['s_navigation'] = '<a href="'.$oUrl->construireUrl('').'">Accueil</a> » ';
 
 	for( $i = 0 ; $i < $iNiveau - 1 && !$_JB_AL_GET['b_voir_panier'] ; $i++ )
 	{

@@ -13,8 +13,7 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @since 11/06/2006
- * @last 10/11/2006
- * @version 1.0
+ * @version 10/11/2006
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) { 

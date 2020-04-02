@@ -5,7 +5,8 @@
 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="Content-Style-Type" content="text/css" />
-
+		<meta name="generator" content="Albulle" />
+		
 {>METAS}
 
 		<title>{TITRE_PAGE} - AlBulle</title>

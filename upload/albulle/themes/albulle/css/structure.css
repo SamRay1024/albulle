@@ -1,9 +1,9 @@
 /*
  * Fichier : structure.css
- * Date : 18/09/2006
+ * Date : 20/10/2008
  * Auteur : SamRay1024 - http://jebulle.net
  *
- * AlBulle CSS - Structure uniquement - Pour version 0.9.1
+ * AlBulle CSS - Structure uniquement - Pour version 1.1
  *
  */
 
@@ -142,8 +142,8 @@
 	padding:				0px 2px;
 }
 
-#albulle .menubar .page,
-#albulle .menubar .pageActive { margin-right: 1px; }
+#albulle .menubar .btn-page,
+#albulle .menubar .btn-page-active { margin-right: 1px; }
 
 /* Les boutons "Tout ajouter" & "Tout retirer" */
 #albulle .bouton .tout,

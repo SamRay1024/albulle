@@ -50,9 +50,7 @@
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
  * @since 16/05/2005
- * @last 02/01/2008
- * @version 1.0
- *
+ * @version 02/01/2008
  */
 
 // nom de la variable du panier dans la session

@@ -1,5 +1,5 @@
 :: Albulle - Lisez moi
-:: Version 1.0
+:: Version 1.1
 :: Auteur : SamRay1024
 :: http://jebulle.net
 :: webmaster@jebulle.net

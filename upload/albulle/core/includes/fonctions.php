@@ -55,8 +55,7 @@
  * @link http://jebulle.net
  * @name AlBulle
  * @since 11/09/2006
- * @last 03/02/2008
- * @version 1.0
+ * @version 03/02/2008
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {

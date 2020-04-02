@@ -1,9 +1,9 @@
 /*
  * Fichier : style.css
- * Date : 20/05/2007
+ * Date : 20/10/2008
  * Auteur : SamRay1024 - http://jebulle.net
  *
- * AlBulle CSS - Style uniquement - A partir de la version 0.9.1
+ * AlBulle CSS - Style uniquement - A partir de la version 1.1
  *
  */
 
@@ -150,21 +150,21 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 #albulle .menubar			{ font-size: 1.2em; }
 
 /* liens vers les pages */
-#albulle .page,
+#albulle .btn-page,
 #albulle .bouton,
 #albulle #diapo {
 	border:					1px solid #aaa;
 	background-color:		#fff;
 }
 
-#albulle .page,
+#albulle .btn-page,
 #albulle .bouton		{ background-image: url(../images/fond_menu.png); }
 
 #albulle .bouton .tout	{ background: url(../images/puce_retrait.png) no-repeat center center; }
 #albulle .bouton .rien	{ background: url(../images/puce_ajout.png) no-repeat center center; }
 
 /* page courante */
-#albulle .pageActive {
+#albulle .btn-page-active {
 	border:					1px solid #000;
 	background-color:		#aaa;
 	font-weight:			bold;
@@ -194,7 +194,7 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 /* survol de la vignette, et des boutons */
 #albulle .vignette:hover,
 #albulle .bouton:hover,
-#albulle .page:hover,
+#albulle .btn-page:hover,
 #albulle #diapoCourante		{ background-color: #aaa; background-image: none; border: 1px solid black; color: #c33; }
 
 /* classe de l'image dans la vignette */

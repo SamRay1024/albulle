@@ -38,6 +38,8 @@ if( !defined('JB_AL_MSG_FERMETURE') )			define( 'JB_AL_MSG_FERMETURE',			'Les ga
 // /!\ -> Chaque paramètre étant un dossier doit comporter un '/' à la fin !
 //
 
+if( !defined('JB_AL_BASE_URL') )				define( 'JB_AL_BASE_URL', 				'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/' );
+
 // On commence par définir le thème pour pouvoir aller chercher le fichier de configuration du thème, s'il existe,
 // ce qui permet la surcharge de la configuration par défaut
 define( 'JB_AL_DOSSIER_THEMES',															'themes/' );			// Dossier où se trouvent les thèmes.
@@ -53,6 +55,7 @@ if( !defined('JB_AL_DOSSIER_MINIATURES') )		define( 'JB_AL_DOSSIER_MINIATURES',	
 if( !defined('JB_AL_DOSSIER_ORIGINALES') )		define( 'JB_AL_DOSSIER_ORIGINALES',		'originales/' );		// Ce dossier est à utilisé si vous souhaitez mettre en ligne des photos légères mais que soient téléchargées les photos en qualité originale (dans le dossier des données).
 
 if( !defined('JB_AL_FICHIER_ACCUEIL') )			define( 'JB_AL_FICHIER_ACCUEIL',		'texte_accueil.html' );	// Chemin d'accès au fichier qui contiendra le texte d'accueil.
+if( !defined('JB_AL_FICHIER_DOSSIER_VIDE') )	define( 'JB_AL_FICHIER_DOSSIER_VIDE',	'texte.html');			// Nom des fichiers textes qui peuvent être placés dans un dossier de photos
 
 // Indiquer si le système de fichier qui héberge votre copie d'Albulle est en Utf-8
 if( !defined('JB_AL_FICHIERS_UTF8') )			define( 'JB_AL_FICHIERS_UTF8',			true );
@@ -88,6 +91,9 @@ if( !defined('JB_AL_AFFICHER_DIMENSIONS') )		define( 'JB_AL_AFFICHER_DIMENSIONS'
 // Rappel des sous-dossiers
 if( !defined('JB_AL_RAPPELER_SOUS_DOSSIERS') )	define( 'JB_AL_RAPPELER_SOUS_DOSSIERS',	true );		// Ceci rappellera les sous-dossiers du dossier courant après les vignettes.
 if( !defined('JB_AL_RAPPELER_QUE_SI_VIDE') )	define( 'JB_AL_RAPPELER_QUE_SI_VIDE',	false );	// Permet de n'afficher le rappel des sous-dossiers que si le dossier courant n'a pas de photos.
+
+// Comportement lors d'un dossier vide
+if( !defined('JB_AL_AFFICHER_TXT_VIDE') )		define( 'JB_AL_AFFICHER_TXT_VIDE',		false );		// Si vrai le texte par défaut est affiché si le dossier n'a pas de photos
 
 // Tri des dossiers et fichiers
 if( !defined('JB_AL_FILTRE_PREFIXES_ACTIF') )	define( 'JB_AL_FILTRE_PREFIXES_ACTIF',	true );	    // Si true, active le filtrage sur les préfixes de tous les noms (dossiers et fichiers).
