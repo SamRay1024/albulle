@@ -28,8 +28,6 @@ if( !defined( '_JB_INCLUDE_AUTH' ) ) {
 	exit( 'Vous n\'êtes pas autorisé à afficher cette page.' );
 }
 
-date_default_timezone_set('Europe/Paris');
-
 /**
  * Définir une contante.
  *

@@ -13,7 +13,7 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @since 11/06/2006
- * @version 06/05/2010
+ * @version 24/05/2010
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -79,7 +79,7 @@ try {
 	$oRenduPage->assignBlock('diapo_vide', 			empty($_JB_AL_VARS['s_diapo_courante']));
 	$oRenduPage->assignBlock('plusieurs_diapos',	($_JB_AL_VARS['s_url_img_precedente'] !== '' || $_JB_AL_VARS['s_url_img_suivante'] !== ''));
 	$oRenduPage->assignBlock('exif',				false);
-	$oRenduPage->assignBlock('non_integre',			JB_AL_INTEGRATION_SITE);
+	$oRenduPage->assignBlock('non_integre',			!JB_AL_INTEGRATION_SITE);
 	$oRenduPage->assignBlock('sous_dossiers',		false);
 	
 	$oRenduPage->assignLoop('vignettes');
@@ -103,6 +103,32 @@ try {
 			'intervalle_temps'		=> $_JB_AL_VARS['i_intervalle_tps'],
 			'url_image_suivante'	=> $_JB_AL_VARS['s_url_img_suivante']
 		));
+	}
+	
+	// Rendu des metas si intégration à un site active
+	else {
+	
+		$oRenduMetas = new JbParser( $_JB_AL_VARS['s_acces_theme'] .'html/', 'metas' );
+		
+		$oRenduMetas->assignBlock('accueil',			$bAccueil);
+		$oRenduMetas->assignBlock('lightbox',			$bLightbox);
+		$oRenduMetas->assignBlock('popup',				$bPopupJs);
+		$oRenduMetas->assignBlock('defilement_auto', 	$bDefilementAuto);
+		
+		$oRenduMetas->assignVar(array(
+			'chemin_theme'		=> $_JB_AL_VARS['s_acces_theme'],
+			'chemin_root'		=> JB_AL_ROOT,
+			'rep_courant'		=> $_JB_AL_VARS['s_rep_courant']
+		));
+		
+		// Défilement auto
+		!$bDefilementAuto or $oRenduMetas->assignVar(array(
+			'intervalle_temps'		=> $_JB_AL_VARS['i_intervalle_tps'],
+			'url_image_suivante'	=> $_JB_AL_VARS['s_url_img_suivante']
+		));
+		
+		$sAlbulleMetas = trim($oRenduMetas->parse());
+		unset($oRenduMetas);
 	}
 	
 // }}}
@@ -315,7 +341,7 @@ try {
 // }}}
 // {{{ GENERATION & RETOUR
 	
-	return $oRenduPage->parse();
+	return trim($oRenduPage->parse());
 	
 // }}}
 }

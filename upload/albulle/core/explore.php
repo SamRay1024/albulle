@@ -131,7 +131,7 @@ $_PHOTOS		= array();	// Tableau qui contiendra les photos
 $_JB_AL_GET		= array();	// Tableau qui contiendra les paramètres reçus dans l'URL
 $_JB_AL_POST	= array();	// Tableau qui contiendra les paramètres reçus par les formulaires
 
-$_JB_AL_VARS['s_version']					= '1.2';
+$_JB_AL_VARS['s_version']					= '1.2.1';
 
 $_JB_AL_VARS['s_acces_theme']				= JB_AL_ROOT . JB_AL_DOSSIER_THEMES . JB_AL_DOSSIER_THEME_ACTIF;
 $_JB_AL_VARS['s_arborescence']				= $_JB_AL_VARS['s_menu_panier'] = '';

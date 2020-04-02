@@ -91,7 +91,7 @@ echo require_once( JB_AL_ROOT.'core/explore.php' );
  * N'ayant plus d'entête de page, les styles CSS ne seront donc plus présents.
  * 
  * Cependant, vous aller pouvoir récupérer les balises d'inclusion des styles à placer dans l'entête 
- * <head>...</head> de votre site ! Ceci grâce à la variable '$sThmCssMetas' qui sera disponible une 
+ * <head>...</head> de votre site ! Ceci grâce à la variable '$sAlbulleMetas' qui sera disponible une 
  * fois la page explore.php appelée.
  * 
  * Si vous testez l'exemple ci-dessous, vous verrez qu'il y a deux choses qui ne vont pas :
@@ -155,9 +155,5 @@ define( 'JB_AL_ACCUEIL_ALT'				'<p>Autre texte d\'accueil</p>' );	// Surcharger 
 														
 $sAlbulle = require_once( JB_AL_ROOT.'core/explore.php' );
 
-echo $sThmCssMetas;
+echo $sAlbulleMetas;
 echo $sAlbulle;
-
-// ==================================================================================================
-
-?>

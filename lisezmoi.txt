@@ -1,5 +1,5 @@
 :: Albulle - Lisez moi
-:: Version 1.2
+:: Version 1.2.1
 :: Auteur : SamRay1024
 :: http://jebulle.net
 :: webmaster@jebulle.net
@@ -26,6 +26,17 @@ au fichier texte joint pour prendre connaissance des détails de cette licence.
 	L'utilisation d'Albulle équivaut à une acceptation tacite de sa licence.
 
 
+NOTE : INSTALLATION CHEZ FREE (*)
+---------------------------------
+
+	Depuis la version 1.2, Albulle n'est plus compatible PHP4. Il est nécessaire de passer
+par quelques étapes supplémentaires pour installer Albulle chez Free.
+
+	Voyez le contenu du dossier "extras/free.fr/" de l'archive pour l'installation.
+	
+(*) Free.fr ou tout autre hébergeur qui serait dans la même configuration.
+	
+	
 AVERTISSEMENT - EDITIONS DES FICHIERS
 -------------------------------------
 

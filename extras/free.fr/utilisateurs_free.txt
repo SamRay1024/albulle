@@ -1,0 +1,26 @@
+Installer Albulle 1.2.x chez Free
+---------------------------------
+
+Vous êtes chez Free, hébergeur ô combien connu pour ses petites limitations, et depuis Albulle 1.2
+vos galeries refusent de fonctionner... Pas de panique, après deux étapes d'installation
+supplémentaires tout va rentrer dans l'ordre :
+
+	- Free utilise PHP4 par défaut. Depuis la version 1.2, Albulle nécessite PHP5. Pour l'activer
+		envoyez le .htaccess à la racine de vos galeries ou modifiez un éventuel .htaccess 
+		existant en ajoutant la ligne que vous trouverez dans le fichier fourni.
+		
+	- Free ne supporte pas la fonction glob(), de ce fait, vous devez remplacer le fichier 
+		albulle/core/includes/jblib/jblib.php par le fichier alternatif joint.
+
+C'est tout !
+
+
+Problème avec les archives
+--------------------------
+
+Si vous avez des problèmes avec la génération des archives, je vous invite à vous rendre à
+l'adresse suivante :
+
+	http://matheret.free.fr/albulle.vOM.html
+
+Vous pourrez y trouver une version alternative d'Albulle qui fonctionne chez Free.

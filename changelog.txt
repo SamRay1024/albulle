@@ -1,8 +1,14 @@
 :: Albulle
-:: Version 1.2
+:: Version 1.2.1
 
 WHAT's NEW :
 ------------
+
+Version 1.2.1 - 25/05/2010 - rev. 38 > 39
+
+	* Ajouté : fourniture du nécessaire pour l'installation chez Free.fr dans les extras,
+	* Modifié : configuration du fuseau horaire faite depuis jblib,
+	* Corrigé : rendu en mode intégration à un site. $sThmCssMetas devient $sAlbulleMetas.
 
 Version 1.2 - 07/05/2010 - rev. 23 > 36
 

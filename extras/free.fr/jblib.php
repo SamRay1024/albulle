@@ -3,11 +3,14 @@
 /**
  * Contient le nécessaire au chargement de JbLib.
  *
+ * Cette version du fichier est à destination des hébergeurs où la fonction glob() ne fonctionne
+ * pas (comme free.fr par exemple).
+ *
  * @author SamRay1024
  * @copyright Bubulles Créations
  * @link http://jebulle.net
  * @since 25/01/2010
- * @version 18/05/2010
+ * @version 24/05/2010
  * @package JbLib
  */
  
@@ -49,9 +52,5 @@ if( !JBL_PRODUCTION ) {
 /**
  * Chargement des modules installés.
  */
-$_JBL_LOADED_EXTENSIONS = glob(JBL_ROOT .'classes/*.class.php');
-
-is_array($_JBL_LOADED_EXTENSIONS) or $_JBL_LOADED_EXTENSIONS = array();
-
-foreach( $_JBL_LOADED_EXTENSIONS as $sExtension )
-	require_once($sExtension);
+require_once('classes/jberror.class.php');
+require_once('classes/jbparser.class.php');
