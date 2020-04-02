@@ -36,6 +36,7 @@
 
 				</div><!-- cadre dossiers photos -->
 
+				<!-- SI PANIER_ACTIF -->
 				<div class="panier"><!-- cadre gestion du panier -->
 
 					<h4><span class="titre">Photos dans le panier</span></h4>
@@ -46,10 +47,11 @@
 
 					{MENU_PANIER}
 
-					<br />
-
+					<p class="asterisque">(*) Ces informations sont celles de l'image qui sera téléchargée et non de celle affichée.</p>
+					
 					<div class="spacer"></div>
 				</div><!-- cadre gestion du panier -->
+				<!-- FINSI PANIER_ACTIF -->
 
 				<div class="copyright"><!-- copyright -->
 

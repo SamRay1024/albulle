@@ -1,9 +1,9 @@
 /*
  * Fichier : style.css
- * Date : 18/09/2006
+ * Date : 20/05/2007
  * Auteur : SamRay1024 - http://jebulle.net
  *
- * AlBulle CSS - Style uniquement - Pour version 0.9.1
+ * AlBulle CSS - Style uniquement - A partir de la version 0.9.1
  *
  */
 
@@ -45,7 +45,7 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 #albulle .vignetteDiapo,
 #albulle #diapo,
 #albulle .cadre {
-	background:				url(../images/fond_entete.jpg) #fff repeat-x bottom;
+	background:				url(../images/fond_entete.png) repeat-x bottom white;
 	border:					1px solid #aaa;
 }
 
@@ -55,7 +55,7 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 #albulle h2					{ font-size: 1.1em; }
 
 /* barre de navigation */
-#albulle h3					{ background-image: url(../images/fond_menus.jpg); font-size: 1.3em; }
+#albulle h3					{ background-image: url(../images/fond_menu.png); font-size: 1.3em; }
 
 /* cadre d'accueil si aucun dossier sélectionné */
 #albulle .texte {
@@ -107,6 +107,7 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 
 #albulle .panier p			{ font-size: 0.9em; }
 #albulle .panier .plein		{ color: red; }			/* Le texte qui indique que le panier est plein */
+#albulle .asterisque		{ font-style: italic; }
 
 /* menu des dossiers et du panier */
 #albulle .menu				{ text-align: left; }
@@ -157,7 +158,7 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 }
 
 #albulle .page,
-#albulle .bouton		{ background-image: url(../images/fond_menus.jpg); }
+#albulle .bouton		{ background-image: url(../images/fond_menu.png); }
 
 #albulle .bouton .tout	{ background: url(../images/puce_retrait.png) no-repeat center center; }
 #albulle .bouton .rien	{ background: url(../images/puce_ajout.png) no-repeat center center; }

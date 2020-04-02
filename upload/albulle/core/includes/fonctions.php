@@ -54,8 +54,8 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name AlBulle
- * @since 26/09/2006
- * @version 0.2
+ * @since 22/05/2007
+ * @version 1.0rc4
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -80,22 +80,22 @@ function verifications()
 				Rendez-vous sur les forums de JeBulle.Net pour visualiser <a href="http://forums.jebulle.net/viewtopic.php?id=417">
 				ce message</a> (Lisez l\'erreur 1) qui concerne cette erreur.' );
 
-	if( !is_dir(JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS) )	// existence dossier des photos
-		erreur( 'Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_PHOTOS.'</em> est introuvable.
+	if( !is_dir(JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_PHOTOS) )	// existence dossier des photos
+		erreur( 'Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_PHOTOS.'</em> est introuvable.
 				Vérifiez la configuration dans le fichier <strong>config.php</strong>. Il s\'agit
 				du répertoire qui doit contenir vos albums photos !' );
 
-	if( !is_dir(JB_AL_ROOT.JB_AL_DOSSIER_MINIATURES) )	// existence dossier des miniatures
-		erreur( 'Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_MINIATURES.'</em> est introuvable.
+	if( !is_dir(JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_MINIATURES) )	// existence dossier des miniatures
+		erreur( 'Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_MINIATURES.'</em> est introuvable.
 				Vérifiez la configuration dans le fichier <strong>config.php</strong>. Il s\'agit
 				du répertoire qui va contenir les miniatures de vos images !' );
 
-	if( !is_writeable(JB_AL_ROOT.JB_AL_DOSSIER_MINIATURES) )    // est-ce que le dossier des miniatures est autorisé en écriture
+	if( !is_writeable(JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_MINIATURES) )    // est-ce que le dossier des miniatures est autorisé en écriture
 		erreur( 'Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_MINIATURES.'</em> n\'est pas autorisé en écriture. Vous devez
 				rendre ce dossier accessible en écriture pour que les miniatures de vos photos puissent être générées.' );
 
-	if( !file_exists(JB_AL_ROOT.JB_AL_FICHIER_ACCUEIL) )	// existence fichier accueil
-		erreur( 'Le fichier <em>'.JB_AL_ROOT.JB_AL_FICHIER_ACCUEIL.'</em> est introuvable.
+	if( !file_exists(JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_FICHIER_ACCUEIL) )	// existence fichier accueil
+		erreur( 'Le fichier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_FICHIER_ACCUEIL.'</em> est introuvable.
 				Vérifiez la configuration dans le fichier <strong>config.php</strong>. Si ce fichier
 				n\'existe pas, créez-le et complétez-le pour bénéficier d\'un texte d\'accueil.' );
 
@@ -108,8 +108,8 @@ function verifications()
 
 	if( JB_AL_MODE_CENTRE === true )	// Vérification dossier centre de téléchargement
 	{
-		if( !is_dir(JB_AL_ROOT.JB_AL_DOSSIER_CENTRE) )
-			erreur( 'Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_CENTRE.'</em> est introuvable.
+		if( !is_dir(JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_CENTRE) )
+			erreur( 'Le dossier <em>'.JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_CENTRE.'</em> est introuvable.
 					Vérifiez la configuration dans le fichier <strong>config.php</strong>.' );
 	}
 }
@@ -281,9 +281,23 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
  *
  * @return [BOOLEAN]			True : le navigateur est IE. False : autre navigateur.
  */
-function isIE()
-{
-	return !(strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) === false);
-}
+function isIE() { return !(strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) === false); }
 
+/**
+ * Retourne l'équivalent du chemin donné tel qu'il doit être stocké dans le panier.
+ *
+ * Le chemin donné doit être un chemin relatif à l'un des trois dossiers : photos, originales, centre.
+ * 
+ * @param	[STRING]	$sChemin	Chemin dont on veut obtenir l'équivalence.
+ * @return	[STRING]				Equivalence du chemin.
+ */
+function cheminDansPanier( $sChemin ) {
+	if( JB_AL_MODE_CENTRE === true ) {
+		$sCheminDansPanier = JB_AL_DOSSIER_CENTRE.$oOutils->SousChaineGauche( $sChemin, '.', 1 ).JB_AL_EXTENSION_FICHIERS;
+		if( !file_exists(JB_AL_ROOT.JB_AL_DOSSIER_DATA.$sCheminDansPanier) ) $sCheminDansPanier = JB_AL_DOSSIER_PHOTOS.$sChemin;
+	}
+	else $sCheminDansPanier = (file_exists(JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_ORIGINALES.$sChemin) ? JB_AL_DOSSIER_ORIGINALES : JB_AL_DOSSIER_PHOTOS).$sChemin;
+	
+	return $sCheminDansPanier;
+}
 ?>

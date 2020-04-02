@@ -49,8 +49,8 @@
  *
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
- * @since 29/11/2006
- * @version 1.0rc2
+ * @since 22/05/2007
+ * @version 1.0rc3
  *
  */
 
@@ -106,7 +106,7 @@ class PanierDeFichiers {
 		// s'il n'y a pas de session démarrée, il faut la créer
 		if( session_id() === '' )	session_start();
 		
-		$this->_sRoot = $sRoot;
+		$this->_sRoot = realpath($sRoot).'/';
 
 		// creation du panier s'il n'existe pas déjà
 		if( !isset( $_SESSION[NOM_PANIER_SESSION] ) )	$_SESSION[NOM_PANIER_SESSION] = array();
@@ -131,8 +131,11 @@ class PanierDeFichiers {
 		// ajout du fichier s'il n'y est pas déjà et si le panier n'est pas plein
 		if( ($this->EstDansLePanier($sCheminFichier) === false) && !$this->PanierPlein() )
 		{
-			$_SESSION[NOM_PANIER_SESSION][] = $sCheminFichier;
-			return true;
+			// Vérification chemin
+			if( $this->verifierChemin($sCheminFichier) ) {
+				$_SESSION[NOM_PANIER_SESSION][] = $sCheminFichier;
+				return true;
+			}
 		}
 
 		return false;
@@ -185,12 +188,12 @@ class PanierDeFichiers {
 		// inclusion de la librairie de compression zip
 		require_once ( COMPRESS_LIB );
 
-		// Initialisation tableau des éléments
+		// Création du tableau avec les chemins réels des fichiers présents dans le panier
 		$aElementsPourArchive = $_SESSION[NOM_PANIER_SESSION];
 		foreach( $aElementsPourArchive as $key => $value )
 			$aElementsPourArchive[$key] = $this->_sRoot.$value;
-		
-		// On place tous les éléments du panier dans un dossier racine du même nom que l'archive
+			
+		// On place tous les éléments du panier dans un dossier racine du même nom que l'archive si aucune surcharge des chemins du panier n'est demandée
 		if( sizeof($aNomsInternes) == 0 ) {
 			foreach( $_SESSION[NOM_PANIER_SESSION] as $key => $value )
 				$aNomsInternes[] = $sNomArchive.'/'.$_SESSION[NOM_PANIER_SESSION][$key];
@@ -258,6 +261,21 @@ class PanierDeFichiers {
 	{	return $_SESSION[NOM_PANIER_SESSION]; }
 
 	/**
+	 * Vérifie que l'adresse d'un fichier donné se trouve bien dans le dossier racine.
+	 * 
+	 * Cette vérification est nécessaire pour prévénir l'utilisation des './' ou '../' dans l'adresse
+	 * d'un fichier pour tenter de remonter à des fichiers sensibles.
+	 *
+	 * @param	[STRING]	$sChemin	Adresse à vérifier.
+	 * @return	[BOOLEAN]				True si le chemin est correct et que le fichier existe, false dans le cas contraire.
+	 */
+	function verifierChemin( $sChemin )
+	{
+		$sCheminReel = realpath($this->_sRoot.$sChemin);
+		return ( is_string($sCheminReel) && strpos($sCheminReel, $this->_sRoot) !== false );
+	}
+	
+	/**
 	 * Vérifie que les fichiers présents dans le panier existent.
 	 *
 	 * @param	[VOID]
@@ -266,7 +284,7 @@ class PanierDeFichiers {
 	function verifierPanier()
 	{
 		foreach($_SESSION[NOM_PANIER_SESSION] as $key => $value) {
-			if( !file_exists($this->_sRoot.$value))
+			if( !$this->verifierChemin($value) )
 				unset( $_SESSION[NOM_PANIER_SESSION][$key] );
 		}
 
@@ -282,11 +300,9 @@ class PanierDeFichiers {
 	 */
 	function EtatPanier()
 	{
-
 		echo '<pre>';
 		print_r( $_SESSION[NOM_PANIER_SESSION] );
 		echo '</pre>';
-
 	}
 
 }

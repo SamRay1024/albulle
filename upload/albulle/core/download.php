@@ -52,8 +52,8 @@
  * @author SamRay1024
  * @copyright Bubulles Creations
  * @link http://jebulle.net
- * @since 29/11/2006
- * @version 1.0rc2
+ * @since 26/05/2007
+ * @version 1.0rc4
  */
 
 define( '_JB_INCLUDE_AUTH', 1 );
@@ -63,14 +63,27 @@ require_once( JB_AL_ROOT.'../config.php' );
 require_once( JB_AL_ROOT.'includes/classes/panierdefichiers.class.php' );
 require_once( JB_AL_ROOT.'includes/classes/util.class.php' );
 
-$oPanier = new PanierDeFichiers( '../'.JB_AL_DOSSIER_PHOTOS, JB_AL_PANIER_CAPACITE_MAX, JB_AL_PANIER_POIDS_MAX );
+//$oPanier = new PanierDeFichiers( '../'.JB_AL_DOSSIER_PHOTOS, JB_AL_PANIER_CAPACITE_MAX, JB_AL_PANIER_POIDS_MAX );
+$oPanier = new PanierDeFichiers( '../'.JB_AL_DOSSIER_DATA, JB_AL_PANIER_CAPACITE_MAX, JB_AL_PANIER_POIDS_MAX );
 
 if( $oPanier->CompterFichiers() !== 0 )
 {
 	// Définition nom archive
 	$sNomArchive = ( JB_AL_MODE_CENTRE === true ) ? 'Fichiers' : JB_AL_PANIER_NOM_ARCHIVE;
 
-	$oPanier->CreerArchive( $sNomArchive );
+	// Création de la structure à l'intérieure de l'archive
+	$aPanier = $oPanier->obtenirPanier();
+	
+	foreach( $aPanier as $iKey => $sAdresse )
+	{
+		// Suppression des dossiers racines (photos, originales, centre)
+		if( strpos($sAdresse, JB_AL_DOSSIER_ORIGINALES) !== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_ORIGINALES), strlen($sAdresse));
+		if( strpos($sAdresse, JB_AL_DOSSIER_CENTRE)		!== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_CENTRE), strlen($sAdresse));
+		if( strpos($sAdresse, JB_AL_DOSSIER_PHOTOS) 	!== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_PHOTOS), strlen($sAdresse));
+	}
+	
+	// Création de l'archive et envoi au client
+	$oPanier->CreerArchive( $sNomArchive, $aPanier );
 }
 else
 {

@@ -12,7 +12,9 @@
 					</span>
 					<!-- FINSI MODE_GALERIE -->
 
+					<!-- SI PANIER_ACTIF -->
 					<span class="puce">{PUCE_AJOUT_PANIER}</span>
+					<!-- FINSI PANIER_ACTIF -->
 
 				</div>
 

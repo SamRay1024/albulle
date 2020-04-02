@@ -1,8 +1,19 @@
 :: Albulle
-:: Version 1.0-rc3
+:: Version 1.0-rc4
 
 WHAT's NEW :
 ------------
+
+Version 1.0rc4 - 08/06/2007
+
+	* Ajout paramètre activation/désactivation du panier,
+	* Ajout du paramétrage du mode d'affichage par défaut : galerie ou diaporama,
+	* Ajout de la possibilité de stocker les photos selon deux qualités. Cela peut permettre
+	  d'afficher des images de dimensions réduites tout en les téléchargeant dans leur qualité originale,
+	* Modification de certaines images de fond en PNG pour alléger le thème par défaut,
+	* Correction des masques '.*' des expressions régulières de reconnaissance des blocs conditionnels
+	  en '.*?' pour obtenir des expressions régulières non gourmandes,
+	* Correction d'une faille d'accès aux fichiers PHP depuis le panier.
 
 Version 1.0-rc3 - 06/01/2007
 

@@ -12,8 +12,8 @@
  * @author SamRay1024
  * @copyright Bubulles Creations
  * @link http://jebulle.net
- * @since 09/11/2006
- * @version 1.0 rc1
+ * @since 22/05/2007
+ * @version 1.0 rc4
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -39,16 +39,16 @@ if( ($_JB_AL_VARS['b_mode_diaporama'] === false && JB_AL_OUVERTURE_JS === true &
 	($_JB_AL_VARS['b_mode_diaporama'] === true && JB_AL_OUVERTURE_JS_DIAPO === true && JB_AL_OUVERTURE_LBX_DIAPO === true))
 {
 	$aPseudosVariables['`<!-- SI LIGHTBOX -->\n\t\t|<!-- FINSI LIGHTBOX -->\n`'] = '';
-	$aPseudosVariables['`<!-- SI POPUP -->.*<!-- FINSI POPUP -->\n`s'] = '';
+	$aPseudosVariables['`<!-- SI POPUP -->.*?<!-- FINSI POPUP -->\n`s'] = '';
 }
 else
 {
 	// Sinon, on efface la section lightbox
-	$aPseudosVariables['`<!-- SI LIGHTBOX -->.*<!-- FINSI LIGHTBOX -->\n\n\t\t`s'] = '';
+	$aPseudosVariables['`<!-- SI LIGHTBOX -->.*?<!-- FINSI LIGHTBOX -->\n\n\t\t`s'] = '';
 
 	// Et on regarde si l'ouverture par popup simple est activée
 	if(JB_AL_OUVERTURE_JS === true || JB_AL_OUVERTURE_JS_DIAPO === true) $aPseudosVariables['`<!-- SI POPUP -->\n\t\t|<!-- FINSI POPUP -->`'] = '';
-	else $aPseudosVariables['`<!-- SI POPUP -->.*<!-- FINSI POPUP -->\n`s'] = '';
+	else $aPseudosVariables['`<!-- SI POPUP -->.*?<!-- FINSI POPUP -->\n`s'] = '';
 }
 
 // Si en mode diaporama >> activation defilement auto le cas échéant
@@ -59,7 +59,7 @@ if($_JB_AL_VARS['b_mode_diaporama'] === true && $_JB_AL_VARS['b_defilement_auto'
 	$aPseudosVariables['`{URL_IMAGE_SUIVANTE}`']	= $_JB_AL_VARS['s_url_img_suivante'];
 }
 // SInon on efface la section
-else $aPseudosVariables['`<!-- SI DEFILEMENT_AUTO -->.*<!-- FINSI DEFILEMENT_AUTO -->\n`s'] = '';
+else $aPseudosVariables['`<!-- SI DEFILEMENT_AUTO -->.*?<!-- FINSI DEFILEMENT_AUTO -->\n`s'] = '';
 
 // Les autres pseudos-variables
 $aPseudosVariables['`{CHEMIN_THEME}`']	= $_JB_AL_VARS['s_acces_theme'];
@@ -94,7 +94,7 @@ $sContenuDroite = '';
 if ( empty($_JB_AL_VARS['s_rep_courant']) && $_JB_AL_VARS['b_voir_panier'] === false )
 {
 	ob_start();
-	eval('require_once(JB_AL_ROOT.JB_AL_FICHIER_ACCUEIL);');
+	eval('require_once(JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_FICHIER_ACCUEIL);');
 	$sPageInclue = ob_get_contents();
 	ob_end_clean();
 
@@ -203,7 +203,7 @@ else
 			{
 				// Suppression condition diapo non vide et section diapo vide
 				$aPseudosVariables['`<!-- SI DIAPO_NON_VIDE -->\n\t\t|<!-- FINSI DIAPO_NON_VIDE -->\n`']	= '';
-				$aPseudosVariables['`<!-- SI DIAPO_VIDE -->.*<!-- FINSI DIAPO_VIDE -->\n`s']				= '';
+				$aPseudosVariables['`<!-- SI DIAPO_VIDE -->.*?<!-- FINSI DIAPO_VIDE -->\n`s']				= '';
 
 				// Affichage boutons précédente / suivante
 				if( $_JB_AL_VARS['s_url_img_precedente'] !== '' || $_JB_AL_VARS['s_url_img_suivante'] !== '' )
@@ -236,7 +236,7 @@ else
 				$aPseudosVariables['`{POIDS_PHOTO}`']		= $_MINIATURES[$_JB_AL_VARS['i_diapo_courante']]['SIZE_PHOTO'];
 
 				if( empty($_MINIATURES[$_JB_AL_VARS['i_diapo_courante']]['EXIF']) ) {
-					$aPseudosVariables['`<!-- SI EXIF -->.*<!-- FINSI EXIF -->\n`s']	= '';
+					$aPseudosVariables['`<!-- SI EXIF -->.*?<!-- FINSI EXIF -->\n`s']	= '';
 				} else {
 					$aPseudosVariables['`<!-- SI EXIF -->\n|<!-- FINSI EXIF -->\n`']	= '';
 					$aPseudosVariables['`{DONNEES_EXIF}`']								= $_MINIATURES[$_JB_AL_VARS['i_diapo_courante']]['EXIF'];
@@ -246,7 +246,7 @@ else
 			else
 			{
 				// On efface la section de la diapo pour afficher la section du message d'erreur
-				$aPseudosVariables['`<!-- SI DIAPO_NON_VIDE -->.*<!-- FINSI DIAPO_NON_VIDE -->\n`s']	= '';
+				$aPseudosVariables['`<!-- SI DIAPO_NON_VIDE -->.*?<!-- FINSI DIAPO_NON_VIDE -->\n`s']	= '';
 				$aPseudosVariables['`<!-- SI DIAPO_VIDE -->\n\t\t|<!-- FINSI DIAPO_VIDE -->\n`']		= '';
 			}
 
@@ -304,7 +304,7 @@ if(JB_AL_AFFICHER_ENTETE === true)
 	$aPseudosVariables['`{TITRE_GALERIE}`']										= JB_AL_TITRE_GALERIE;
 	$aPseudosVariables['`{SOUS_TITRE_GALERIE}`']								= JB_AL_SOUS_TITRE_GALERIE;
 }
-else $aPseudosVariables['`<!-- SI ENTETE -->.*<!-- FINSI ENTETE -->\n`s'] = '';
+else $aPseudosVariables['`<!-- SI ENTETE -->.*?<!-- FINSI ENTETE -->\n`s'] = '';
 
 // Construction phrase capacité panier
 $sCapacitePanier = 'illimitée';
@@ -332,7 +332,12 @@ $aPseudosVariables['`{VERSION}`']					= ( JB_AL_AFFICHER_VERSION === true ) ? ' 
 // Affichage pied de page si pas en mode intégration
 if( JB_AL_INTEGRATION_SITE === false )
 	$aPseudosVariables['`<!-- SI NON_INTEGRE -->\n\t\t|<!-- FINSI NON_INTEGRE -->\n`'] = '';
-else $aPseudosVariables['`<!-- SI NON_INTEGRE -->.*<!-- FINSI NON_INTEGRE -->`s'] = '';
+else $aPseudosVariables['`<!-- SI NON_INTEGRE -->.*?<!-- FINSI NON_INTEGRE -->`s'] = '';
+
+// Si panier désactivé
+if( JB_AL_PANIER_ACTIF === true )
+	$aPseudosVariables['`<!-- SI PANIER_ACTIF -->\n\t\t|<!-- FINSI PANIER_ACTIF -->\n`'] = '';
+else $aPseudosVariables['`<!-- SI PANIER_ACTIF -->.*?<!-- FINSI PANIER_ACTIF -->`s'] = '';
 
 $sThmIndex = $oOutils->parser( $_JB_AL_VARS['s_acces_theme'].'html/index.thm.php', $aPseudosVariables );
 

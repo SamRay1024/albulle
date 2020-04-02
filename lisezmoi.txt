@@ -1,5 +1,5 @@
 :: Albulle - Lisez moi
-:: Version 1.0rc3
+:: Version 1.0rc4
 :: Auteur : SamRay1024
 :: http://jebulle.net - http://forums.jebulle.net
 :: webmaster@jebulle.net
@@ -15,7 +15,7 @@ SOMMAIRE
 	* INTRODUCTION
 	* CONFIGURATION REQUISE
 	* AVERTISSEMENT (Si vous ne devez lire qu'un seul paragraphe, lisez celui-là !)
-	* MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
+	* MISE-A-JOUR
 	* INSTALLATION
 	* PARAMETRAGE DU PROGRAMME
 	* REDEFINIR SON PROPRE CLASSEMENT
@@ -128,44 +128,19 @@ http://openweb.eu.org/articles/jeux_caracteres/ )
 !	Plus d'infos sur les fins de lignes : http://fr.wikipedia.org/wiki/Saut_de_ligne
 
 
-MISE-A-JOUR DEPUIS LA VERSION PRECEDENTE
-----------------------------------------
+MISE-A-JOUR
+-----------
 
-* Vous utilisez actuellement une version <= 0.8 :
+	Fichiers modifiés depuis la version précédente :
 
-	Cette version 0.9 ayant subi de profonds changements il est obligatoire de supprimer
-	intégralement votre ancienne installation. Vous devez aussi supprimer les dossiers
-	miniatures présents dans votre dossier de photos vu que toutes les miniatures sont
-	maintenant stockées dans un unique dossier.
+	- config.php
+	- core/download.php
+	- core/explore.php
+	- core/includes/html.php
+	- core/includes/fonctions.php
+	- core/includes/classes/panierdefichiers.class.php
+	- themes/albulle/*
 
-* Vous utilisez actuellement la version 0.9.x :
-
-	Vous pouvez garder le dossier des photos. En revanche, l'organisation globale des 
-fichiers a changé. Il vous faudra donc déplacer ces dossiers dans le nouveau dossier datas/.
-
-	En raison du changement de structure, il est fortement conseillé de vider votre dossier
-des miniatures. Certaines pourraient ne pas s'afficher avec la nouvelle version. Si vous ne
-voyez pas certaines miniatures, vider le dossier pour que le script les refasse.
-
-	Le texte d'accueil (texte_accueil.html) a subit une légérère modification au niveau
-de la sémantique. Il se trouve aussi désormais dans le dossier datas/. Je vous invite donc
-à conserver votre précédent fichier, à le placer à sa nouvelle place et à le corriger de sorte
-qu'il respecte la sémantique XHTML. Consultez le nouveau texte_accueil.html pour constater
-la modification (il s'agit du titre qui est maintenant encadré dans une vraie balise titre :
-<h5>...</h5>).
-
-	Pour le reste, vous pouvez tout supprimer intégralement et installer les nouveaux fichiers.
-	
-* Vous utilisez actuellement la version 1.0rc1 :
-
-	- Remplacez le dossier /core par le nouveau
-	- Remplacez le fichier lightbox.css du thème albulle par le nouveau
-
-* Vous utilisez actuellement la version 1.0rc2, la liste des fichiers modifiés est la suivante :
-
-	- albulle/core/explore.php
-	- albulle/core/classes/OMzip.php
-	
 
 INSTALLATION
 ------------
@@ -404,3 +379,6 @@ est à votre disposition à l'adresse suivante :
 
 	http://forums.jebulle.net,
 	Rubrique "Albulle".
+
+Nouveauté !! Une section documentation vient d'ouvrir : http://doc.jebulle.net. Vous pourrez y trouver
+le contenu de ce fichier mais en beaucoup plus complet ;).

@@ -47,10 +47,12 @@ if( !defined('JB_AL_DOSSIER_THEME_ACTIF') )		define( 'JB_AL_DOSSIER_THEME_ACTIF'
 if( file_exists(JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'config_thm.php') )
 	require_once( JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'config_thm.php' );
 
-if( !defined('JB_AL_DOSSIER_PHOTOS') )			define( 'JB_AL_DOSSIER_PHOTOS',			'datas/photos/' );			// Le nom du dossier qui contiendra vos albums photos.
-if( !defined('JB_AL_DOSSIER_MINIATURES') )		define( 'JB_AL_DOSSIER_MINIATURES',		'datas/miniatures/' );		// Le nom du dossier qui contiendra les miniatures générées.
+if( !defined('JB_AL_DOSSIER_DATA') )			define( 'JB_AL_DOSSIER_DATA',			'data/' );				// Le dossier racine des données.
+if( !defined('JB_AL_DOSSIER_PHOTOS') )			define( 'JB_AL_DOSSIER_PHOTOS',			'photos/' );			// Le nom du dossier qui contiendra vos albums photos publiés (dans le dossier des données).
+if( !defined('JB_AL_DOSSIER_MINIATURES') )		define( 'JB_AL_DOSSIER_MINIATURES',		'miniatures/' );		// Le nom du dossier qui contiendra les miniatures générées (dans le dossier des données).
+if( !defined('JB_AL_DOSSIER_ORIGINALES') )		define( 'JB_AL_DOSSIER_ORIGINALES',		'originales/' );		// Ce dossier est à utilisé si vous souhaitez mettre en ligne des photos légères mais que soient téléchargées les photos en qualité originale (dans le dossier des données).
 
-if( !defined('JB_AL_FICHIER_ACCUEIL') )			define( 'JB_AL_FICHIER_ACCUEIL',		'datas/texte_accueil.html' );	// Chemin d'accès au fichier qui contiendra le texte d'accueil.
+if( !defined('JB_AL_FICHIER_ACCUEIL') )			define( 'JB_AL_FICHIER_ACCUEIL',		'texte_accueil.html' );	// Chemin d'accès au fichier qui contiendra le texte d'accueil.
 
 
 // ================
@@ -117,6 +119,9 @@ if( !defined('JB_AL_PREFIXES_SEPARATEUR') )		define( 'JB_AL_PREFIXES_SEPARATEUR'
 // MODES D'AFFICHAGE DES IMAGES
 //
 
+// Choix du mode d'affichage par défaut
+if( !defined('JB_AL_MODE_DIAPO_DEFAUT') )		define( 'JB_AL_MODE_DIAPO_DEFAUT',		false );	// Si true, le mode diaporama sera actif par défaut. Sinon, c'est le mode galerie qui est activé.
+
 // Pour le mode galerie
 
 // Ouvrir les images dans une nouvelle fenêtre sans Javascript. La nouvelle fenêtre ne sera
@@ -177,6 +182,7 @@ if( !defined('JB_AL_VIGNETTES_QUALITE') )		define( 'JB_AL_VIGNETTES_QUALITE',		8
 // ================
 // PARAMETRAGE DU PANIER
 //
+if( !defined('JB_AL_PANIER_ACTIF') )			define( 'JB_AL_PANIER_ACTIF',			true );		// Activer le panier. Si false, le panier sera désactivé.
 if( !defined('JB_AL_PANIER_CAPACITE_MAX') )		define( 'JB_AL_PANIER_CAPACITE_MAX',	0 );		// Nombre maximum de fichiers que peut contenir le panier (0 = désactiver la limitation).
 if( !defined('JB_AL_PANIER_POIDS_MAX') )		define( 'JB_AL_PANIER_POIDS_MAX',		20 );		// Poids maximum que peut faire un panier en Mo. 0 = poids infini.
 if( !defined('JB_AL_PANIER_NOM_ARCHIVE') )		define( 'JB_AL_PANIER_NOM_ARCHIVE',		'Photos' );	// Le nom que prendra les archives téléchargées.
@@ -206,7 +212,7 @@ if( !defined('JB_AL_CONSERVER_URL_HOTE') )		define( 'JB_AL_CONSERVER_URL_HOTE',	
 
 // Utiliser Albulle comme centre de téléchargement.
 define( 'JB_AL_MODE_CENTRE',			false );		// Mettez ce paramètre à 'true' pour basculer de mode.
-define( 'JB_AL_DOSSIER_CENTRE',			'centre/' );	// Dossier dans lequel se trouvent les fichiers disponibles au téléchargement.
+define( 'JB_AL_DOSSIER_CENTRE',			'centre/' );	// Dossier dans lequel se trouvent les fichiers disponibles au téléchargement (relatif au dossier des données).
 define( 'JB_AL_EXTENSION_FICHIERS',		'.zip' );		// Extension des fichiers à télécharger.
 
 // Vous pouvez définir une url vers votre site principal pour le cas où Albulle
