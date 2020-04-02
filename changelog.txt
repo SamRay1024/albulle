@@ -1,8 +1,15 @@
 :: Albulle
-:: Version 1.0-rc5
+:: Version 1.0-rc6
 
 WHAT's NEW :
 ------------
+
+Version 1.0-rc6 - 25/06/2007
+
+	* Correction erreur de création des miniatures avec les photos qui possèdent leur double dans
+	  le dossier originales,
+	* Correction d'une notice qui restait dûe à la présence résiduelle de l'accès à
+	  $aActions['diaporama'] qui n'existe plus depuis la version 1.0-rc4.
 
 Version 1.0-rc5 - 19/06/2007
 
@@ -12,7 +19,7 @@ Version 1.0-rc5 - 19/06/2007
 	* Correction du fichier index.php qui était livré dans un mauvais encodage avec la 1.0-rc4,
 	* Suppression des masques \t\t dans les expressions régulières de remplacement.
 
-Version 1.0rc4 - 08/06/2007
+Version 1.0-rc4 - 08/06/2007
 
 	* Ajout paramètre activation/désactivation du panier,
 	* Ajout du paramétrage du mode d'affichage par défaut : galerie ou diaporama,

@@ -54,8 +54,8 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name Albulle
- * @since 19/06/2007
- * @version 1.0rc5
+ * @since 25/06/2007
+ * @version 1.0rc6
  */
 
 // Fonction qui affiche les erreurs et quitte le programme
@@ -116,7 +116,7 @@ $_MINIATURES	= array();	// Tableau qui contiendra les miniatures
 $_JB_AL_GET		= array();	// Tableau qui contiendra les paramètres reçus dans l'URL
 $_JB_AL_POST	= array();	// Tableau qui contiendra les paramètres reçus par les formulaires
 
-$_JB_AL_VARS['s_version']		= '1.0rc5';
+$_JB_AL_VARS['s_version']		= '1.0rc6';
 
 $_JB_AL_VARS['s_acces_theme']	= JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF;
 $_JB_AL_VARS['s_arborescence'] = $_JB_AL_VARS['s_menu_panier'] = '';
@@ -334,7 +334,8 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 		//
 
 		// Si l'image ne dépasse pas la limite de 5,3 millions de pixels, on peut lancer le traitement
-		if( ($aImgInfos[0] * $aImgInfos[1]) <= 5300000 ) {
+		$aImgPublieeInfos = getimagesize($sCheminPhoto);
+		if( ($aImgPublieeInfos[0] * $aImgPublieeInfos[1]) <= 5300000 ) {
 			$sCssClasseVignette = 'miniature';
 
 			// si la miniature n'existe pas ou que la photo est plus récente que la miniature => création ou remplacement

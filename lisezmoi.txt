@@ -1,5 +1,5 @@
 :: Albulle - Lisez moi
-:: Version 1.0rc5
+:: Version 1.0rc6
 :: Auteur : SamRay1024
 :: http://jebulle.net - http://forums.jebulle.net
 :: webmaster@jebulle.net
@@ -130,6 +130,11 @@ http://openweb.eu.org/articles/jeux_caracteres/ )
 
 MISE-A-JOUR
 -----------
+
+	Fichiers modifiés depuis la version 1.0rc5 :
+
+	- core/explore.php
+	- core/includes/fonctions.php
 
 	Fichiers modifiés depuis la version 1.0rc4 :
 

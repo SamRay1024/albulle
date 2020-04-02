@@ -172,7 +172,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 	if( $iNiveau > 1 )
 		$sArborescenceHTML = str_replace(
 								'{HREF_REMONTER}',
-								$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sRepParent).$aActions['diaporama'] ),
+								$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sRepParent) ),
 								$sLiRemonter
 							)."\n";
 
@@ -214,7 +214,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 								array( '`{ID_COURANT}`', '`{HREF_DOSSIER}`', '`{NOM_DOSSIER}`', '`{NB_IMAGES}`' ),
 								array(
 									$sCssIdCourant,
-									$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLienNiveau1).$aActions['diaporama'] ),
+									$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLienNiveau1) ),
 									utf8_encode(str_replace( '_', ' ', $sNomRep )),
 									$sNbPhotos
 								),
@@ -250,7 +250,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 										array( '`{ID_COURANT}`', '`{HREF_DOSSIER}`', '`{NOM_DOSSIER}`', '`{NB_IMAGES}`' ),
 										array(
 											'',
-											$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j]).$aActions['diaporama'] ),
+											$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j]) ),
 											utf8_encode(str_replace( '_', ' ', $sNomSousRep )),
 											$sNbPhotos
 										),
