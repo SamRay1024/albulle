@@ -55,10 +55,14 @@
  * @link http://jebulle.net
  * @name Albulle
  * @since 09/05/2005
- * @version 12/11/2008
+ * @version 30/09/2009
  */
 
-// Fonction qui affiche les erreurs et quitte le programme
+/**
+ * Fonction qui affiche les erreurs et quitte le programme.
+ *
+ * @param string	$sMessage	Message de l'erreur.
+ */
 function erreur( $sMessage ) {
 	headers_sent() or header( 'Content-type: text/html; charset=utf-8' );
 	exit( '
@@ -76,21 +80,15 @@ function erreur( $sMessage ) {
 	);
 }
 
-// Fonction qui permet d'inclure un fichier
+/**
+ * Fonction qui permet d'inclure un fichier.
+ *
+ * @param string	$sFichier	Fichier à inclure.
+ */
 function inclure( $sFichier ) {
 	if( !@include(JB_AL_ROOT.$sFichier) )
 		erreur('Impossible de trouver le fichier <em>'.$sFichier.'</em>.
 				Ce fichier est nécessaire pour le fonctionnement d\'Albulle.');
-}
-
-// Encode une chaîne au format UTF-8 si le système de fichier est paramétré comme n'étant pas au format UTF-8
-function preparerAdresse( $sChaine ) {
-
-	if( JB_AL_FICHIERS_UTF8 === true )
-		return ( JB_AL_SORTIE_ISO === true ? utf8_decode($sChaine) : $sChaine);
-
-	else
-		return ( JB_AL_SORTIE_ISO === true ? $sChaine : utf8_encode($sChaine) );
 }
 
 // Vérification que la racine est bien définie
@@ -127,7 +125,7 @@ $_MINIATURES	= array();	// Tableau qui contiendra les miniatures
 $_JB_AL_GET		= array();	// Tableau qui contiendra les paramètres reçus dans l'URL
 $_JB_AL_POST	= array();	// Tableau qui contiendra les paramètres reçus par les formulaires
 
-$_JB_AL_VARS['s_version']					= '1.1';
+$_JB_AL_VARS['s_version']					= '1.1.1';
 
 $_JB_AL_VARS['s_acces_theme']				= JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF;
 $_JB_AL_VARS['s_arborescence']				= $_JB_AL_VARS['s_menu_panier'] = '';
@@ -441,7 +439,7 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 			if( JB_AL_REMPLACER_TIRETS_BAS )	$sDescTitle = str_replace( '_', ' ', $sDescTitle );
 			if( !JB_AL_AFFICHER_EXTENSION )	    $sDescTitle = $oOutils->SousChaineGauche( $sDescTitle, '.', 1 );
 
-			$sBaliseLightBox = ' rel="lightbox'.($_JB_AL_VARS['b_mode_diaporama'] === true ? '' : '[albulle]').'" title="['.$aImgInfos[0].' x '.$aImgInfos[1].' | '.$sPoids.'] » '.preparerAdresse($sDescTitle).'"';
+			$sBaliseLightBox = ' rel="lightbox'.($_JB_AL_VARS['b_mode_diaporama'] === true ? '' : '[albulle]').'" title="['.$aImgInfos[0].' x '.$aImgInfos[1].' | '.$sPoids.'] » '.utf8($sDescTitle).'"';
 		}
 
 		// En mode diaporama, il faut écraser le lien pour afficher les images
@@ -470,7 +468,7 @@ if ( ((!empty( $_JB_AL_GET['s_rep_courant'] ) && is_dir( JB_AL_ROOT.JB_AL_DOSSIE
 													'CLASSE_CSS'	=> $sCssClasseVignette,
 													'ALT'			=> $sCheminPhoto
 												);
-		$_MINIATURES[$j]['NOM_PHOTO']			= ( JB_AL_AFFICHER_NOMS === true || $_JB_AL_VARS['b_mode_diaporama'] )	? preparerAdresse($aListePhotos[$i]) : '';
+		$_MINIATURES[$j]['NOM_PHOTO']			= ( JB_AL_AFFICHER_NOMS === true || $_JB_AL_VARS['b_mode_diaporama'] )	? utf8($aListePhotos[$i]) : '';
 		$_MINIATURES[$j]['DIM_PHOTO']			= ( JB_AL_AFFICHER_DIMENSIONS === true )			? $aImgInfos[0].' x '.$aImgInfos[1] : '';
 		$_MINIATURES[$j]['SIZE_PHOTO']			= ( JB_AL_AFFICHER_POIDS === true )					? $sPoids : '' ;
 		$_MINIATURES[$j]['TYPE_MIME']			= $sTypeMime;
@@ -578,7 +576,7 @@ if( !empty($_JB_AL_GET['s_rep_courant']) )
 	if(!$_JB_AL_GET['b_voir_panier'])
 	{
 		$sTitreFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( $aDossiersUrl[$iNiveau-1], JB_AL_PREFIXES_SEPARATEUR ) : $aDossiersUrl[$iNiveau-1];
-		$sTitreFiltre = preparerAdresse(str_replace( '_', ' ', $sTitreFiltre ));
+		$sTitreFiltre = utf8(str_replace( '_', ' ', $sTitreFiltre ));
 	}
 	else $sTitreFiltre = 'panier';
 }
@@ -599,12 +597,12 @@ else
 		$sDossierFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( $aDossiersUrl[$i], JB_AL_PREFIXES_SEPARATEUR ) : $aDossiersUrl[$i];
 
 		$sLien .= ( $i !== 0 ) ? '/'.$aDossiersUrl[$i] : $aDossiersUrl[$i];
-		$_JB_AL_VARS['s_navigation'] .= '<a href="'.$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLien).$aActions['voir'] ).'">'.str_replace( '_', ' ', preparerAdresse($sDossierFiltre) ).'</a> » ';
+		$_JB_AL_VARS['s_navigation'] .= '<a href="'.$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLien).$aActions['voir'] ).'">'.str_replace( '_', ' ', utf8($sDossierFiltre) ).'</a> » ';
 	}
 
 	// Nettoyage préfixe
 	if(!$_JB_AL_GET['b_voir_panier'])
-		$sDossierFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( preparerAdresse($aDossiersUrl[$iNiveau-1]), JB_AL_PREFIXES_SEPARATEUR ) : $aDossiersUrl[$iNiveau-1];
+		$sDossierFiltre = JB_AL_FILTRE_PREFIXES_ACTIF ? $oOutils->enleverPrefixe( utf8($aDossiersUrl[$iNiveau-1]), JB_AL_PREFIXES_SEPARATEUR ) : $aDossiersUrl[$iNiveau-1];
 	else $sDossierFiltre = 'Photos dans le panier';
 
 	$_JB_AL_VARS['s_navigation'] .= str_replace( '_', ' ', $sDossierFiltre );

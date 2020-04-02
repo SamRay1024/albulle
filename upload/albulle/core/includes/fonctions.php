@@ -55,7 +55,7 @@
  * @link http://jebulle.net
  * @name AlBulle
  * @since 11/09/2006
- * @version 03/02/2008
+ * @version 30/09/2009
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -64,10 +64,22 @@ if( !defined( '_JB_INCLUDE_AUTH' ) ) {
 }
 
 /**
- * Vérifications des éléments nécessaires au fonctionnement d'AlBulle.
+ * Encode / décode une chaîne au/depuis le format UTF-8 selon que le système de fichier est paramétré comme étant/n'étant pas au format UTF-8.
  *
- * @param	[Void]
- * @return	[Void]
+ * @param string	$sChaine	Chaîne à encoder/décoder.
+ * @return string				Chaîne encodée/décodée.
+ */
+function utf8( $sChaine ) {
+
+	if( JB_AL_FICHIERS_UTF8 === true )
+		return ( JB_AL_SORTIE_ISO === true ? utf8_decode($sChaine) : $sChaine);
+
+	else
+		return ( JB_AL_SORTIE_ISO === true ? $sChaine : utf8_encode($sChaine) );
+}
+
+/**
+ * Vérifications des éléments nécessaires au fonctionnement d'AlBulle.
  */
 function verifications()
 {
@@ -120,18 +132,18 @@ function verifications()
  * Cette fonction permet de contruire une liste HTML <ul>...</ul> dont les éléments <li>...</li>
  * représentent les sous-dossiers présents dans celui de base.
  *
- * @param	[STRING]	$sBaseRep						Répertoire de base
- * @param	[STRING]	$sRepCourant					Répertoire sélectionné
- * @param	[INTEGER]	$iNiveau						Profonfeur du répertoire demandé
- * @param	[ARRAY]		$aDossiersInterdits				Tableau des dossiers à ne pas afficher
- * @param	[ARRAY]		$aExtensionsFichiersAutorises	Extension des fichiers autorisés
- $ @param	[ARRAY]		$aTypesMimeAutorises			Types MIME autorisés
- * @param	[BOOLEAN]	$bAfficherNbFichiers			Afficher le nombre de fichiers dans un dossier
- * @param	[BOOLEAN]	$bAfficherNbSiVide				Afficher ce nombre même si le dossier est vide
- * @param	[BOOLEAN] 	$bDeroulerTout					Dérouler tous les noeuds ou seulement celui sélectionné
- * @param	[BOOLEAN] 	$bFiltrerPrefixes				Filtrer les noms des dossiers
- * @param	[STRING]	$sSeparateurFiltres				Si le paramètre précédent est vrai, le séparateur qui sépare préfixe et nom du dossier.
- * @return	[STRING]									La chaîne HTML de l'arborescence complète.
+ * @param	string	$sBaseRep						Répertoire de base
+ * @param	string	$sRepCourant					Répertoire sélectionné
+ * @param	integer	$iNiveau						Profonfeur du répertoire demandé
+ * @param	array	$aDossiersInterdits				Tableau des dossiers à ne pas afficher
+ * @param	array	$aExtensionsFichiersAutorises	Extension des fichiers autorisés
+ $ @param	array	$aTypesMimeAutorises			Types MIME autorisés
+ * @param	boolean	$bAfficherNbFichiers			Afficher le nombre de fichiers dans un dossier
+ * @param	boolean	$bAfficherNbSiVide				Afficher ce nombre même si le dossier est vide
+ * @param	boolean	$bDeroulerTout					Dérouler tous les noeuds ou seulement celui sélectionné
+ * @param	boolean	$bFiltrerPrefixes				Filtrer les noms des dossiers
+ * @param	string	$sSeparateurFiltres				Si le paramètre précédent est vrai, le séparateur qui sépare préfixe et nom du dossier.
+ * @return	string									La chaîne HTML de l'arborescence complète.
  */
 function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInterdits, $aExtensionsFichiersAutorises, $aTypesMimeAutorises,
 								$bAfficherNbFichiers, $bAfficherNbSiVide, $bDeroulerTout, $bFiltrerPrefixes, $sSeparateurFiltres = '' )
@@ -217,7 +229,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 								array(
 									$sCssIdCourant,
 									$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLienNiveau1) ),
-									utf8_encode(str_replace( '_', ' ', $sNomRep )),
+									utf8(str_replace( '_', ' ', $sNomRep )),
 									$sNbPhotos
 								),
 								$sLiCourant
@@ -253,7 +265,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 										array(
 											'',
 											$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j]) ),
-											utf8_encode(str_replace( '_', ' ', $sNomSousRep )),
+											utf8(str_replace( '_', ' ', $sNomSousRep )),
 											$sNbPhotos
 										),
 										$sLiCourant
@@ -281,7 +293,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 /**
  * Permet de savoir si le navigateur du client est Internet Explorer.
  *
- * @return [BOOLEAN]			True : le navigateur est IE. False : autre navigateur.
+ * @return boolean			True : le navigateur est IE. False : autre navigateur.
  */
 function isIE() { return !(strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) === false); }
 
@@ -290,8 +302,8 @@ function isIE() { return !(strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) === fal
  *
  * Le chemin donné doit être un chemin relatif à l'un des trois dossiers : photos, originales, centre.
  * 
- * @param	[STRING]	$sChemin	Chemin dont on veut obtenir l'équivalence.
- * @return	[STRING]				Equivalence du chemin.
+ * @param	string	$sChemin	Chemin dont on veut obtenir l'équivalence.
+ * @return	string				Equivalence du chemin.
  */
 function cheminDansPanier( $sChemin ) {
 

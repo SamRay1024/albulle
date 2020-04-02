@@ -1,5 +1,5 @@
 :: Albulle - Lisez moi
-:: Version 1.1
+:: Version 1.1.1
 :: Auteur : SamRay1024
 :: http://jebulle.net
 :: webmaster@jebulle.net
@@ -22,7 +22,7 @@ LICENCE
 	Albulle est distribué sous la licence CeCILL2. Veuillez vous référez 
 au fichier texte joint pour prendre connaissance des détails de cette licence.
 
-	En utilisant Albulle, vous acceptez cette licence.
+	L'utilisation d'Albulle équivaut à une acceptation tacite de sa licence.
 
 
 AVERTISSEMENT - EDITIONS DES FICHIERS

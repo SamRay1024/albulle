@@ -168,7 +168,7 @@ else
 			$aPseudosVariables[$i]['`{CLASSE_MINIATURE}`']	= $_MINIATURES[$i]['LIEN_PHOTO']['CLASSE_CSS'];
 			$aPseudosVariables[$i]['`{ALT_IMAGE}`']			= $_MINIATURES[$i]['LIEN_PHOTO']['ALT'];
 
-			// Si mode gallerie
+			// Si mode galerie
 			if($_JB_AL_VARS['b_mode_diaporama'] === false)
 			{
 				$aPseudosVariables[$i]['`<!-- SI MODE_GALERIE -->\n|<!-- FINSI MODE_GALERIE -->\n`'] = '';
@@ -335,6 +335,16 @@ $aPseudosVariables['`{CHEMIN_ROOT}`']				= JB_AL_ROOT;
 $aPseudosVariables['`{REP_COURANT}`']				= $_JB_AL_VARS['s_rep_courant'];
 $aPseudosVariables['`{VERSION}`']					= ( JB_AL_AFFICHER_VERSION === true ) ? ' v'.$_JB_AL_VARS['s_version'] : '';
 
+// Si page d'accueil
+if( isset($_JB_AL_VARS['accueil']) )
+	$aPseudosVariables['`<!-- SI ACCUEIL -->\n|<!-- FINSI ACCUEIL -->\n`'] = '';
+else $aPseudosVariables['`<!-- SI ACCUEIL -->.*?<!-- FINSI ACCUEIL -->`s'] = '';
+
+// Si mode galerie
+if($_JB_AL_VARS['b_mode_diaporama'] === false)
+	$aPseudosVariables['`<!-- SI MODE_GALERIE -->\n|<!-- FINSI MODE_GALERIE -->\n`'] = '';
+else $aPseudosVariables['`<!-- SI MODE_GALERIE -->.*<!-- FINSI MODE_GALERIE -->\n`s'] = '';
+
 // Affichage pied de page si pas en mode intégration
 if( JB_AL_INTEGRATION_SITE === false )
 	$aPseudosVariables['`<!-- SI NON_INTEGRE -->\n|<!-- FINSI NON_INTEGRE -->\n`'] = '';
@@ -346,7 +356,6 @@ if( JB_AL_PANIER_ACTIF === true )
 else $aPseudosVariables['`<!-- SI PANIER_ACTIF -->.*?<!-- FINSI PANIER_ACTIF -->`s'] = '';
 
 $sThmIndex = $oOutils->parser( $_JB_AL_VARS['s_acces_theme'].'html/index.thm.php', $aPseudosVariables );
-
 
 // =================
 // Envoi de la page générée

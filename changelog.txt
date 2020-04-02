@@ -1,8 +1,14 @@
 :: Albulle
-:: Version 1.1
+:: Version 1.1.1
 
 WHAT's NEW :
 ------------
+
+Version 1.1.1 - 01/10/2009 - rev. 17 > 21
+
+	* Ajouté : nouveau bloc conditionnel "SI ACCUEIL" dans les thèmes (FS#8)
+	* Ajouté : le bloc conditionnel "SI MODE_GALERIE" est disponible dans tous les fichiers d'un thème (FS#8)
+	* Corrigé : erreur encodage UTF-8 des noms de dossiers (FS#4)
 
 Version 1.1 - 12/11/2008 - rev. > 15
 
