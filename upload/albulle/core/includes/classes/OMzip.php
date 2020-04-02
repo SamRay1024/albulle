@@ -363,6 +363,3 @@ class zipfile
     } // end of the 'file()' method
 
 } // end of the 'zipfile' class
-
-
-?>

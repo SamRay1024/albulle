@@ -58,7 +58,7 @@
  * @link http://jebulle.net
  * @name Albulle
  * @since 23/10/2008
- * @version 30/10/2008
+ * @version 12/04/2010
  */
  
 define('JB_AL_ROOT',		'albulle/');
@@ -80,15 +80,13 @@ echo '<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 if( !empty($_JB_AL_GET['s_rep_courant']) ) {
 	
 	// Lecture des images présentes dans le dossier
-	$oOutils = new Util();
-
-	$aImages = $oOutils->advScanDir(
-						JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_PHOTOS.$_JB_AL_GET['s_rep_courant'],
-						'FICHIERS_SEULEMENT',
-						array(),
-						array( 'gif', 'jpe', 'jpeg', 'jpg', 'png' ),
-						array( 'image/jpeg', 'image/pjpeg', 'image/gif', 'image/x-png', 'image/png')
-						);
+	$aImages = Util::advScanDir(
+		JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_PHOTOS.$_JB_AL_GET['s_rep_courant'],
+		'FICHIERS_SEULEMENT',
+		array(),
+		array( 'gif', 'jpe', 'jpeg', 'jpg', 'png' ),
+		array( 'image/jpeg', 'image/pjpeg', 'image/gif', 'image/x-png', 'image/png')
+	);
 						
 	$sItems = '';
 	foreach( $aImages as $sImage ) {
@@ -100,9 +98,9 @@ if( !empty($_JB_AL_GET['s_rep_courant']) ) {
 		$sUrlMiniature	= JB_AL_BASE_URL.JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_MINIATURES.$aImage[0].'_'.JB_AL_VIGNETTES_LARGEUR.'x'.JB_AL_VIGNETTES_HAUTEUR.'_'.md5($sCheminPhoto).'.'.$aImage[1];
 		
 		$sTitre			= basename($sImage);
-		if( JB_AL_FILTRE_PREFIXES_ACTIF )	$sTitre = $oOutils->enleverPrefixe( $sTitre, JB_AL_PREFIXES_SEPARATEUR );
+		if( JB_AL_FILTRE_PREFIXES_ACTIF )	$sTitre = Util::enleverPrefixe( $sTitre, JB_AL_PREFIXES_SEPARATEUR );
 		if( JB_AL_REMPLACER_TIRETS_BAS )	$sTitre = str_replace( '_', ' ', $sTitre );
-		if( !JB_AL_AFFICHER_EXTENSION )	    $sTitre = $oOutils->SousChaineGauche( $sTitre, '.', 1 );
+		if( !JB_AL_AFFICHER_EXTENSION )	    $sTitre = Util::sousChaineGauche( $sTitre, '.', 1 );
 		
 		echo "\n\t\t<item>\n\t\t\t";
 		echo '<title>'.basename($sImage)."</title>\n\t\t\t";
@@ -111,11 +109,8 @@ if( !empty($_JB_AL_GET['s_rep_courant']) ) {
 		echo '<media:content url="'.$sUrlPhoto."\"/>\n\t\t";
 		echo "</item>";
 	}
-	
 }
 
 echo '
 	</channel>
 </rss>';
- 
-?>

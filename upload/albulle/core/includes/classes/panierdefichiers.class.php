@@ -50,7 +50,7 @@
  * @author SamRay1024
  * @copyright Bubulles Creation - http://jebulle.net
  * @since 16/05/2005
- * @version 02/01/2008
+ * @version 03/05/2010
  */
 
 // nom de la variable du panier dans la session
@@ -64,26 +64,26 @@ class PanierDeFichiers {
 	/**
 	 * Dossier racine où sont stockés les fichiers ajoutés au panier.
 	 *
-	 * @var	[STRING]
-	 * @access [PRIVATE]
+	 * @var	string
+	 * @access private
 	 */
-	var $_sRoot = '';
+	private $_sRoot = '';
 	
 	/**
 	 * Nombre maximum de fichiers dans le panier.
 	 *
-	 * @var [INTEGER]
-	 * @access [PRIVATE]
+	 * @var integer
+	 * @access private
 	 */
-	var $_iNbFichiersMax = 0;
+	private $_iNbFichiersMax = 0;
 
 	/**
 	 * Poids maximum de l'archive en Mo.
 	 *
-	 * @var [FLOAT]
-	 * @access [PRIVATE]
+	 * @var float
+	 * @access private
 	 */
-	var $_fPoidsMax = 0;
+	private $_fPoidsMax = 0;
 
 	/**
 	 * Constructeur de la classe.
@@ -91,47 +91,52 @@ class PanierDeFichiers {
 	 * Peut recevoir un nombre maximum de fichiers pour limiter le contenu du panier.
 	 * Si aucun paramètre ou que le nombre passé vaut 0 ou est négatif le panier est illimité.
 	 *
-	 * @param [STRING]	$sRoot			Dossier racine où se situent les fichiers du panier.
-	 * @param [INTEGER]	$iNbFichiersMax	Nombre de fichiers que l'on peut mettre dans le panier.
-	 * @param [FLOAT]	$fPoidsMax		Poids maximum en Mo que peut prendre l'archive du panier.
-	 * @return [VOID]
+	 * @param string	$sRoot			Dossier racine où se situent les fichiers du panier.
+	 * @param integer	$iNbFichiersMax	Nombre de fichiers que l'on peut mettre dans le panier.
+	 * @param float		$fPoidsMax		Poids maximum en Mo que peut prendre l'archive du panier.
 	 */
-	function PanierDeFichiers( $sRoot, $iNbFichiersMax = 0, $fPoidsMax = 0 )
-	{
+	public function __construct( $sRoot, $iNbFichiersMax = 0, $fPoidsMax = 0 ) {
+	
 		// verification que le module de compression est actif sur le serveur
 		if( !extension_loaded( 'zlib' ) )
 			exit('# PANIER # <strong>[ Erreur fatale ]</strong> L\'extension \'zlib\' n\'est pas charg&eacute;e. Impossible d\'utiliser le panier sans elle.');
 
 		// s'il n'y a pas de session démarrée, il faut la créer
-		if( session_id() === '' )	session_start();
+		if( session_id() === '' )
+			session_start();
 		
-		$this->_sRoot = realpath($sRoot).DIRECTORY_SEPARATOR;
+		$this->_sRoot = realpath($sRoot) . DIRECTORY_SEPARATOR;
 
 		// creation du panier s'il n'existe pas déjà
-		if( !isset( $_SESSION[NOM_PANIER_SESSION] ) )	$_SESSION[NOM_PANIER_SESSION] = array();
-		else $this->verifierPanier();
+		if( !isset( $_SESSION[NOM_PANIER_SESSION] ) )
+			$_SESSION[NOM_PANIER_SESSION] = array();
+		else
+			$this->verifierPanier();
 
 		// initialisation du nombre max de fichiers
-		$this->_iNbFichiersMax	= ( $iNbFichiersMax < 0 ) ? 0 : $iNbFichiersMax;
-		$this->_fPoidsMax		= ( $fPoidsMax < 0 ) ? 0 : $fPoidsMax;
+		$this->_iNbFichiersMax	= ( $iNbFichiersMax < 0 ? 0 : $iNbFichiersMax );
+		$this->_fPoidsMax		= ( $fPoidsMax < 0 ? 0 : $fPoidsMax );
 	}
 
 	/**
+	 * Ajouter un fichier au panier.
+	 *
 	 * Ajoute un fichier au panier que s'il n'y est pas déjà et si le panier n'est pas plein.
 	 * La recherche si le fichier se trouve déjà dans le panier s'effectue
 	 * avec le chemin complet du fichier (autorise alors deux noms de fichiers
 	 * identiques mais dans des dossiers différents).
 	 *
-	 * @param [STRING]	$sCheminFichier	Chemin du fichier.
-	 * @return [BOOLEAN]				TRUE si le fichier a été ajouté, FALSE sinon.
+	 * @param string	$sCheminFichier	Chemin du fichier.
+	 * @return boolean					TRUE si le fichier a été ajouté, FALSE sinon.
 	 */
-	function Ajouter( $sCheminFichier )
-	{
+	public function ajouter( $sCheminFichier ) {
+	
 		// ajout du fichier s'il n'y est pas déjà et si le panier n'est pas plein
-		if( ($this->EstDansLePanier($sCheminFichier) === false) && !$this->PanierPlein() )
-		{
+		if( ($this->estDansLePanier($sCheminFichier) === false) && !$this->estPanierPlein() ) {
+		
 			// Vérification chemin
 			if( $this->verifierChemin($sCheminFichier) ) {
+			
 				$_SESSION[NOM_PANIER_SESSION][] = $sCheminFichier;
 				return true;
 			}
@@ -141,16 +146,16 @@ class PanierDeFichiers {
 	}
 
 	/**
-	 * Supprime le fichier spécifié du panier.
+	 * Supprimer le fichier spécifié du panier.
 	 *
-	 * @param [STRING]	$sCheminFichier	Chemin du fichier à supprimer. (Idem méthode d'ajout)
-	 * @return [BOOLEAN]				TRUE si le fichier a été supprimé, FALSE sinon.
+	 * @param string	$sCheminFichier	Chemin du fichier à supprimer. (Idem méthode d'ajout)
+	 * @return boolean					TRUE si le fichier a été supprimé, FALSE sinon.
 	 */
-	function Supprimer( $sCheminFichier )
-	{
+	public function supprimer( $sCheminFichier ) {
+	
 		// si l'image se trouve bien dans le panier on la supprime
-		if( ( $iPosition = $this->EstDansLePanier($sCheminFichier) ) !== false )
-		{
+		if( ($iPosition = $this->estDansLePanier($sCheminFichier)) !== false ) {
+		
 			unset( $_SESSION[NOM_PANIER_SESSION][$iPosition] );
 
 			// Mise-à-jour des index des éléments pour éviter les trous dans l'indexation
@@ -163,37 +168,38 @@ class PanierDeFichiers {
 	}
 
 	/**
-	 * Vide le panier.
-	 *
-	 * @param [VOID]
-	 * @return [VOID]
+	 * Vider le panier.
 	 */
-	function ViderPanier() { $_SESSION[NOM_PANIER_SESSION] = array(); }
+	public function viderPanier() {
+	
+		$_SESSION[NOM_PANIER_SESSION] = array();
+	}
 
 	/**
-	 * Création de l'archive qui contient les fichiers du panier.
+	 * Créer l'archive qui contient les fichiers du panier.
 	 *
 	 * L'archive est générée à la volée pour être directement envoyée à la sortie standard, soit
 	 * le navigateur du client qui demande le téléchargement de son panier.
 	 *
-	 * @param [STRING]	$sNomArchive		Nom à donner à l'archive sans extension. Valeur par défaut : 'Panier'.
-	 * @param [ARRAY]	$aNomsInternes		Utilisez ce tableau si la structure interne de l'archive doit être différente de la structure
-	 * 											des fichiers d'origine. Pour fonctionner, ce tableau doit contenir autant d'éléments que
-	 * 											le panier. Chacun d'eux correspond au nouveau chemin + nom de l'élément dans l'archive.
-	 * @return [VOID]
+	 * @param string	$sNomArchive		Nom à donner à l'archive sans extension. Valeur par défaut : 'Panier'.
+	 * @param array		$aNomsInternes		Utilisez ce tableau si la structure interne de l'archive doit être différente de la structure
+	 * 										des fichiers d'origine. Pour fonctionner, ce tableau doit contenir autant d'éléments que
+	 * 										le panier. Chacun d'eux correspond au nouveau chemin + nom de l'élément dans l'archive.
 	 */
-	function CreerArchive( $sNomArchive = 'Panier', $aNomsInternes = array() )
-	{
+	public function creerArchive( $sNomArchive = 'Panier', $aNomsInternes = array() ) {
+	
 		// inclusion de la librairie de compression zip
-		require_once ( COMPRESS_LIB );
+		require_once( COMPRESS_LIB );
 
 		// Création du tableau avec les chemins réels des fichiers présents dans le panier
 		$aElementsPourArchive = $_SESSION[NOM_PANIER_SESSION];
+		
 		foreach( $aElementsPourArchive as $key => $value )
 			$aElementsPourArchive[$key] = $this->_sRoot.$value;
 			
 		// On place tous les éléments du panier dans un dossier racine du même nom que l'archive si aucune surcharge des chemins du panier n'est demandée
 		if( sizeof($aNomsInternes) == 0 ) {
+		
 			foreach( $_SESSION[NOM_PANIER_SESSION] as $key => $value )
 				$aNomsInternes[] = $sNomArchive.'/'.$_SESSION[NOM_PANIER_SESSION][$key];
 		}
@@ -206,104 +212,94 @@ class PanierDeFichiers {
 	}
 
 	/**
-	 * Compte le nombre de fichiers dans le panier.
+	 * Compter le nombre de fichiers dans le panier.
 	 *
-	 * @param [VOID]
-	 * @return [INTEGER]	Retourne le nombre de fichiers dans le panier.
+	 * @return integer
 	 */
-	function CompterFichiers() { return sizeof( $_SESSION[NOM_PANIER_SESSION] ); }
+	public function compterFichiers() {
+		
+		return sizeof( $_SESSION[NOM_PANIER_SESSION] );
+	}
 
 	/**
-	 * Calcule le poids que fera l'archive qui contiendra les éléments du panier.
+	 * Calculer le poids estimé que fera l'archive.
 	 *
-	 * @param [VOID]
-	 * @return [FLOAT]		Retourne le poids du panier.
+	 * @return float	Poids en octets.
 	 */
-	 function CalculerPoids()
-	 {
+	 public function calculerPoids() {
+	 
 	 	$fPoids = 0;
-	 	foreach( $_SESSION[NOM_PANIER_SESSION] as $key => $value )	$fPoids += filesize($this->_sRoot.$value);
-	 	return $fPoids * (97/100);	// On ramène le poids de l'archive à 97% de la taille totale (ratio généralement constaté pour zip & tar)
+		
+	 	foreach( $_SESSION[NOM_PANIER_SESSION] as $key => $value )
+			$fPoids += filesize($this->_sRoot.$value);
+			
+		// On ramène le poids de l'archive à 97% de la taille totale
+		// (ratio généralement constaté pour zip & tar)
+	 	return $fPoids * (97/100);
 	 }
 
 	/**
-	 * Vérifie l'existence d'un fichier dans le panier.
+	 * Vérifier l'existence d'un fichier dans le panier.
 	 *
-	 * @param [STRING]	$sCheminFichier	Chemin du fichier à vérifier.
-	 * @return [MIXED]					La position de l'élément dans le panier si existant, FALSE sinon.
+	 * @param string	$sCheminFichier	Chemin du fichier à vérifier.
+	 * @return mixed					La position de l'élément dans le panier si existant, FALSE sinon.
 	 */
-	function EstDansLePanier( $sCheminFichier ) { return array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] ); }
+	public function estDansLePanier( $sCheminFichier ) {
+		
+		return array_search( $sCheminFichier, $_SESSION[NOM_PANIER_SESSION] );
+	}
 
 	/**
-	 * Permet de savoir si le panier est plein.
+	 * Savoir si le panier est plein.
 	 *
-	 * @param [VOID]
-	 * @return [BOOLEAN]	TRUE si le panier est plein, FALSE sinon.
+	 * @return boolean		TRUE si le panier est plein, FALSE sinon.
 	 */
-	function PanierPlein()
-	{
+	public function estPanierPlein() {
+	
 		// si un nombre max de fichiers a été défini et que le panier est plein
-		if( (($this->_iNbFichiersMax > 0 ) && ( $this->CompterFichiers() >= $this->_iNbFichiersMax )) ||
-			(($this->_fPoidsMax > 0 ) && ( $this->CalculerPoids() >= $this->_fPoidsMax * 1024 * 1024 )) )
+		if( (($this->_iNbFichiersMax > 0 ) && ( $this->compterFichiers() >= $this->_iNbFichiersMax )) ||
+			(($this->_fPoidsMax > 0 ) && ( $this->calculerPoids() >= $this->_fPoidsMax * 1024 * 1024 )) )
 			return true;
 
 		return false;
 	}
 
 	/**
-	 * Retourne le contenu du panier.
+	 * Retourner le contenu du panier.
 	 *
-	 * @param	[VOID]
-	 * @return	[ARRAY]		Le tableau qui représente le contenu du panier.
+	 * @return	array		Le tableau qui représente le contenu du panier.
 	 */
-	function obtenirPanier()
-	{	return $_SESSION[NOM_PANIER_SESSION]; }
+	public function obtenirPanier() {
+	
+		return $_SESSION[NOM_PANIER_SESSION];
+	}
 
 	/**
-	 * Vérifie que l'adresse d'un fichier donné se trouve bien dans le dossier racine.
+	 * Vérifier que l'adresse d'un fichier donné se trouve bien dans le dossier racine.
 	 * 
-	 * Cette vérification est nécessaire pour prévénir l'utilisation des './' ou '../' dans l'adresse
+	 * Cette vérification est nécessaire pour prévénir l'utilisation des '../' dans l'adresse
 	 * d'un fichier pour tenter de remonter à des fichiers sensibles.
 	 *
-	 * @param	[STRING]	$sChemin	Adresse à vérifier.
-	 * @return	[BOOLEAN]				True si le chemin est correct et que le fichier existe, false dans le cas contraire.
+	 * @param	string	$sChemin	Adresse à vérifier.
+	 * @return	boolean				True si le chemin est correct et que le fichier existe, false dans le cas contraire.
 	 */
-	function verifierChemin( $sChemin )
-	{
-		$sCheminReel = realpath($this->_sRoot.$sChemin);
-		return ( is_string($sCheminReel) && strpos($sCheminReel, $this->_sRoot) !== false );
+	private function verifierChemin( $sChemin ) {
+	
+		$sCheminReel = realpath($this->_sRoot . $sChemin);	
+		return ( is_string($sCheminReel) && strpos($sChemin, '../') === false );
 	}
 	
 	/**
-	 * Vérifie que les fichiers présents dans le panier existent.
-	 *
-	 * @param	[VOID]
-	 * @return	[VOID]
+	 * Vérifier que les fichiers présents dans le panier existent.
 	 */
-	function verifierPanier()
-	{
+	private function verifierPanier() {
+	
 		foreach($_SESSION[NOM_PANIER_SESSION] as $key => $value) {
+		
 			if( !$this->verifierChemin($value) )
 				unset( $_SESSION[NOM_PANIER_SESSION][$key] );
 		}
 
 		sort( $_SESSION[NOM_PANIER_SESSION] );
 	}
-
-	/**
-	 * Affiche le contenu du panier.
-	 * Fonction utile uniquement pour du déboguage.
-	 *
-	 * @param [VOID]
-	 * @return [VOID]
-	 */
-	function EtatPanier()
-	{
-		echo '<pre>';
-		print_r( $_SESSION[NOM_PANIER_SESSION] );
-		echo '</pre>';
-	}
-
 }
-
-?>

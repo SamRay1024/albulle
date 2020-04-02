@@ -3,10 +3,10 @@
 
     <head>
 
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset={$charset}" />
         <meta http-equiv="Content-Style-Type" content="text/css" />
 
-        <title>.: AlBulle :. .: {POPUP_TITRE} :.</title>
+        <title>.: AlBulle :. .: {$popup_titre} :.</title>
 
         <style>
             body { margin: 0px; padding: 0px; }
@@ -55,7 +55,7 @@
     <body onload="javascript:verifierDimensions();">
 
         <a href="javascript:window.close();">
-            <img id="monImage" src="{POPUP_SOURCE}" alt="Image de {POPUP_SOURCE}" />
+            <img id="monImage" src="{$popup_source}" alt="Image de {$popup_source}" />
         </a>
 
     </body>

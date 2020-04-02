@@ -1,25 +1,31 @@
-{>HEADER}
+{>header}
 
 		<div id="albulle"><!-- cadre principal -->
 
-			<!-- SI ENTETE -->
+			{?entete}
 			<div id="entete">
-				<h1><span>{TITRE_GALERIE}</span></h1>
-				<h2>{SOUS_TITRE_GALERIE}</h2>
+				<h1><span>{$titre_galerie}</span></h1>
+				<h2>{$sous_titre_galerie}</h2>
 			</div>
-			<!-- FINSI ENTETE -->
+			{entete?}
 
 			<div class="droite"><div class="contenu"><!-- cadre droite -->
 
-				<h3>{LIEN_RETOUR_SITE}{NAVIGATION}</h3>
+				<h3>{$lien_retour_site}{$fil_ariane}</h3>
 
-				{>BARRE_MENU}
-				{>TEXTE_DOSSIER}
-				{>CONTENU_DROITE}
+				{>menu_galerie}
+				{>texte}
+				{>diapositive}
+				{>galerie}
+				{?dossier_vide}
+				<div class="texte">
+					<p class="puceNoPhoto">Il n'y a pas de photos dans ce dossier.</p>
+				</div>
+				{dossier_vide?}
 
 				<div class="spacer_post_float"></div>
 
-				{>SOUS_DOSSIERS}
+				{>sous_dossiers}
 
 			</div></div><!-- cadre droite -->
 
@@ -29,41 +35,45 @@
 
 					<h4><span class="titre">Dossiers disponibles</span></h4>
 
+					{?arborescence}
 					<ul class="menu">
-						{ARBORESCENCE}
+						{$arborescence}
 					</ul>
+					{or arborescence}
+					<p>Aucun dossier pour l'instant.</p>
+					{arborescence?}
 
 					<div class="spacer"></div>
 
 				</div><!-- cadre dossiers photos -->
 
-				<!-- SI PANIER_ACTIF -->
+				{?panier_actif}
 				<div class="panier"><!-- cadre gestion du panier -->
 
 					<h4><span class="titre">Photos dans le panier</span></h4>
 
-					<p>Fichiers dans le panier : <strong>{NOMBRE_FICHIERS_PANIER}</strong><br />
-					Estimation poids final de l'archive : <strong>{POIDS_ESTIME}</strong><br />
-					<em>(Capacité du panier : {PANIER_CAPACITES})</em></p>
+					<p>Fichiers dans le panier : <strong>{$nombre_fichiers_panier}</strong><br />
+					Estimation poids final de l'archive : <strong>{$poids_estime}</strong><br />
+					<em>(Capacité du panier : {$panier_capacite})</em></p>
 
-					{MENU_PANIER}
+					{>menu_panier}
 
 					<p class="asterisque">(*) Ces informations sont celles de l'image qui sera téléchargée et non de celle affichée.</p>
 					
 					<div class="spacer"></div>
 				</div><!-- cadre gestion du panier -->
-				<!-- FINSI PANIER_ACTIF -->
+				{panier_actif?}
 
 				<div class="copyright"><!-- copyright -->
 
 					<!-- Merci de laisser au moins le lien vers le site d'Albulle ;-) -->
 					<a href="http://albulle.jebulle.net" title="Site officiel d'Albulle">
-						<img src="./{CHEMIN_THEME}images/btn-albulle.png" width="80" height="15" title="T&eacute;l&eacute;chargez Albulle, Galerie Photos" alt="T&eacute;l&eacute;chargez Albulle, Galerie Photos" />
+						<img src="./{$chemin_theme}images/btn-albulle.png" width="80" height="15" title="T&eacute;l&eacute;chargez Albulle, Galerie Photos" alt="T&eacute;l&eacute;chargez Albulle, Galerie Photos" />
 					</a><br />
 					<a href="http://www.cooliris.com" title="Site officiel de Cooliris">
-						<img src="./{CHEMIN_THEME}images/btn-cooliris.jpg" width="80" height="20" title="Visualiser autrement les photos grâce à Cooliris" alt="Logo Cooliris" />
+						<img src="./{$chemin_theme}images/btn-cooliris.jpg" width="80" height="20" title="Visualiser autrement les photos grâce à Cooliris" alt="Logo Cooliris" />
 					</a><br />
-					Albulle{VERSION} &copy; <a href="http://jebulle.net" title="Retrouvez Albulle, Galerie Photos et d'autres scripts">Bubulles Creations</a>
+					Albulle{$version} &copy; <a href="http://jebulle.net" title="Retrouvez Albulle, Galerie Photos et d'autres scripts">Bubulles Creations</a>
 
 				</div><!-- copyright -->
 
@@ -71,8 +81,8 @@
 
 		</div><!-- cadre principal -->
 
-<!-- SI NON_INTEGRE -->
+{?non_integre}
 	</body>
 
 </html>
-<!-- FINSI NON_INTEGRE -->
+{non_integre?}

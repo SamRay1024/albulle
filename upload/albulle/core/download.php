@@ -53,43 +53,46 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @since 04/08/2005
- * @version 26/05/2007
+ * @version 29/04/2010
  */
 
 define( '_JB_INCLUDE_AUTH', 1 );
-define( 'JB_AL_ROOT',		dirname(__FILE__).'/' );
+define( 'JB_AL_ROOT', dirname(__FILE__).'/' );
 
 require_once( JB_AL_ROOT.'../config.php' );
 require_once( JB_AL_ROOT.'includes/classes/panierdefichiers.class.php' );
 require_once( JB_AL_ROOT.'includes/classes/util.class.php' );
 
-//$oPanier = new PanierDeFichiers( '../'.JB_AL_DOSSIER_PHOTOS, JB_AL_PANIER_CAPACITE_MAX, JB_AL_PANIER_POIDS_MAX );
 $oPanier = new PanierDeFichiers( '../'.JB_AL_DOSSIER_DATA, JB_AL_PANIER_CAPACITE_MAX, JB_AL_PANIER_POIDS_MAX );
 
-if( $oPanier->CompterFichiers() !== 0 )
-{
+if( $oPanier->CompterFichiers() !== 0 ) {
+
 	// Définition nom archive
 	$sNomArchive = ( JB_AL_MODE_CENTRE === true ) ? 'Fichiers' : JB_AL_PANIER_NOM_ARCHIVE;
 
 	// Création de la structure à l'intérieure de l'archive
 	$aPanier = $oPanier->obtenirPanier();
 	
-	foreach( $aPanier as $iKey => $sAdresse )
-	{
-		// Suppression des dossiers racines (photos, originales, centre)
-		if( strpos($sAdresse, JB_AL_DOSSIER_ORIGINALES) !== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_ORIGINALES), strlen($sAdresse));
-		if( strpos($sAdresse, JB_AL_DOSSIER_CENTRE)		!== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_CENTRE), strlen($sAdresse));
-		if( strpos($sAdresse, JB_AL_DOSSIER_PHOTOS) 	!== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_PHOTOS), strlen($sAdresse));
+	foreach( $aPanier as $iKey => $sAdresse ) {
+	
+		if( JB_AL_PANIER_ARCHIVE_STRUCTUREE ) {
+	
+			// Suppression des dossiers racines (photos, originales, centre)
+			if( strpos($sAdresse, JB_AL_DOSSIER_ORIGINALES) !== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_ORIGINALES), strlen($sAdresse));
+			if( strpos($sAdresse, JB_AL_DOSSIER_CENTRE)		!== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_CENTRE), strlen($sAdresse));
+			if( strpos($sAdresse, JB_AL_DOSSIER_PHOTOS) 	!== false ) $aPanier[$iKey] = $sNomArchive.'/'.substr($sAdresse, strlen(JB_AL_DOSSIER_PHOTOS), strlen($sAdresse));
+		}
+		else
+			$aPanier[$iKey] = $sNomArchive .'/'. basename($sAdresse);
 	}
 	
 	// Création de l'archive et envoi au client
 	$oPanier->CreerArchive( $sNomArchive, $aPanier );
 }
-else
-{
+else {
+
 	header( 'Content-type: text/html; charset=utf-8' );
 	echo('# ALBULLE # <strong>[ Erreur ]</strong> => Le panier est vide, il n\'y a rien à télécharger !<br /><a href="javascript: history.go(-1)">Revenir</a>' );
 }
 
 exit();
-?>

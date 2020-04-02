@@ -55,7 +55,7 @@
  * @link http://jebulle.net
  * @name AlBulle
  * @since 11/09/2006
- * @version 30/09/2009
+ * @version 14/04/2010
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -148,7 +148,7 @@ function verifications()
 function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInterdits, $aExtensionsFichiersAutorises, $aTypesMimeAutorises,
 								$bAfficherNbFichiers, $bAfficherNbSiVide, $bDeroulerTout, $bFiltrerPrefixes, $sSeparateurFiltres = '' )
 {
-	global $_JB_AL_VARS, $aActions, $oOutils, $oUrl;
+	global $_JB_AL_VARS, $aActions, $oUrl;
 
 	$sArborescenceHTML = '';			// La chaîne qui contiendra la liste <ul>
 	$sDossiersRepCourant = '';			// La chaîne qui contiendra la liste <ul> des sous-dossiers du dossier courant
@@ -162,7 +162,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 	$sLiCourant		= rtrim($aLignes[2]);
 
 	// Lecture du répertoire parent à celui de base reçu
-	$sResultat = $oOutils->SousChaineGauche( $sRepCourant, '/', 1 );
+	$sResultat = Util::sousChaineGauche( $sRepCourant, '/', 1 );
 	$sRepParent = ( $sResultat === $sRepCourant ) ? '' : $sResultat;
 
 	// Détermination du premier niveau à lire selon ce qui a été demandé et où l'utilisateur se trouve.
@@ -171,7 +171,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 	else $sDossierLecture = $sBaseRep;
 
 	// lecture répertoires
-	$mResultat = $oOutils->advScanDir( $sDossierLecture, 'TOUT', $aDossiersInterdits );
+	$mResultat = Util::advScanDir( $sDossierLecture, 'TOUT', $aDossiersInterdits );
 	$aListeTotale = ( $mResultat === false ) ? array() : $mResultat;
 
 	// lecture nombre dossiers lus
@@ -184,8 +184,8 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 	// Si on n'est pas à la racine, il faut ajouter le lien pour remonter
 	if( $iNiveau > 1 )
 		$sArborescenceHTML = str_replace(
-								'{HREF_REMONTER}',
-								$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sRepParent) ),
+								'{$href_remonter}',
+								$oUrl->construireUrl( 'rep='.Util::preparerUrl($sRepParent) ),
 								$sLiRemonter
 							)."\n";
 
@@ -197,12 +197,12 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 		$sGrasFin = '';
 
 		// lecture sous dossiers du dossier courant
-		$mResultat = $oOutils->advScanDir(	$sDossierLecture.'/'.$aListeTotale['dir'][$i],	// Le dossier à lire
-											'TOUT',												// Ce qu'il faut lire
-											$aDossiersInterdits,					// Les dossiers à exclure
-											$aExtensionsFichiersAutorises,			// Les extensions des fichiers à lister
-											$aTypesMimeAutorises					// Les types MIME autorisés
-										);
+		$mResultat = Util::advScanDir(	$sDossierLecture.'/'.$aListeTotale['dir'][$i],	// Le dossier à lire
+										'TOUT',												// Ce qu'il faut lire
+										$aDossiersInterdits,					// Les dossiers à exclure
+										$aExtensionsFichiersAutorises,			// Les extensions des fichiers à lister
+										$aTypesMimeAutorises					// Les types MIME autorisés
+									);
 		$aListeSousRepPhotos = ( $mResultat === false ) ? array() : $mResultat;
 
 		// lecture nombre sous-dossiers lus
@@ -221,14 +221,14 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 		$sNbPhotos = ( $bAfficherNbFichiers && ( $iNbPhotos > 0 || ($iNbPhotos === 0 && $bAfficherNbSiVide) )) ? '<em>('.$iNbPhotos.')</em>' : '';
 
 		// Application filtres sur le nom du dossier si actif
-		$sNomRep = $bFiltrerPrefixes ? $oOutils->enleverPrefixe( $aListeTotale['dir'][$i], $sSeparateurFiltres ) : $aListeTotale['dir'][$i];
+		$sNomRep = $bFiltrerPrefixes ? Util::enleverPrefixe( $aListeTotale['dir'][$i], $sSeparateurFiltres ) : $aListeTotale['dir'][$i];
 
 		// Création li
 		$sArborescenceHTML .= preg_replace(
-								array( '`{ID_COURANT}`', '`{HREF_DOSSIER}`', '`{NOM_DOSSIER}`', '`{NB_IMAGES}`' ),
+								array( '`{\$id_courant}`', '`{\$href_dossier}`', '`{\$nom_dossier}`', '`{\$nb_images}`' ),
 								array(
 									$sCssIdCourant,
-									$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLienNiveau1) ),
+									$oUrl->construireUrl( 'rep='.Util::preparerUrl($sLienNiveau1) ),
 									utf8(str_replace( '_', ' ', $sNomRep )),
 									$sNbPhotos
 								),
@@ -248,7 +248,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 				// on ne calcule le nombre de photo d'un dossier que si autorisé dans la config
 				if(  $bAfficherNbFichiers === true )
 				{
-					$mResultat = $oOutils->advScanDir( $sDossierLecture.'/'.$aListeTotale['dir'][$i].'/'.$aListeSousRepPhotos['dir'][$j], 'FICHIERS_SEULEMENT', $aDossiersInterdits, $aExtensionsFichiersAutorises );
+					$mResultat = Util::advScanDir( $sDossierLecture.'/'.$aListeTotale['dir'][$i].'/'.$aListeSousRepPhotos['dir'][$j], 'FICHIERS_SEULEMENT', $aDossiersInterdits, $aExtensionsFichiersAutorises );
 					$aListeSousSousRep = ( !$mResultat ) ? array() : $mResultat;
 
 					$iNbPhotos = sizeof( $aListeSousSousRep );
@@ -257,14 +257,14 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 				else $sNbPhotos = '';
 
 	            // Application filtres sur le nom du dossier si actif
-				$sNomSousRep = $bFiltrerPrefixes ? $oOutils->enleverPrefixe( $aListeSousRepPhotos['dir'][$j], $sSeparateurFiltres ) : $aListeSousRepPhotos['dir'][$j];
+				$sNomSousRep = $bFiltrerPrefixes ? Util::enleverPrefixe( $aListeSousRepPhotos['dir'][$j], $sSeparateurFiltres ) : $aListeSousRepPhotos['dir'][$j];
 
 				// Création li
 				$sSousArborescenceHTML .= preg_replace(
-										array( '`{ID_COURANT}`', '`{HREF_DOSSIER}`', '`{NOM_DOSSIER}`', '`{NB_IMAGES}`' ),
+										array( '`{\$id_courant}`', '`{\$href_dossier}`', '`{\$nom_dossier}`', '`{\$nb_images}`' ),
 										array(
 											'',
-											$oUrl->construireUrl( 'rep='.$oOutils->preparerUrl($sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j]) ),
+											$oUrl->construireUrl( 'rep='.Util::preparerUrl($sLienNiveau1.'/'.$aListeSousRepPhotos['dir'][$j]) ),
 											utf8(str_replace( '_', ' ', $sNomSousRep )),
 											$sNbPhotos
 										),
@@ -307,14 +307,35 @@ function isIE() { return !(strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) === fal
  */
 function cheminDansPanier( $sChemin ) {
 
-	global $oOutils;
-
 	if( JB_AL_MODE_CENTRE === true ) {
-		$sCheminDansPanier = JB_AL_DOSSIER_CENTRE.$oOutils->SousChaineGauche( $sChemin, '.', 1 ).JB_AL_EXTENSION_FICHIERS;
+		$sCheminDansPanier = JB_AL_DOSSIER_CENTRE.Util::sousChaineGauche( $sChemin, '.', 1 ).JB_AL_EXTENSION_FICHIERS;
 		if( !file_exists(JB_AL_ROOT.JB_AL_DOSSIER_DATA.$sCheminDansPanier) ) $sCheminDansPanier = JB_AL_DOSSIER_PHOTOS.$sChemin;
 	}
 	else $sCheminDansPanier = (file_exists(JB_AL_ROOT.JB_AL_DOSSIER_DATA.JB_AL_DOSSIER_ORIGINALES.$sChemin) ? JB_AL_DOSSIER_ORIGINALES : JB_AL_DOSSIER_PHOTOS).$sChemin;
 	
 	return $sCheminDansPanier;
 }
-?>
+
+/**
+ * Déplacer le pointeur du tableau associatif donné vers l'élément dont la clé est donnée.
+ *
+ * @param array		$aArray		Tableau (référence).
+ * @param integer	$iPosition	Valeur de la clé de l'élément rechercher.
+ * @return mixed				L'élément pointé ou false si tableau vide ou élément introuvable.
+ */
+function array_seek_key( &$aArray, $sKey ) {
+
+	if( reset($aArray) === false )
+		return false;
+	
+	while(key($aArray) != $sKey) {
+		
+		if( next($aArray) === false ) {
+			
+			reset($aArray);
+			return false;
+		}
+	}
+	
+	return current($aArray);
+}

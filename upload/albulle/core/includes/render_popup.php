@@ -13,7 +13,7 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @since 11/06/2006
- * @version 10/11/2006
+ * @version 06/05/2010
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) { 
@@ -21,16 +21,12 @@ if( !defined( '_JB_INCLUDE_AUTH' ) ) {
 	exit( 'Vous n\'êtes pas autorisé à afficher cette page.' );
 }
 
-// Définition du tableau avec les pseudos-variables à remplacer
-$aPseudosVariables = array(
-	'`{POPUP_TITRE}`'	=> $sHeadTitre,
-	'`{POPUP_SOURCE}`'	=> $sCheminImg
+$oRenduPage = new JbParser( $_JB_AL_VARS['s_acces_theme'] .'html/', 'popup' );
+
+$oRenduPage->assignVar(array(
+	'charset'		=> (JB_AL_SORTIE_ISO ? 'ISO-8859-1' : 'UTF-8'),
+	'popup_titre'	=> $sHeadTitre,
+	'popup_source'	=> $sCheminImg
 	);
 
-// Remplacement dans le fichier theme des popup et renvoi au fichier appelant
-require_once( JB_AL_ROOT.'includes/classes/util.class.php' );
-$oOutils = new util();
-
-return $oOutils->parser(JB_AL_ROOT.'../'.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'html/popup.thm.php', $aPseudosVariables);
-
-?>
+return $oRenduPage->parse();

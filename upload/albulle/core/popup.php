@@ -53,7 +53,7 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @since 12/11/2005
- * @version 10/11/2006
+ * @version 06/05/2010
  */
 
 define( '_JB_INCLUDE_AUTH', 1 );
@@ -61,24 +61,22 @@ define( 'JB_AL_ROOT',		dirname(__FILE__).'/' );
 
 require_once( JB_AL_ROOT.'../config.php' );
 require_once( JB_AL_ROOT.'includes/classes/util.class.php');
+require_once( JB_AL_ROOT.'includes/jblib/jblib.php' );
 
 $sCheminImg = isset( $_GET['img'] ) ? rawurldecode( $_GET['img'] ) : '';
 
 // On remet le chemin relatif à popup.php
-$oOutils = new Util();
-$sCheminImg = '../'.$oOutils->sousChaineDroite($sCheminImg, '/', 1);
+$sCheminImg = '../'. Util::sousChaineDroite($sCheminImg, '/', 1);
 
 if( !file_exists($sCheminImg) )
     exit( '# ALBULLE # <strong>[ Erreur ]</strong> =>
             Impossible de trouver le fichier <em>'.$sCheminImg.'</em>.<br />
             <a href="javascript: history.go(-1)">Revenir</a>' );
 
-$sHeadTitre = 'Affichage de '.utf8_encode(basename($sCheminImg));
-$sCheminImg = $oOutils->preparerUrl($sCheminImg, true);
+$sHeadTitre = 'Affichage de '. utf8_encode(basename($sCheminImg));
+$sCheminImg = Util::preparerUrl($sCheminImg, true);
 
-if( file_exists(JB_AL_ROOT.'../'.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'html_popup.php') )
-	echo require_once( JB_AL_ROOT.'../'.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'html_popup.php' );
+if( file_exists(JB_AL_ROOT.'../'.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'render_popup.php') )
+	echo require_once( JB_AL_ROOT.'../'.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'render_popup.php' );
 else
-	echo require_once( JB_AL_ROOT.'includes/html_popup.php' );
-
-?>
+	echo require_once( JB_AL_ROOT.'includes/render_popup.php' );

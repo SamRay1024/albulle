@@ -1,3 +1,5 @@
+				{?contenu_texte}
 				<div class="texte">
-					{CONTENU_TEXTE}
+					{$contenu_texte}
 				</div>
+				{contenu_texte?}

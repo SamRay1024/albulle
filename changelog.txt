@@ -1,8 +1,18 @@
 :: Albulle
-:: Version 1.1.1
+:: Version 1.2
 
 WHAT's NEW :
 ------------
+
+Version 1.2 - 07/05/2010 - rev. 23 > 36
+
+	* Ajouté (FS#9)  : refonte du moteur de rendu HTML et par conséquent du thème par défaut,
+	* Ajouté (FS#10) : tri des photos selon la date de prise de vue,
+	* Ajouté (FS#3)  : lecture de la légende IPTC des images (nouvelle pseudo variable {$legende}),
+	* Modifié (FS#11) : sortie du code XHTML de la méthode afficherExif(),
+	* Modifié : html.php et html_popup.php renommés en render.php et render_popup.php,
+	* Modifié : légère modification du logo,
+	* Corrigé (FS#5) : correction ajout des fichiers au panier depuis un lien symbolique.
 
 Version 1.1.1 - 01/10/2009 - rev. 17 > 21
 

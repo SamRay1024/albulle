@@ -69,4 +69,3 @@
         @fclose($fp);
         return $crc;
    }
-?>

@@ -23,81 +23,185 @@
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
+
 	header( 'Content-type: text/html; charset=utf-8' );
 	exit( 'Vous n\'êtes pas autorisé à afficher cette page.' );
 }
 
-// Fermer vos galeries
-if( !defined('JB_AL_FERMER') )					define( 'JB_AL_FERMER',					false );
-if( !defined('JB_AL_MSG_FERMETURE') )			define( 'JB_AL_MSG_FERMETURE',			'Les galeries sont temporairement fermées. Elle seront réouvertes dès que possible. <br /><br />Merci de votre patience et de votre compréhension.' );
+date_default_timezone_set('Europe/Paris');
 
+/**
+ * Définir une contante.
+ *
+ * La constante est définie si aucune définition n'a été faite auparavant.
+ *
+ * @param string	$sConstante	Nom de la constante.
+ * @param mixed		$mValeur	Valeur de la constante.
+ */
+function definir( $sConstante, $mValeur ) {
 
-// ================
-// DOSSIERS ET FICHIER
-//
+	defined( $sConstante ) or define( $sConstante, $mValeur );
+}
+
+// {{{ FERMETURE DES GALERIES
+
+/**
+ * Fermer Albulle.
+ */
+definir( 'JB_AL_FERMER', false );
+/**
+ * Message de fermeture.
+ */
+definir(
+	'JB_AL_MSG_FERMETURE',	
+	'Les galeries sont temporairement fermées. '.
+	'Elle seront réouvertes dès que possible. <br /><br />'.
+	'Merci de votre patience et de votre compréhension.'
+);
+
+// }}}
+// {{{ DOSSIERS ET FICHIER
+
 // /!\ -> Chaque paramètre étant un dossier doit comporter un '/' à la fin !
-//
 
-if( !defined('JB_AL_BASE_URL') )				define( 'JB_AL_BASE_URL', 				'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/' );
+/**
+ * URL des galeries.
+ */
+definir( 'JB_AL_BASE_URL', 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/' );
 
-// On commence par définir le thème pour pouvoir aller chercher le fichier de configuration du thème, s'il existe,
-// ce qui permet la surcharge de la configuration par défaut
-define( 'JB_AL_DOSSIER_THEMES',															'themes/' );			// Dossier où se trouvent les thèmes.
-if( !defined('JB_AL_DOSSIER_THEME_ACTIF') )		define( 'JB_AL_DOSSIER_THEME_ACTIF',	'albulle/' );			// Dans le dossier des thèmes, nom du dossier du thème à utiliser.
+/**
+ * Dossier des thèmes.
+ */
+definir( 'JB_AL_DOSSIER_THEMES', 'themes/' );
+/**
+ * Dossier du thème à utiliser.
+ */
+definir( 'JB_AL_DOSSIER_THEME_ACTIF', 'albulle/' );
 
 // Inclusion d'un éventuel fichier de configuration relatif au thème courant
 if( file_exists(JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'config_thm.php') )
 	require_once( JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF.'config_thm.php' );
 
-if( !defined('JB_AL_DOSSIER_DATA') )			define( 'JB_AL_DOSSIER_DATA',			'data/' );				// Le dossier racine des données.
-if( !defined('JB_AL_DOSSIER_PHOTOS') )			define( 'JB_AL_DOSSIER_PHOTOS',			'photos/' );			// Le nom du dossier qui contiendra vos albums photos publiés (dans le dossier des données).
-if( !defined('JB_AL_DOSSIER_MINIATURES') )		define( 'JB_AL_DOSSIER_MINIATURES',		'miniatures/' );		// Le nom du dossier qui contiendra les miniatures générées (dans le dossier des données).
-if( !defined('JB_AL_DOSSIER_ORIGINALES') )		define( 'JB_AL_DOSSIER_ORIGINALES',		'originales/' );		// Ce dossier est à utilisé si vous souhaitez mettre en ligne des photos légères mais que soient téléchargées les photos en qualité originale (dans le dossier des données).
+/**
+ * Dossier des données.
+ */
+definir( 'JB_AL_DOSSIER_DATA', 'data/' );
+/**
+ * Dossier des photos.
+ */
+definir( 'JB_AL_DOSSIER_PHOTOS', 'photos/' );
+/**
+ * Dossier des miniatures.
+ */
+definir( 'JB_AL_DOSSIER_MINIATURES', 'miniatures/' );
+/**
+ * Dossier des photos en haute définition.
+ */
+definir( 'JB_AL_DOSSIER_ORIGINALES', 'originales/' );
+/**
+ * Fichier du texte de la page d'accueil.
+ */
+definir( 'JB_AL_FICHIER_ACCUEIL', 'texte_accueil.html' );
+/**
+ * Nom générique des fichiers optionnels des dossiers.
+ */
+definir( 'JB_AL_FICHIER_TEXTE_DOSSIER',	'texte.html');
+/**
+ * Drapeau à monter si le système de fichiers qui héberge Albulle est en UTF-8.
+ */
+definir( 'JB_AL_FICHIERS_UTF8', true );
 
-if( !defined('JB_AL_FICHIER_ACCUEIL') )			define( 'JB_AL_FICHIER_ACCUEIL',		'texte_accueil.html' );	// Chemin d'accès au fichier qui contiendra le texte d'accueil.
-if( !defined('JB_AL_FICHIER_DOSSIER_VIDE') )	define( 'JB_AL_FICHIER_DOSSIER_VIDE',	'texte.html');			// Nom des fichiers textes qui peuvent être placés dans un dossier de photos
+// }}}
+// {{{ TITRE ET SOUS TITRE
 
-// Indiquer si le système de fichier qui héberge votre copie d'Albulle est en Utf-8
-if( !defined('JB_AL_FICHIERS_UTF8') )			define( 'JB_AL_FICHIERS_UTF8',			true );
+/**
+ * Afficher l'entête de page.
+ */
+definir( 'JB_AL_AFFICHER_ENTETE', true );
+/**
+ * Titre des galeries.
+ */
+definir( 'JB_AL_TITRE_GALERIE', 'Ma galerie photos' );
+/**
+ * Sous-titre des galeries.
+ */
+definir( 'JB_AL_SOUS_TITRE_GALERIE', '...contient sûrement des images à découvrir !' );
 
-// ================
-// TITRE ET SOUS TITRE
-//
-if( !defined('JB_AL_AFFICHER_ENTETE') ) 		define( 'JB_AL_AFFICHER_ENTETE',		true );		// Affiche / cache l'entête de la page qui contient le titre et le sous-titre.
-if( !defined('JB_AL_TITRE_GALERIE') )			define( 'JB_AL_TITRE_GALERIE',			'Ma galerie photos' );
-if( !defined('JB_AL_SOUS_TITRE_GALERIE') )		define( 'JB_AL_SOUS_TITRE_GALERIE',		'...contient sûrement des images à découvrir !' );
+// }}}
+// {{{ DONNEES A AFFICHER
 
-
-// ================
-// DONNEES A AFFICHER
-//
-
-// Copyright
-define( 'JB_AL_AFFICHER_VERSION', true );							// Afficher le numéro de version dans le copyright.
-
-// Arborescence
-if( !defined('JB_AL_AFFICHER_NB_PHOTOS') )		define( 'JB_AL_AFFICHER_NB_PHOTOS',		true );		// Afficher dans l'arborescence des albums le nombre de photos présentes dans chaque dossier.
-if( !defined('JB_AL_AFFICHER_NB_SI_VIDE') )		define( 'JB_AL_AFFICHER_NB_SI_VIDE',	false );	// Affiche le nombre de photos même quand il n'y en a pas.
-if( !defined('JB_AL_DEROULER_TOUT') )			define( 'JB_AL_DEROULER_TOUT',          false );	// Ne déroule que le dossier demandé. Mettez à 'true' pour que tous les dossiers soient déroulés.
-
-// Vignettes
-if( !defined('JB_AL_AFFICHER_NOMS') )			define( 'JB_AL_AFFICHER_NOMS',			true );		// Afficher le nom de chaque photo dans les vignettes.
-if( !defined('JB_AL_REMPLACER_TIRETS_BAS') )	define( 'JB_AL_REMPLACER_TIRETS_BAS',	true );		// Si true, les '_' présents dans les noms seront remplacés par des espaces.
-if( !defined('JB_AL_AFFICHER_EXTENSION') )		define( 'JB_AL_AFFICHER_EXTENSION',		false );    // Affiche ou non l'extension du fichier.
-
-if( !defined('JB_AL_AFFICHER_POIDS') )			define( 'JB_AL_AFFICHER_POIDS',			true );		// Afficher la taille de chaque photo.
-if( !defined('JB_AL_AFFICHER_DIMENSIONS') )		define( 'JB_AL_AFFICHER_DIMENSIONS',	true );		// Afficher les dimensions.
-
-// Rappel des sous-dossiers
-if( !defined('JB_AL_RAPPELER_SOUS_DOSSIERS') )	define( 'JB_AL_RAPPELER_SOUS_DOSSIERS',	true );		// Ceci rappellera les sous-dossiers du dossier courant après les vignettes.
-if( !defined('JB_AL_RAPPELER_QUE_SI_VIDE') )	define( 'JB_AL_RAPPELER_QUE_SI_VIDE',	false );	// Permet de n'afficher le rappel des sous-dossiers que si le dossier courant n'a pas de photos.
-
-// Comportement lors d'un dossier vide
-if( !defined('JB_AL_AFFICHER_TXT_VIDE') )		define( 'JB_AL_AFFICHER_TXT_VIDE',		false );		// Si vrai le texte par défaut est affiché si le dossier n'a pas de photos
-
-// Tri des dossiers et fichiers
-if( !defined('JB_AL_FILTRE_PREFIXES_ACTIF') )	define( 'JB_AL_FILTRE_PREFIXES_ACTIF',	true );	    // Si true, active le filtrage sur les préfixes de tous les noms (dossiers et fichiers).
-if( !defined('JB_AL_PREFIXES_SEPARATEUR') )		define( 'JB_AL_PREFIXES_SEPARATEUR',	'_' );		// Séparateur à utiliser pour préfixer vos noms si l'option précédente est active.
+/**
+ * Afficher le numéro de version.
+ */
+definir( 'JB_AL_AFFICHER_VERSION', true );
+/**
+ * Afficher le nombre de photos dans chaque dossier.
+ */
+definir( 'JB_AL_AFFICHER_NB_PHOTOS', true );
+/**
+ * Afficher le nombre de photos si le dossier est vide.
+ */
+definir( 'JB_AL_AFFICHER_NB_SI_VIDE', false );
+/**
+ * Dérouler tous les dossiers de l'arborescence plutôt que seulement le dossier courant.
+ */
+definir( 'JB_AL_DEROULER_TOUT', false );
+/**
+ * Afficher le nom de chaque photo dans les vignettes.
+ */
+definir( 'JB_AL_AFFICHER_NOMS', true );
+/**
+ * Remplacer les tirets bas par des espaces dans les noms des fichiers.
+ */
+definir( 'JB_AL_REMPLACER_TIRETS_BAS', true );
+/**
+ * Afficher l'extention des fichiers.
+ */
+definir( 'JB_AL_AFFICHER_EXTENSION', false );
+/**
+ * Afficher le poids des photos.
+ */
+definir( 'JB_AL_AFFICHER_POIDS', true );
+/**
+ * Afficher les dimensions des photos.
+ */
+definir( 'JB_AL_AFFICHER_DIMENSIONS', true );
+/**
+ * Afficher le rappel des sous-dossiers du dossier courant après les vignettes.
+ */
+definir( 'JB_AL_RAPPELER_SOUS_DOSSIERS', true );
+/**
+ * Afficher le rappel des sous-dossiers uniquement si le dossier courant est vide.
+ */
+definir( 'JB_AL_RAPPELER_QUE_SI_VIDE', false );
+/**
+ * Afficher le texte par défaut pour les dossiers vides.
+ */
+definir( 'JB_AL_AFFICHER_TXT_VIDE', false );
+/**
+ * Activer le filtrage des préfixes des noms des fichiers.
+ */
+definir( 'JB_AL_FILTRE_PREFIXES_ACTIF',	true );
+/**
+ * Délimiteur des préfixes.
+ */
+definir( 'JB_AL_PREFIXES_SEPARATEUR', '_' );
+/**
+ * Trier les photos dans l'ordre des dates de prises de vue.
+ * @since 1.2
+ */
+definir( 'JB_AL_TRI_EXIF', true );
+/**
+ * Inverser le tri par date de prise de vue.
+ * @since 1.2
+ */
+definir( 'JB_AL_TRI_EXIF_INV', false );
+/**
+ * Format de l'affichage des dates.
+ * @since 1.2
+ * @link http://fr.php.net/manual/fr/function.date.php
+ */
+definir( 'JB_AL_DATE_FORMAT', 'd/m/Y H\hi' );	
 
 // /!\
 // Mode d'emploi de l'utilisation des préfixes :
@@ -118,121 +222,192 @@ if( !defined('JB_AL_PREFIXES_SEPARATEUR') )		define( 'JB_AL_PREFIXES_SEPARATEUR'
 //
 //      [indice][séparateur][nom de l'image/nom du dossier].[extension si vous nommez un fichier]
 //
-// Lors de l'affichage des dossiers et des fichiers (si vous avez demandé l'affichage des noms des photos),
-// tout ce qui se trouve devant le séparateur ('_' par défaut) ne sera pas affiché à l'écran (séparateur
-// compris).
+// Lors de l'affichage des dossiers et des fichiers (si vous avez demandé l'affichage des noms des
+// photos), tout ce qui se trouve devant le séparateur ('_' par défaut) ne sera pas affiché à
+// l'écran (séparateur compris).
 // /!\
 
-// ================
-// MODES D'AFFICHAGE DES IMAGES
-//
+// }}}
+// {{{ PARAMETRES DU MODE GALERIE
 
-// Choix du mode d'affichage par défaut
-if( !defined('JB_AL_MODE_DIAPO_DEFAUT') )		define( 'JB_AL_MODE_DIAPO_DEFAUT',		false );	// Si true, le mode diaporama sera actif par défaut. Sinon, c'est le mode galerie qui est activé.
+/**
+ * Ouvrir les images dans une nouvelle fenêtre.
+ * /!\ : Cette option utilise l'attribut target="_blank" et invalide la compatibilité XHTML Strict.
+ */
+definir( 'JB_AL_OUVERTURE_BLK', false );
+/**
+ * Ouvrir des images dans une popup Javascript.
+ * Prioritaire sur JB_AL_OUVERTURE_BLK.
+ */
+definir( 'JB_AL_OUVERTURE_JS', true );
+/**
+ * Ouvrir les images dans le cadre LightBox.
+ * /!\ : JB_AL_OUVERTURE_JS doit valoir 'true'.
+ */
+definir( 'JB_AL_OUVERTURE_LBX', true );
 
-// Pour le mode galerie
+// }}}
+// {{{ PARAMETRES DU MODE DIAPORAMA
 
-// Ouvrir les images dans une nouvelle fenêtre sans Javascript. La nouvelle fenêtre ne sera
-// pas aux dimensions de l'images et les barres d'outils seront visibles. L'utilisation de cette
-// option invalide la compatibilité XHTML Strict à cause du target="_blank".
-if( !defined('JB_AL_OUVERTURE_BLK') )			define( 'JB_AL_OUVERTURE_BLK',			false );
+/**
+ * @see JB_AL_OUVERTURE_BLK
+ */
+definir( 'JB_AL_OUVERTURE_BLK_DIAPO', false );
+/**
+ * @see JB_AL_OUVERTURE_JS
+ */
+definir( 'JB_AL_OUVERTURE_JS_DIAPO', false );
+/**
+ * @see JB_AL_OUVERTURE_BLK
+ */
+definir( 'JB_AL_OUVERTURE_LBX_DIAPO', false );
 
-// Ouvrir les images dans une nouvelle fenêtre par Javascript.
-// Cela permet à l'inverse du paramètre précédent de disposer d'une fenêtre sans barres d'outils
-// et aux dimensions de l'images. Vous conservez la validité XHTML, mais vous prenez le risque de
-// rendre Albulle inutilisable pour les personnes qui auraient interdit l'exécution de code Javascript.
-if( !defined('JB_AL_OUVERTURE_JS') )			define( 'JB_AL_OUVERTURE_JS',			true );
-if( !defined('JB_AL_OUVERTURE_LBX') )			define( 'JB_AL_OUVERTURE_LBX',			true );		// Uniquement si l'ouverture javascript est activée : essayer-ce mode, c'est l'adopter !
+// }}}
+// {{{ MODES D'AFFICHAGE DES IMAGES
 
-// Pour le mode diaporama
-if( !defined('JB_AL_OUVERTURE_BLK_DIAPO') )		define( 'JB_AL_OUVERTURE_BLK_DIAPO',	false );
-if( !defined('JB_AL_OUVERTURE_JS_DIAPO') )		define( 'JB_AL_OUVERTURE_JS_DIAPO',		false );
-if( !defined('JB_AL_OUVERTURE_LBX_DIAPO') )		define( 'JB_AL_OUVERTURE_LBX_DIAPO',	false );
+/**
+ * Utiliser le mode diaporama comme affichage par défaut.
+ */
+definir( 'JB_AL_MODE_DIAPO_DEFAUT', false );
+/**
+ * Largeur des popups Javascript.
+ * /!\ : uniquement si JB_AL_OUVERTURE_JS ou JB_AL_OUVERTURE_JS_DIAPO valent 'true'.
+ */
+definir( 'JB_AL_POPUP_LARGEUR', 0 );
+/**
+ * Hauteur des popups Javascript.
+ * /!\ : uniquement si JB_AL_OUVERTURE_JS ou JB_AL_OUVERTURE_JS_DIAPO valent 'true'.
+ */
+definir( 'JB_AL_POPUP_HAUTEUR', 0 );
 
-// Vous pouvez redimensionner l'image qui s'affichera dans la popup
-// Mettez les deux valeurs à 0 pour prendre la taille réelle.
-if( !defined('JB_AL_POPUP_LARGEUR') )			define( 'JB_AL_POPUP_LARGEUR',			0 );		// Largeur max de l'image
-if( !defined('JB_AL_POPUP_HAUTEUR') )			define( 'JB_AL_POPUP_HAUTEUR',			0 );		// Hauteur max de l'image
+// }}}
+// {{{ PARAMETES DES VIGNETTES
+
+/**
+ * Nombre de vignettes par page.
+ */
+definir( 'JB_AL_VIGNETTES_PAR_PAGE', 20 );
+/**
+ * Largeur maximum des miniatures du mode galerie, en pixels.
+ * Ne peut valoir 0.
+ */
+definir( 'JB_AL_VIGNETTES_LARGEUR', 150 );
+/**
+ * Hauteur maximum des miniatures du mode galerie, en pixels.
+ * Ne peut valoir 0.
+ */
+definir( 'JB_AL_VIGNETTES_HAUTEUR', 113 );
+/**
+ * Largeur maximum des miniatures du mode diaporama, en pixels.
+ * Ne peut valoir 0.
+ */
+definir( 'JB_AL_VIGNETTES_DP_LARGEUR', 78 );
+/**
+ * Hauteur maximum des miniatures du mode diaporama, en pixels.
+ * Ne peut valoir 0.
+ */
+definir( 'JB_AL_VIGNETTES_DP_HAUTEUR', 59 );
 
 // /!\
-// L'ouverture des images par popup Javascript est prioritaire sur l'ouverture sans Javascript.
-// C'est-à-dire que si vous mettez JB_AL_OUVERTURE_JAVASCRIPT à 'true', quelque soit la valeur de ce
-// que vous metterez pour JB_AL_OUVERTURE_BLANK, elle sera ignorée.
+// N.b. : si vous changez les dimensions des vignettes, vous devrez très certainement 
+// 1. faire des adaptations dans les CSS (fichier structure.css),
+// 2. supprimer les miniatures existantes afin de les regénérer avec les nouvelles dimensions.
 // /!\
 
+/**
+ * Qualité des vignettes.
+ *
+ * S'applique uniquement aux images JPEG sur une échelle de 0 à 100.
+ * 0 : mauvaise qualité = petit fichier - 100 : meilleure qualité = gros fichier
+ */
+definir( 'JB_AL_VIGNETTES_QUALITE', 80 );
 
-// ================
-// PARAMETRAGE DES VIGNETTES
-//
-if( !defined('JB_AL_VIGNETTES_PAR_PAGE') )		define( 'JB_AL_VIGNETTES_PAR_PAGE',		20 );		// Nombre de vignettes à afficher par page.
+// }}}
+// {{{ PARAMETRES DU PANIER
 
-// Vignettes du mode gallerie
-if( !defined('JB_AL_VIGNETTES_LARGEUR') )		define( 'JB_AL_VIGNETTES_LARGEUR',		150 );		// Largeur maximum des miniatures, en pixel (ne doit pas valoir 0).
-if( !defined('JB_AL_VIGNETTES_HAUTEUR') )		define( 'JB_AL_VIGNETTES_HAUTEUR',		113 );		// Hauteur maximum des miniatures, en pixel (idem).
+/**
+ * Activer le panier.
+ */
+definir( 'JB_AL_PANIER_ACTIF', true );
+/**
+ * Nombre maximum de photos que peut contenir le panier.
+ * (0 = désactiver la limitation)
+ */
+definir( 'JB_AL_PANIER_CAPACITE_MAX', 0 );
+/**
+ * Poids maximum que peut faire un panier en Mo.
+ * (0 = poids infini)
+ */
+definir( 'JB_AL_PANIER_POIDS_MAX', 20 );
+/**
+ * Nom à donner aux archives générées pour les téléchargements.
+ */
+definir( 'JB_AL_PANIER_NOM_ARCHIVE', 'Photos' );
+/**
+ * L'archive générée reprend la structure des dossiers des photos sélectionnées.
+ * @since 1.2
+ */
+definir( 'JB_AL_PANIER_ARCHIVE_STRUCTUREE', true );
+/**
+ * Eviter l'utilisation de la fonction "readfile".
+ *
+ * Si les zip ( >= 10MB) sont corrompus, passez cette valeur à true.
+ * /!\ Le script consommera plus de temps d'exécution (souvent limité à 30sec).
+ */
+definir( 'JB_AL_PANIER_NO_READFILE', false );
 
-// Vignettes du mode diaporama
-if( !defined('JB_AL_VIGNETTES_DP_LARGEUR') )	define( 'JB_AL_VIGNETTES_DP_LARGEUR', 	78 );		// Idem paramètres précédents
-if( !defined('JB_AL_VIGNETTES_DP_HAUTEUR') )	define( 'JB_AL_VIGNETTES_DP_HAUTEUR',	59 );		// Idem
+// }}}
+// {{{ SPECIAL
 
-// N.b. : si vous changez les dimensions des vignettes, vous devrez très certainement faire des adaptations dans
-// les CSS (fichier structure.css).
+/**
+ * Albulle est intégré dans un site Internet.
+ */
+definir( 'JB_AL_INTEGRATION_SITE', false );
+/**
+ * Activer l'encodage en ISO-8859-1 plutôt qu'UTF-8.
+ * Consomme un peu plus de temps en raison de l'exécution de la convertion.
+ */
+definir( 'JB_AL_SORTIE_ISO', false );
+/**
+ * Conserver les paramètres des URL hôtes.
+ * Valable uniquement en mode intégration.
+ */
+definir( 'JB_AL_CONSERVER_URL_HOTE', false );
+/**
+ * Utiliser Albulle comme centre de téléchargement.
+ *
+ * Dans ce mode, les miniatures renvoient vers des fichiers plutôt que vers des images.
+ */
+definir( 'JB_AL_MODE_CENTRE', false );
+/**
+ * Dossier des fichiers proposés au téléchargement (relatif à JB_AL_DOSSIER_DATA).
+ */
+definir( 'JB_AL_DOSSIER_CENTRE', 'centre/' );
+/**
+ * Extention des fichiers à télécharger.
+ */
+definir( 'JB_AL_EXTENSION_FICHIERS', '.zip' );
+/**
+ * URL du lien de retour vers votre site principal.
+ *
+ * Permet d'afficher un bouton de retour vers votre site depuis la barre de navigation.
+ * Laissez vide pour ne pas utiliser cette fonctionnalité.
+ */
+definir( 'JB_AL_HOME_HREF', '' );
+/**
+ * Texte du lien de retour vers votre site.
+ *
+ * Laisser vide pour ne pas utiliser cette fonctionnalité.
+ */
+definir( 'JB_AL_HOME_TEXTE', '' );
 
-// Qualite des vignettes (uniquement pour les images Jpeg)
-// Permet de régler la qualité des miniatures sur une échelle de 0 à 100.
-// 0 : mauvaise qualité, petit fichier - 100 : meilleure qualité, gros fichier
-if( !defined('JB_AL_VIGNETTES_QUALITE') )		define( 'JB_AL_VIGNETTES_QUALITE',		80 );
+// }}}
+// {{{ PARAMETRES DES CREATIONS DE FICHIERS (pour les miniatures)
 
-// /!\
-// Si vous changez la largeur ou la hauteur, il faut supprimer toutes les miniatures existantes pour les regénérer
-// avec les nouvelles dimensions.
-// /!>
+/**
+ * Chmod par défaut.
+ */
+definir( 'JB_AL_CHMOD_FICHIERS', 0644 );
 
-// ================
-// PARAMETRAGE DU PANIER
-//
-if( !defined('JB_AL_PANIER_ACTIF') )			define( 'JB_AL_PANIER_ACTIF',			true );		// Activer le panier. Si false, le panier sera désactivé.
-if( !defined('JB_AL_PANIER_CAPACITE_MAX') )		define( 'JB_AL_PANIER_CAPACITE_MAX',	0 );		// Nombre maximum de fichiers que peut contenir le panier (0 = désactiver la limitation).
-if( !defined('JB_AL_PANIER_POIDS_MAX') )		define( 'JB_AL_PANIER_POIDS_MAX',		20 );		// Poids maximum que peut faire un panier en Mo. 0 = poids infini.
-if( !defined('JB_AL_PANIER_NOM_ARCHIVE') )		define( 'JB_AL_PANIER_NOM_ARCHIVE',		'Photos' );	// Le nom que prendra les archives téléchargées.
-
-// Si les zip ( >= 10MB) sont corrompus, passez cette valeur à true, pour éviter d'utiliser "readfile".
-// Attention, en mettant true, le script consommera plus de temps d'exécution (souvent limité à 30sec).
-define( 'JB_AL_PANIER_NO_READFILE', false);
-
-
-// ================
-// SPECIAL
-//
-
-// Si vous souhaitez intégrer Albulle dans votre site Internet, mettez le paramètre suivant
-// à 'true'. Cela aura pour effet d'enlever les entêtes HTML lors de la génération des pages
-// d'Albulle pour qu'il n'y ait pas de redondance avec votre propre site.
-if( !defined('JB_AL_INTEGRATION_SITE') )		define( 'JB_AL_INTEGRATION_SITE',		false );
-
-// Par défaut, Albulle produit du contenu en utf8. En metttant ce paramètre à vrai vous pourrez
-// récupérer le contenu en iso-8859-1 si vous n'utilisez pas l'utf8 pour votre site. Cette
-// conversion est cependant plus gourmande que de laisser l'utf8.
-if( !defined('JB_AL_SORTIE_ISO') )				define( 'JB_AL_SORTIE_ISO',				false );
-
-// Ce paramètre permet d'activer la conservation d'éventuels paramètres utilisé par le site
-// hôte dans lequel vous vous insérez. Désactivez-le si vous êtes en mode standard.
-if( !defined('JB_AL_CONSERVER_URL_HOTE') )		define( 'JB_AL_CONSERVER_URL_HOTE',		false );
-
-// Utiliser Albulle comme centre de téléchargement.
-define( 'JB_AL_MODE_CENTRE',			false );		// Mettez ce paramètre à 'true' pour basculer de mode.
-define( 'JB_AL_DOSSIER_CENTRE',			'centre/' );	// Dossier dans lequel se trouvent les fichiers disponibles au téléchargement (relatif au dossier des données).
-define( 'JB_AL_EXTENSION_FICHIERS',		'.zip' );		// Extension des fichiers à télécharger.
-
-// Vous pouvez définir une url vers votre site principal pour le cas où Albulle
-// ne le serait pas. Le lien s'affichera à gauche de celui qui donne sur la page d'accueil d'Albulle.
-if( !defined('JB_AL_HOME_HREF') )				define( 'JB_AL_HOME_HREF',				'' );		// La page de votre site (Laissez vide pour ne pas utiliser cette fonctionnalité).
-if( !defined('JB_AL_HOME_TEXTE') )				define( 'JB_AL_HOME_TEXTE',				'' );		// Le texte du lien (Non affiché si paramètre précédent vide).
-
-
-// ================
-// PARAMETRAGE DES CREATIONS DE FICHIERS (pour les miniatures)
-//
-define( 'JB_AL_CHMOD_FICHIERS',			0644 );
-
-/* EOC (End Of Configuration) ;-) */
-?>
+// }}}
+// EOC (End Of Configuration)

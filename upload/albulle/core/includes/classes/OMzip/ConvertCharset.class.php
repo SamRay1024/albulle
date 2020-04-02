@@ -5,9 +5,9 @@
  * @version 1.0 2004-07-27 00:37
  * @link http://www.unicode.org Unicode Homepage
  * @link http://www.mikkom.pl My Homepage
- * 
+ * @version 29/04/2010 - SamRay1024
  **/
-$PATH_TO_CLASS = dirname(ereg_replace("\\\\","/",__FILE__)) . "/" . "ConvertTables" . "/";
+$PATH_TO_CLASS = dirname(str_replace('\\', '/', __FILE__)) . '/ConvertTables/';
 define ("CONVERT_TABLES_DIR", $PATH_TO_CLASS);
 define ("DEBUG_MODE", 1);
 
@@ -600,4 +600,3 @@ class ConvertCharset {
 	} // function DebugOutput
 
 } //class ends here
-?>

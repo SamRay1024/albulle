@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<errors>
+	<html><![CDATA[
+		<style type="text/css">
+		<!--
+		#error-wrapper {
+			position: absolute; /* Pour IE */
+			bottom: 0; left: 0;
+			width: 970px;
+			background-color: navajowhite;
+			border: 3px solid darkred;
+		}
+		html>body #error-wrapper { /* ne s'applique pas à IE */
+			position: fixed;
+			width: 100%;
+			margin: 0; padding: 0;
+			border-left: none; border-right: none;
+		}
+		#error-wrapper * { text-align: left }
+		#error-wrapper p { margin: 0; padding: 0 }
+		#error-wrapper .section,
+		#error-wrapper .section-end { padding: 6px; }
+		#error-wrapper .section { border-bottom: 3px solid darkred; }
+		#error-wrapper .sys {
+			color: darkred;
+			font-weight: bold;
+		}
+		#error-wrapper .right { float: right }
+		#error-wrapper .trace {
+			border-bottom: 1px dotted darkred;
+			margin-bottom: 2px;
+			padding-bottom: 2px;
+		}
+		-->
+		</style>
+		<div id="error-wrapper">
+			<div class="section">
+				<span class="sys">EXCEPTION LEVÉE ! »</span>
+				<span class="sys">Type :</span> %type <span class="sys">»</span>
+				<span class="sys">Code :</span> %code  <span class="sys">»</span>
+				<span class="sys">Depuis :</span> %file  <span class="sys">»</span>
+				<span class="sys">Ligne :</span> %line
+			</div>
+			<div class="section">
+				<p class="sys">MESSAGE »</p>
+				<p>%message</p>
+			</div>
+			<div class="section-end">
+				<p class="sys">PILE D'EXÉCUTION »</p>
+				%trace
+			</div>
+		</div>
+	]]></html>
+
+	<parser.root_dir.not_found><![CDATA[Le dossier des patrons Html <strong>%1</strong> est introuvable.]]></parser.root_dir.not_found>
+	<parser.index_file.not_found><![CDATA[Le fichier d'entrée <strong>%1</strong> de la structure Html est introuvable.]]></parser.index_file.not_found>
+	<parser.loop_name.empty><![CDATA[Impossible de créer une boucle dont le nom est une chaîne vide.]]></parser.loop_name.empty>
+	<parser.array_vars.empty><![CDATA[Impossible d'ajouter une itération sans pseudo-variable dans la boucle '%1'.]]></parser.array_vars.empty>
+	<parser.include_file.not_found><![CDATA[Un fichier à inclure est manquant : <strong>%1</strong>. Vérifiez vos structures Html.]]></parser.include_file.not_found>
+	<parser.block.closedtag_missing><![CDATA[Des blocs conditionnels sont ouverts mais pas fermés : <strong>%1</strong>.]]></parser.block.closedtag_missing>
+	<parser.block.openedtag_missing><![CDATA[Des blocs conditionnels sont fermés mais pas ouverts : <strong>%1</strong>.]]></parser.block.openedtag_missing>
+	<parser.block.undefined><![CDATA[Le bloc suivant n'est pas défini : <strong>%1</strong>.]]></parser.block.undefined>
+	<parser.loop.closedtag_missing><![CDATA[Des boucles sont ouvertes mais pas fermées : <strong>%1</strong>.]]></parser.loop.closedtag_missing>
+	<parser.loop.openedtag_missing><![CDATA[Des boucles sont fermées mais pas ouvertes : <strong>%1</strong>.]]></parser.loop.openedtag_missing>
+	<parser.loop.undefined><![CDATA[La boucle suivante n'est pas définie : <strong>%1</strong>.]]></parser.loop.undefined>
+</errors>
