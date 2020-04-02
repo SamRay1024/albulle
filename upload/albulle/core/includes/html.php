@@ -12,8 +12,8 @@
  * @author SamRay1024
  * @copyright Bubulles Creations
  * @link http://jebulle.net
- * @since 22/05/2007
- * @version 1.0 rc4
+ * @since 19/06/2007
+ * @version 1.0 rc5
  */
 
 if( !defined( '_JB_INCLUDE_AUTH' ) ) {
@@ -38,23 +38,23 @@ $sThmPagination = $sThmSousDossiers = '';
 if( ($_JB_AL_VARS['b_mode_diaporama'] === false && JB_AL_OUVERTURE_JS === true && JB_AL_OUVERTURE_LBX === true) ||
 	($_JB_AL_VARS['b_mode_diaporama'] === true && JB_AL_OUVERTURE_JS_DIAPO === true && JB_AL_OUVERTURE_LBX_DIAPO === true))
 {
-	$aPseudosVariables['`<!-- SI LIGHTBOX -->\n\t\t|<!-- FINSI LIGHTBOX -->\n`'] = '';
+	$aPseudosVariables['`<!-- SI LIGHTBOX -->\n|<!-- FINSI LIGHTBOX -->\n`'] = '';
 	$aPseudosVariables['`<!-- SI POPUP -->.*?<!-- FINSI POPUP -->\n`s'] = '';
 }
 else
 {
 	// Sinon, on efface la section lightbox
-	$aPseudosVariables['`<!-- SI LIGHTBOX -->.*?<!-- FINSI LIGHTBOX -->\n\n\t\t`s'] = '';
+	$aPseudosVariables['`<!-- SI LIGHTBOX -->.*?<!-- FINSI LIGHTBOX -->\n\n`s'] = '';
 
 	// Et on regarde si l'ouverture par popup simple est activée
-	if(JB_AL_OUVERTURE_JS === true || JB_AL_OUVERTURE_JS_DIAPO === true) $aPseudosVariables['`<!-- SI POPUP -->\n\t\t|<!-- FINSI POPUP -->`'] = '';
+	if(JB_AL_OUVERTURE_JS === true || JB_AL_OUVERTURE_JS_DIAPO === true) $aPseudosVariables['`<!-- SI POPUP -->\n|<!-- FINSI POPUP -->`'] = '';
 	else $aPseudosVariables['`<!-- SI POPUP -->.*?<!-- FINSI POPUP -->\n`s'] = '';
 }
 
 // Si en mode diaporama >> activation defilement auto le cas échéant
 if($_JB_AL_VARS['b_mode_diaporama'] === true && $_JB_AL_VARS['b_defilement_auto'] === true)
 {
-	$aPseudosVariables['`<!-- SI DEFILEMENT_AUTO -->\n\t\t|<!-- FINSI DEFILEMENT_AUTO -->\n`'] = '';
+	$aPseudosVariables['`<!-- SI DEFILEMENT_AUTO -->\n|<!-- FINSI DEFILEMENT_AUTO -->\n`'] = '';
 	$aPseudosVariables['`{INTERVALLE_TEMPS}`']		= $_JB_AL_VARS['i_intervalle_tps'];
 	$aPseudosVariables['`{URL_IMAGE_SUIVANTE}`']	= $_JB_AL_VARS['s_url_img_suivante'];
 }
@@ -169,7 +169,7 @@ else
 			// Si mode gallerie
 			if($_JB_AL_VARS['b_mode_diaporama'] === false)
 			{
-				$aPseudosVariables[$i]['`<!-- SI MODE_GALERIE -->\n\t\t|<!-- FINSI MODE_GALERIE -->\n`'] = '';
+				$aPseudosVariables[$i]['`<!-- SI MODE_GALERIE -->\n|<!-- FINSI MODE_GALERIE -->\n`'] = '';
 
 				// infos de l'image
 				$aPseudosVariables[$i]['`{NOM_PHOTO}`']			= $oOutils->tronquerChaine($_MINIATURES[$i]['NOM_PHOTO']);
@@ -202,13 +202,13 @@ else
 			if( $_JB_AL_VARS['i_diapo_courante'] >= 0 )
 			{
 				// Suppression condition diapo non vide et section diapo vide
-				$aPseudosVariables['`<!-- SI DIAPO_NON_VIDE -->\n\t\t|<!-- FINSI DIAPO_NON_VIDE -->\n`']	= '';
+				$aPseudosVariables['`<!-- SI DIAPO_NON_VIDE -->\n|<!-- FINSI DIAPO_NON_VIDE -->\n`']	= '';
 				$aPseudosVariables['`<!-- SI DIAPO_VIDE -->.*?<!-- FINSI DIAPO_VIDE -->\n`s']				= '';
 
 				// Affichage boutons précédente / suivante
 				if( $_JB_AL_VARS['s_url_img_precedente'] !== '' || $_JB_AL_VARS['s_url_img_suivante'] !== '' )
 				{
-					$aPseudosVariables['`<!-- SI PLUSIEURS_DIAPOS -->\n\t\t|<!-- FINSI PLUSIEURS_DIAPOS -->\n`'] = '';
+					$aPseudosVariables['`<!-- SI PLUSIEURS_DIAPOS -->\n|<!-- FINSI PLUSIEURS_DIAPOS -->\n`'] = '';
 
 					$aPseudosVariables['`{BOUTON_PRECEDENTE}`']	= !empty($_JB_AL_VARS['s_url_img_precedente']) ? '<a href="'.$_JB_AL_VARS['s_url_img_precedente'].'" class="precedente" title="Précedente"><span></span></a>' : '';
 					$aPseudosVariables['`{BOUTON_SUIVANTE}`']	= !empty($_JB_AL_VARS['s_url_img_suivante']) ? '<a href="'.$_JB_AL_VARS['s_url_img_suivante'].'" class="suivante" title="Suivante"><span></span></a>' : '';
@@ -247,7 +247,7 @@ else
 			{
 				// On efface la section de la diapo pour afficher la section du message d'erreur
 				$aPseudosVariables['`<!-- SI DIAPO_NON_VIDE -->.*?<!-- FINSI DIAPO_NON_VIDE -->\n`s']	= '';
-				$aPseudosVariables['`<!-- SI DIAPO_VIDE -->\n\t\t|<!-- FINSI DIAPO_VIDE -->\n`']		= '';
+				$aPseudosVariables['`<!-- SI DIAPO_VIDE -->\n|<!-- FINSI DIAPO_VIDE -->\n`']		= '';
 			}
 
 			// En mode diaporama, on place la diapositive avant les vignettes
@@ -300,7 +300,7 @@ else $sThmMenuPanier = '';
 // Affichage entête
 if(JB_AL_AFFICHER_ENTETE === true)
 {
-	$aPseudosVariables['`<!-- SI ENTETE -->\n\t\t|<!-- FINSI ENTETE -->\n`']	= '';
+	$aPseudosVariables['`<!-- SI ENTETE -->\n|<!-- FINSI ENTETE -->\n`']	= '';
 	$aPseudosVariables['`{TITRE_GALERIE}`']										= JB_AL_TITRE_GALERIE;
 	$aPseudosVariables['`{SOUS_TITRE_GALERIE}`']								= JB_AL_SOUS_TITRE_GALERIE;
 }
@@ -331,12 +331,12 @@ $aPseudosVariables['`{VERSION}`']					= ( JB_AL_AFFICHER_VERSION === true ) ? ' 
 
 // Affichage pied de page si pas en mode intégration
 if( JB_AL_INTEGRATION_SITE === false )
-	$aPseudosVariables['`<!-- SI NON_INTEGRE -->\n\t\t|<!-- FINSI NON_INTEGRE -->\n`'] = '';
+	$aPseudosVariables['`<!-- SI NON_INTEGRE -->\n|<!-- FINSI NON_INTEGRE -->\n`'] = '';
 else $aPseudosVariables['`<!-- SI NON_INTEGRE -->.*?<!-- FINSI NON_INTEGRE -->`s'] = '';
 
 // Si panier désactivé
 if( JB_AL_PANIER_ACTIF === true )
-	$aPseudosVariables['`<!-- SI PANIER_ACTIF -->\n\t\t|<!-- FINSI PANIER_ACTIF -->\n`'] = '';
+	$aPseudosVariables['`<!-- SI PANIER_ACTIF -->\n|<!-- FINSI PANIER_ACTIF -->\n`'] = '';
 else $aPseudosVariables['`<!-- SI PANIER_ACTIF -->.*?<!-- FINSI PANIER_ACTIF -->`s'] = '';
 
 $sThmIndex = $oOutils->parser( $_JB_AL_VARS['s_acces_theme'].'html/index.thm.php', $aPseudosVariables );

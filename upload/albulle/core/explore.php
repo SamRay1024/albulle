@@ -54,8 +54,8 @@
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @name Albulle
- * @since 23/05/2007
- * @version 1.0rc4
+ * @since 19/06/2007
+ * @version 1.0rc5
  */
 
 // Fonction qui affiche les erreurs et quitte le programme
@@ -116,7 +116,7 @@ $_MINIATURES	= array();	// Tableau qui contiendra les miniatures
 $_JB_AL_GET		= array();	// Tableau qui contiendra les paramètres reçus dans l'URL
 $_JB_AL_POST	= array();	// Tableau qui contiendra les paramètres reçus par les formulaires
 
-$_JB_AL_VARS['s_version']		= '1.0rc4';
+$_JB_AL_VARS['s_version']		= '1.0rc5';
 
 $_JB_AL_VARS['s_acces_theme']	= JB_AL_ROOT.JB_AL_DOSSIER_THEMES.JB_AL_DOSSIER_THEME_ACTIF;
 $_JB_AL_VARS['s_arborescence'] = $_JB_AL_VARS['s_menu_panier'] = '';

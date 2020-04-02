@@ -1,8 +1,16 @@
 :: Albulle
-:: Version 1.0-rc4
+:: Version 1.0-rc5
 
 WHAT's NEW :
 ------------
+
+Version 1.0-rc5 - 19/06/2007
+
+	* Reconversion des fins de lignes de l'intégralité des fichiers en LF(Unix). Tout le monde était
+	  repassé en CR+LF (Windows) ce qui posait problème pour la construction des pages depuis
+	  les fichiers du thème,
+	* Correction du fichier index.php qui était livré dans un mauvais encodage avec la 1.0-rc4,
+	* Suppression des masques \t\t dans les expressions régulières de remplacement.
 
 Version 1.0rc4 - 08/06/2007
 
