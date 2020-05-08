@@ -55,7 +55,7 @@
  * @link http://jebulle.net
  * @name Albulle
  * @since 09/05/2005
- * @version 06/05/2010
+ * @version 08/05/2020
  */
 
 /**
@@ -131,7 +131,7 @@ $_PHOTOS		= array();	// Tableau qui contiendra les photos
 $_JB_AL_GET		= array();	// Tableau qui contiendra les paramètres reçus dans l'URL
 $_JB_AL_POST	= array();	// Tableau qui contiendra les paramètres reçus par les formulaires
 
-$_JB_AL_VARS['s_version']					= '1.2.1';
+$_JB_AL_VARS['s_version']					= '1.3';
 
 $_JB_AL_VARS['s_acces_theme']				= JB_AL_ROOT . JB_AL_DOSSIER_THEMES . JB_AL_DOSSIER_THEME_ACTIF;
 $_JB_AL_VARS['s_arborescence']				= $_JB_AL_VARS['s_menu_panier'] = '';
@@ -382,7 +382,7 @@ if( ((!empty( $_JB_AL_GET['s_rep_courant'] ) &&
 			switch ( $_JB_AL_GET['s_action'] ) {
 			
 				case 'tout':	$oPanier->ajouter( $sCheminDansPanier ); break;
-				case 'rien':	$oPanier->supprimer( $sCheminDansPanier ); if($_JB_AL_GET['b_voir_panier']) continue; break;
+				case 'rien':	$oPanier->supprimer( $sCheminDansPanier ); if($_JB_AL_GET['b_voir_panier']) continue 2; break;
 			}
 			
 			// Définition des chaines d'ajout et de retrait de l'image dans le panier
@@ -513,20 +513,20 @@ if( ((!empty( $_JB_AL_GET['s_rep_courant'] ) &&
 	// Si tri par date EXIF demandé
 	if( JB_AL_TRI_EXIF === true ) {
 	
-		uasort($_PHOTOS, create_function(
-			'$a, $b',
-			'if( $a[\'EXIF\'][\'DateTimestamp\'] == $b[\'EXIF\'][\'DateTimestamp\'] ) return 0;
-			$iRes = ($a[\'EXIF\'][\'DateTimestamp\'] > $b[\'EXIF\'][\'DateTimestamp\'] ? 1 : -1);
+		uasort($_PHOTOS, function( $a, $b ) {
+			
+			if( $a['EXIF']['DateTimestamp'] == $b['EXIF']['DateTimestamp'] ) return 0;
+			$iRes = ($a['EXIF']['DateTimestamp'] > $b['EXIF']['DateTimestamp'] ? 1 : -1);
 			if( JB_AL_TRI_EXIF_INV ) $iRes *= -1;
-			return $iRes;'
-		));
+			return $iRes;
+		});
 	}
 	
 	// Insertion index dans le tableau
 	$i = $iForStart;
 	array_walk(
 		$_PHOTOS,
-		create_function('&$item, $key, &$index', '$item[\'IDX\'] = $index; $index++;'),
+		function( &$item, $key, &$index ) { $item['IDX'] = $index; $index++; },
 		$i
 	);
 }

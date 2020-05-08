@@ -7,7 +7,7 @@
  * @copyright Bubulles Créations
  * @link http://jebulle.net
  * @since 25/01/2010
- * @version 18/05/2010
+ * @version 03/05/2020
  * @package JbLib
  */
  
@@ -31,7 +31,8 @@ require_once(JBL_ROOT .'conf/jblib.conf.php');
  */
  
 // Désactivation de la fonction de magic_quotes
-set_magic_quotes_runtime(0);
+if (PHP_VERSION < 7)
+	set_magic_quotes_runtime(0);
 
 // Désactivation transfert de l'id de session par les URL
 ini_set('session.use_trans_sid', '0');

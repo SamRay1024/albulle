@@ -59,7 +59,7 @@ require_once(JBL_ROOT .'conf/jbparser.conf.php');
  * @copyright Bubulles Creations
  * @link http://jebulle.net
  * @since 16/02/2007
- * @version 31/03/2010
+ * @version 08/05/2020
  * @package JbLib
  */
 class JbParser {
@@ -261,7 +261,7 @@ class JbParser {
 	public function assignLoop( $sLoopName ) {
 
 		if( empty($sLoopName) )		throw new JbError( 'parser.loop_name.empty' );
-		if( !$this->isLoopAssigned($sLoopName) )	$this->aLoops[$sLoopName] = '';
+		if( !$this->isLoopAssigned($sLoopName) )	$this->aLoops[$sLoopName] = array();
 	}
 
 	/**
