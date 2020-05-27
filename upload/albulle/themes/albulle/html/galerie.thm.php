@@ -1,21 +1,20 @@
 				{%vignettes}
-				<div class="{$classe_vignette}"{$diapo_courante}>
+				<figure class="cadre {$classe_vignette}{$diapo_courante}">
 
-					<a href="{$href_image}"{$target_blank}{$lightbox}{$javascript}>
+					<a href="{$href_image}"{$target_blank}{$lightbox}{$javascript} data-fancybox="gallery" data-caption="{$legende}">
 						<img src="{$chemin_miniature}" class="{$classe_miniature}" alt="Photo {$alt_image}" title="{$legende}" />
 					</a>
 
 					{?mode_galerie}
-					<span class="infosImg">
-						{$nom}<br />
-						{$dimensions}<br />
-						{$poids}
-					</span>
+					<figcaption class="infosImg">
+						<strong>{$nom}</strong><br />
+						{$dimensions} | {$poids}
+					</figcaption>
 					{mode_galerie?}
 
 					{?panier_actif}
-					<span class="puce">{$puce_ajout_panier}</span>
+					<span class="puce-panier">{$puce_ajout_panier}</span>
 					{panier_actif?}
 
-				</div>
+				</figure>
 				{vignettes%}

@@ -52,8 +52,8 @@ definir( 'JB_AL_FERMER', false );
  */
 definir(
 	'JB_AL_MSG_FERMETURE',	
-	'Les galeries sont temporairement fermées. '.
-	'Elle seront réouvertes dès que possible. <br /><br />'.
+	'La galerie est temporairement fermée. '.
+	'Elle sera réouverte dès que possible. <br /><br />'.
 	'Merci de votre patience et de votre compréhension.'
 );
 
@@ -119,11 +119,11 @@ definir( 'JB_AL_AFFICHER_ENTETE', true );
 /**
  * Titre des galeries.
  */
-definir( 'JB_AL_TITRE_GALERIE', 'Ma galerie photos' );
+definir( 'JB_AL_TITRE_GALERIE', 'Albulle, galerie photos' );
 /**
  * Sous-titre des galeries.
  */
-definir( 'JB_AL_SOUS_TITRE_GALERIE', '...contient sûrement des images à découvrir !' );
+definir( 'JB_AL_SOUS_TITRE_GALERIE', 'L\'important pour une belle photo n\'est pas tant la qualité de l\'image que l\'histoire quelle raconte.' );
 
 // }}}
 // {{{ DONNEES A AFFICHER
@@ -318,7 +318,7 @@ definir( 'JB_AL_VIGNETTES_DP_HAUTEUR', 59 );
  * S'applique uniquement aux images JPEG sur une échelle de 0 à 100.
  * 0 : mauvaise qualité = petit fichier - 100 : meilleure qualité = gros fichier
  */
-definir( 'JB_AL_VIGNETTES_QUALITE', 80 );
+definir( 'JB_AL_VIGNETTES_QUALITE', 90 );
 
 // }}}
 // {{{ PARAMETRES DU PANIER

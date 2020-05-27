@@ -211,7 +211,7 @@ function genererArborescence( $sBaseRep, $sRepCourant, $iNiveau, $aDossiersInter
 		// test si on se trouve sur le dossier courant pour le mettre en gras
 		if( $sLienNiveau1 === $sRepCourant )
 		{
-			$sCssIdCourant = ' id="courant"';
+			$sCssIdCourant = ' class="courant"';
 			$aFichiersRepCourant = $aListeSousRepPhotos['file'];
 		}
 		else $sCssIdCourant = '';

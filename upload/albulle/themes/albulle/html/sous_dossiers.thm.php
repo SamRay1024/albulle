@@ -1,9 +1,10 @@
 				{?sous_dossiers}
-				<h3 class="post_float">Sous-dossiers du dossier actuel</h3>
+				<section class="cadre sous-dossiers">
+					<h3 class="cadre-titre"><span>Sous-dossiers</span></h3>
 
-				<div class="cadre" id="rappel">
-					{$rappel_sous_dossiers}
-					<div class="spacer"></div>
-				</div>
+					<div class="cadre-contenu">
+						{$rappel_sous_dossiers}
+						<div class="spacer"></div>
+					</div>
+				</section>
 				{sous_dossiers?}
-				

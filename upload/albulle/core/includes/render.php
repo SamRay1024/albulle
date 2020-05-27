@@ -193,7 +193,10 @@ try {
 				$aVars = array(
 					// cadre div
 					'classe_vignette'	=> $_JB_AL_VARS['s_classe_css_vignette'],
-					'diapo_courante' 	=> ($_JB_AL_VARS['b_mode_diaporama'] && $sNomPhoto === $_JB_AL_VARS['s_diapo_courante'] ? ' id="diapoCourante"' : ''),
+					'diapo_courante' 	=> (
+						$_JB_AL_VARS['b_mode_diaporama'] && $sNomPhoto === $_JB_AL_VARS['s_diapo_courante']
+						? ' diapo-courante' : ''
+					),
 				
 					// lien de l'image
 					'href_image'		=> $aPhoto['URL'],
@@ -223,7 +226,7 @@ try {
 				// Si panier actif
 				if(JB_AL_PANIER_ACTIF === true)
 				{
-					$sLienPanierPuce 	= $aPhoto['PANIER']['MODE'] == 'ajout' ? 'puceAjout' : 'puceRetrait';
+					$sLienPanierPuce 	= $aPhoto['PANIER']['MODE'] == 'ajout' ? 'puce-ajout' : 'puce-retrait';
 					$sLienPanierTitle	= $aPhoto['PANIER']['MODE'] == 'ajout' ? 'Ajouter l\'image' : 'Retirer l\'image';
 
 					$aVars['puce_ajout_panier'] =

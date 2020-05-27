@@ -1,5 +1,5 @@
 				{?diaporama}
-				<div id="diapo"><!-- diapositive du mode diaporama -->
+				<div class="diapo"><!-- diapositive du mode diaporama -->
 
 					{?diapo_vide}
 					<p class="puceNoPhoto">Choisissez une image dans la liste pour la visualiser !</p>
@@ -14,7 +14,7 @@
 					{plusieurs_diapos?}
 
 					<a href="{$href_image}"{$target_blank}{$lightbox}{$javascript}>
-						<img src="{$source_diapo}" id="image" alt="Image de {$alt_diapo}" />
+						<img src="{$source_diapo}" class="image" alt="Image de {$alt_diapo}" />
 					</a>
 					
 					{?plusieurs_diapos}

@@ -248,18 +248,18 @@ if( $iNiveau === 0 ) $iNiveau = 1;
 // GESTION DE LA LISTE DES DOSSIERS DE PHOTOS
 //
 $aResultats = genererArborescence(
-					JB_AL_DATA . JB_AL_DOSSIER_PHOTOS,					// Répertoire racine
-					$_JB_AL_GET['s_rep_courant'], 						// Répertoire demandé
-					$iNiveau, 											// Niveau de profondeur du répertoire demandé
-					array(),						 					// Dossiers à ne pas afficher
-					array( 'gif', 'jpe', 'jpeg', 'jpg', 'png' ),		// Fichier autorisés
-					array( 'image/jpeg', 'image/pjpeg', 'image/gif', 'image/x-png', 'image/png'), 	// Types MIME autorisés
-					JB_AL_AFFICHER_NB_PHOTOS, 							// Afficher le nombre de fichiers par dossier
-					JB_AL_AFFICHER_NB_SI_VIDE,							// Afficher le nombre de fichiers même si dossier vide
-					JB_AL_DEROULER_TOUT, 								// Dérouler tous les dossiers ou seulement celui demandé
-					JB_AL_FILTRE_PREFIXES_ACTIF,						// Filtrage activé ou non (cf. explications dans includes/config.php)
-					JB_AL_PREFIXES_SEPARATEUR							// Séparateur des filtres
-				);
+	JB_AL_DATA . JB_AL_DOSSIER_PHOTOS,					// Répertoire racine
+	$_JB_AL_GET['s_rep_courant'], 						// Répertoire demandé
+	$iNiveau, 											// Niveau de profondeur du répertoire demandé
+	array(),						 					// Dossiers à ne pas afficher
+	array( 'gif', 'jpe', 'jpeg', 'jpg', 'png' ),		// Fichier autorisés
+	array( 'image/jpeg', 'image/pjpeg', 'image/gif', 'image/x-png', 'image/png'), 	// Types MIME autorisés
+	JB_AL_AFFICHER_NB_PHOTOS, 							// Afficher le nombre de fichiers par dossier
+	JB_AL_AFFICHER_NB_SI_VIDE,							// Afficher le nombre de fichiers même si dossier vide
+	JB_AL_DEROULER_TOUT, 								// Dérouler tous les dossiers ou seulement celui demandé
+	JB_AL_FILTRE_PREFIXES_ACTIF,						// Filtrage activé ou non (cf. explications dans includes/config.php)
+	JB_AL_PREFIXES_SEPARATEUR							// Séparateur des filtres
+);
 
 $_JB_AL_VARS['s_arborescence']			= $aResultats['arborescence_html'];
 $_JB_AL_VARS['s_rappel_sous_dossiers']	= $aResultats['dossiers_rep_courant'];
@@ -366,7 +366,7 @@ if( ((!empty( $_JB_AL_GET['s_rep_courant'] ) &&
 		else {
 		
 			$sCssClasseVignette = 'miniature_defaut';
-			$sCheminMiniature = $_JB_AL_VARS['s_acces_theme'].(isIE() ? 'images/ie/miniature_defaut.gif' : 'images/miniature_defaut.png');
+			$sCheminMiniature = $_JB_AL_VARS['s_acces_theme'].(isIE() ? 'images/ie/miniature_defaut.gif' : 'images/image--exclamation.png');
 		}
 
 		//
@@ -712,7 +712,7 @@ else {
 
 	 	$_JB_AL_VARS['s_lien_mode_affichage']	= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;galerie'.$aActions['voir'] );
 		$_JB_AL_VARS['s_texte_mode_affichage']	= 'Mode galerie';
-		$_JB_AL_VARS['s_classe_css_vignette']	= 'vignetteDiapo';
+		$_JB_AL_VARS['s_classe_css_vignette']	= 'vignette-diapo';
 	}
 	else {
 	
