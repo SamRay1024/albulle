@@ -16,11 +16,11 @@
 				{>texte}
 				{>diapositive}
 				{>galerie}
-				{?dossier_vide}
+				{?dossier_vide}{?!accueil}
 				<div class="cadre texte">
 					<p class="puce puce-dossier-vide">Ce dossier est vide.</p>
 				</div>
-				{dossier_vide?}
+				{!accueil?}{dossier_vide?}
 
 				<div class="spacer_post_float"></div>
 
