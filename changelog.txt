@@ -1,276 +1,289 @@
 :: Albulle
-:: Version 1.2.1
+:: Version 1.3
 
 WHAT's NEW :
 ------------
 
+Version 1.3 - 30/05/2020
+
+	* AjoutÃ© : FancyBox remplace LightBox,
+	* ModifiÃ© : passage Ã  l'HTML5 pour la structure du thÃ¨me,
+	* ModifiÃ© : fusion des fichiers CSS dans un seul fichier,
+	* ModifiÃ© : retrait de l'affichage de la version d'Albulle,
+	* ModifiÃ© : rafraichissement visuel du thÃ¨me par dÃ©faut,
+	* ModifiÃ© : mise Ã  jour de jQuery,
+	* ModifiÃ© : augmentation de la qualitÃ© par dÃ©faut des miniatures (80 > 90),
+	* ModifiÃ© : retrait de l'usage des "id" depuis CSS (au profit de "class"),
+	* ModifiÃ© : retrait de Cooliris (mort depuis longtemps !),
+	* CorrigÃ© : compatibilitÃ© avec PHP7.
+
 Version 1.2.1 - 25/05/2010 - rev. 38 > 39
 
-	* Ajouté : fourniture du nécessaire pour l'installation chez Free.fr dans les extras,
-	* Modifié : configuration du fuseau horaire faite depuis jblib,
-	* Corrigé : rendu en mode intégration à un site. $sThmCssMetas devient $sAlbulleMetas.
+	* AjoutÃ© : fourniture du nÃ©cessaire pour l'installation chez Free.fr dans les extras,
+	* ModifiÃ© : configuration du fuseau horaire faite depuis jblib,
+	* CorrigÃ© : rendu en mode intÃ©gration Ã  un site. $sThmCssMetas devient $sAlbulleMetas.
 
 Version 1.2 - 07/05/2010 - rev. 23 > 36
 
-	* Ajouté (FS#9)  : refonte du moteur de rendu HTML et par conséquent du thème par défaut,
-	* Ajouté (FS#10) : tri des photos selon la date de prise de vue,
-	* Ajouté (FS#3)  : lecture de la légende IPTC des images (nouvelle pseudo variable {$legende}),
-	* Modifié (FS#11) : sortie du code XHTML de la méthode afficherExif(),
-	* Modifié : html.php et html_popup.php renommés en render.php et render_popup.php,
-	* Modifié : légère modification du logo,
-	* Corrigé (FS#5) : correction ajout des fichiers au panier depuis un lien symbolique.
+	* AjoutÃ© (FS#9)  : refonte du moteur de rendu HTML et par consÃ©quent du thÃ¨me par dÃ©faut,
+	* AjoutÃ© (FS#10) : tri des photos selon la date de prise de vue,
+	* AjoutÃ© (FS#3)  : lecture de la lÃ©gende IPTC des images (nouvelle pseudo variable {$legende}),
+	* ModifiÃ© (FS#11) : sortie du code XHTML de la mÃ©thode afficherExif(),
+	* ModifiÃ© : html.php et html_popup.php renommÃ©s en render.php et render_popup.php,
+	* ModifiÃ© : lÃ©gÃ¨re modification du logo,
+	* CorrigÃ© (FS#5) : correction ajout des fichiers au panier depuis un lien symbolique.
 
 Version 1.1.1 - 01/10/2009 - rev. 17 > 21
 
-	* Ajouté : nouveau bloc conditionnel "SI ACCUEIL" dans les thèmes (FS#8)
-	* Ajouté : le bloc conditionnel "SI MODE_GALERIE" est disponible dans tous les fichiers d'un thème (FS#8)
-	* Corrigé : erreur encodage UTF-8 des noms de dossiers (FS#4)
+	* AjoutÃ© : nouveau bloc conditionnel "SI ACCUEIL" dans les thÃ¨mes (FS#8)
+	* AjoutÃ© : le bloc conditionnel "SI MODE_GALERIE" est disponible dans tous les fichiers d'un thÃ¨me (FS#8)
+	* CorrigÃ© : erreur encodage UTF-8 des noms de dossiers (FS#4)
 
 Version 1.1 - 12/11/2008 - rev. > 15
 
-	* Ajouté : flux RSS pour compatibilité avec Cooliris
-	* Ajouté : possibilité de placer un fichier texte.html dans un dossier pour afficher un résumé dans la page du dossier
-	* Ajouté : nouvelle constante JB_AL_ACCUEIL_ALT qui permet de surcharger le texte d'accueil
-	* Modifié : renommage des classes CSS du menu de pagination .page -> .btn-page et .pageActive -> .btn-page-active
-	* Modifié : LightBox2 remplacé par jQuery.Lightbox
-	* Corrigé : mauvaise URL du lien vers la page d'accueil dans le cas d'une intégration
-	* Corrigé : concaténation URL pour prendre en compte les sites qui utilisent la réécriture d'URL
+	* AjoutÃ© : flux RSS pour compatibilitÃ© avec Cooliris
+	* AjoutÃ© : possibilitÃ© de placer un fichier texte.html dans un dossier pour afficher un rÃ©sumÃ© dans la page du dossier
+	* AjoutÃ© : nouvelle constante JB_AL_ACCUEIL_ALT qui permet de surcharger le texte d'accueil
+	* ModifiÃ© : renommage des classes CSS du menu de pagination .page -> .btn-page et .pageActive -> .btn-page-active
+	* ModifiÃ© : LightBox2 remplacÃ© par jQuery.Lightbox
+	* CorrigÃ© : mauvaise URL du lien vers la page d'accueil dans le cas d'une intÃ©gration
+	* CorrigÃ© : concatÃ©nation URL pour prendre en compte les sites qui utilisent la rÃ©Ã©criture d'URL
 
 Version 1.0 - 16/02/2008
 
-	* Ajouté : création d'une miniature par défaut pour les images corrompues qui auraient réussi à passer
+	* AjoutÃ© : crÃ©ation d'une miniature par dÃ©faut pour les images corrompues qui auraient rÃ©ussi Ã  passer
 	  au travers des mailles du filet !
-	* Ajouté : nouveau paramètre JB_AL_FICHIERS_UTF8 pour la gestion des accents. Cela permet d'indiquer
-	  à Albulle que le système de fichier où il est hébergé est en UTF8
-	* Modifié : lecture des images pour ne plus prendre les images corrompues
-	* Corrigé : oubli de la déclaration globale de l'objet $oOutils dans la fonction cheminDansPanier()
-	* Corrigé : vérification des fichiers du panier qui ne fonctionnait pas sous Windows et qui rendait
-	  le panier inopérant (problème de séparateur des dossiers)
-	* Corrigé : variables indéfinies en mode panier inactif
-	* Corrigé : tous les problèmes liés aux accents. Enfin !
+	* AjoutÃ© : nouveau paramÃ¨tre JB_AL_FICHIERS_UTF8 pour la gestion des accents. Cela permet d'indiquer
+	  Ã  Albulle que le systÃ¨me de fichier oÃ¹ il est hÃ©bergÃ© est en UTF8
+	* ModifiÃ© : lecture des images pour ne plus prendre les images corrompues
+	* CorrigÃ© : oubli de la dÃ©claration globale de l'objet $oOutils dans la fonction cheminDansPanier()
+	* CorrigÃ© : vÃ©rification des fichiers du panier qui ne fonctionnait pas sous Windows et qui rendait
+	  le panier inopÃ©rant (problÃ¨me de sÃ©parateur des dossiers)
+	* CorrigÃ© : variables indÃ©finies en mode panier inactif
+	* CorrigÃ© : tous les problÃ¨mes liÃ©s aux accents. Enfin !
 
 Version 1.0-rc6 - 25/06/2007
 
-	* Correction erreur de création des miniatures avec les photos qui possèdent leur double dans
+	* Correction erreur de crÃ©ation des miniatures avec les photos qui possÃ¨dent leur double dans
 	  le dossier originales,
-	* Correction d'une notice qui restait dûe à la présence résiduelle de l'accès à
+	* Correction d'une notice qui restait dÃ»e Ã  la prÃ©sence rÃ©siduelle de l'accÃ¨s Ã 
 	  $aActions['diaporama'] qui n'existe plus depuis la version 1.0-rc4.
 
 Version 1.0-rc5 - 19/06/2007
 
-	* Reconversion des fins de lignes de l'intégralité des fichiers en LF(Unix). Tout le monde était
-	  repassé en CR+LF (Windows) ce qui posait problème pour la construction des pages depuis
-	  les fichiers du thème,
-	* Correction du fichier index.php qui était livré dans un mauvais encodage avec la 1.0-rc4,
-	* Suppression des masques \t\t dans les expressions régulières de remplacement.
+	* Reconversion des fins de lignes de l'intÃ©gralitÃ© des fichiers en LF(Unix). Tout le monde Ã©tait
+	  repassÃ© en CR+LF (Windows) ce qui posait problÃ¨me pour la construction des pages depuis
+	  les fichiers du thÃ¨me,
+	* Correction du fichier index.php qui Ã©tait livrÃ© dans un mauvais encodage avec la 1.0-rc4,
+	* Suppression des masques \t\t dans les expressions rÃ©guliÃ¨res de remplacement.
 
 Version 1.0-rc4 - 08/06/2007
 
-	* Ajout paramètre activation/désactivation du panier,
-	* Ajout du paramétrage du mode d'affichage par défaut : galerie ou diaporama,
-	* Ajout de la possibilité de stocker les photos selon deux qualités. Cela peut permettre
-	  d'afficher des images de dimensions réduites tout en les téléchargeant dans leur qualité originale,
-	* Modification de certaines images de fond en PNG pour alléger le thème par défaut,
-	* Correction des masques '.*' des expressions régulières de reconnaissance des blocs conditionnels
-	  en '.*?' pour obtenir des expressions régulières non gourmandes,
-	* Correction d'une faille d'accès aux fichiers PHP depuis le panier.
+	* Ajout paramÃ¨tre activation/dÃ©sactivation du panier,
+	* Ajout du paramÃ©trage du mode d'affichage par dÃ©faut : galerie ou diaporama,
+	* Ajout de la possibilitÃ© de stocker les photos selon deux qualitÃ©s. Cela peut permettre
+	  d'afficher des images de dimensions rÃ©duites tout en les tÃ©lÃ©chargeant dans leur qualitÃ© originale,
+	* Modification de certaines images de fond en PNG pour allÃ©ger le thÃ¨me par dÃ©faut,
+	* Correction des masques '.*' des expressions rÃ©guliÃ¨res de reconnaissance des blocs conditionnels
+	  en '.*?' pour obtenir des expressions rÃ©guliÃ¨res non gourmandes,
+	* Correction d'une faille d'accÃ¨s aux fichiers PHP depuis le panier.
 
 Version 1.0-rc3 - 06/01/2007
 
-	* Correction bogue des entêtes envoyées lors du téléchargement de l'archive pour les installations
+	* Correction bogue des entÃªtes envoyÃ©es lors du tÃ©lÃ©chargement de l'archive pour les installations
 	  sur serveur Windows.
 
 Version 1.0-rc2 - 30/11/2006
 
 	* Correction bogue du panier vide,
-	* Corrections pour la gestion de la sortie iso-8859-1 pour l'intégration dans un site.
+	* Corrections pour la gestion de la sortie iso-8859-1 pour l'intÃ©gration dans un site.
 
 Version 1.0-rc1 - 15/11/2006
 
-	* Correction de l'appel invalide du fichier blank.gif dans les css du thème par défaut,
+	* Correction de l'appel invalide du fichier blank.gif dans les css du thÃ¨me par dÃ©faut,
 	* Correction de l'affichage de l'icone ajout / retrait du panier sur les vignettes,
-	* Correction erreur fonction inclure lors du téléchargement,
-	* Correction sémantique XHTML du texte d'accueil,
-	* Correction pixel d'écart sur le bloc détail de la boite lightbox,
+	* Correction erreur fonction inclure lors du tÃ©lÃ©chargement,
+	* Correction sÃ©mantique XHTML du texte d'accueil,
+	* Correction pixel d'Ã©cart sur le bloc dÃ©tail de la boite lightbox,
 	* Corrections class url.class.php (undefined index),
-	* Amélioration gestion des vignettes,
+	* AmÃ©lioration gestion des vignettes,
 	* Ajout de la gestion des accents pour les noms de dossiers et fichiers,
-	* Ajout de la gestion de la qualité des miniatures dans la configuration,
-	* Ajout de paramètres pour que l'ouverture des images puisse être différente selon le
+	* Ajout de la gestion de la qualitÃ© des miniatures dans la configuration,
+	* Ajout de paramÃ¨tres pour que l'ouverture des images puisse Ãªtre diffÃ©rente selon le
 	  mode d'affichage des images (galerie ou diaporama),
-	* Ajout de la possibilité de fermer le site,
-	* Ajout de la possibilité de convertir la page finale en iso pour faciliter l'intégration
+	* Ajout de la possibilitÃ© de fermer le site,
+	* Ajout de la possibilitÃ© de convertir la page finale en iso pour faciliter l'intÃ©gration
 	  dans un site,
-	* Ajout de la vérification de la présence des fichiers présents dans le panier pour ne pas
-	  provoquer d'erreur si un fichier présent dans un panier est supprimé du disque,
-	* Modification de la struture des fichiers pour faciliter les mises-à-jour,
-	* Adaptation de la classe du panier et de celle de génération des archives à cette
+	* Ajout de la vÃ©rification de la prÃ©sence des fichiers prÃ©sents dans le panier pour ne pas
+	  provoquer d'erreur si un fichier prÃ©sent dans un panier est supprimÃ© du disque,
+	* Modification de la struture des fichiers pour faciliter les mises-Ã -jour,
+	* Adaptation de la classe du panier et de celle de gÃ©nÃ©ration des archives Ã  cette
 	  nouvelle structure,
 	* Optimisations & corrections diverses.
 
 Version 0.9.2 - 06/10/2006
 
-	* Amélioration de la gestion des URI en mode intégré pour garder les paramètres utilisés
-	  par le site hôte,
-	* Ajout d'un élément dans la configuration pour contrôler la nouveauté citée précédemment
+	* AmÃ©lioration de la gestion des URI en mode intÃ©grÃ© pour garder les paramÃ¨tres utilisÃ©s
+	  par le site hÃ´te,
+	* Ajout d'un Ã©lÃ©ment dans la configuration pour contrÃ´ler la nouveautÃ© citÃ©e prÃ©cÃ©demment
 	  (JB_AL_CONSERVER_URL_HOTE),
-	* Correction de la gestion des données EXIF pour ne pas planter Albulle lorsque le serveur
+	* Correction de la gestion des donnÃ©es EXIF pour ne pas planter Albulle lorsque le serveur
 	  ne dispose pas des librairies de gestion de celles-ci,
-	* Certains éléments HTML n'étaient pas contrôlables depuis les feuilles de styles, ils
-	  le sont désormais,
-	* Mise-à-jour de l'exemple 3 du fichier /extras/index_exemples.php avec l'activation
-	  de la conservation des Url de l'hôte.
+	* Certains Ã©lÃ©ments HTML n'Ã©taient pas contrÃ´lables depuis les feuilles de styles, ils
+	  le sont dÃ©sormais,
+	* Mise-Ã -jour de l'exemple 3 du fichier /extras/index_exemples.php avec l'activation
+	  de la conservation des Url de l'hÃ´te.
 
 Version 0.9.1 - 19/09/2006
 
-	* La configuration d'Albulle est désormais entièrement surchargeable (à quelques
-	  paramètres près). Il est maintenant possible de peaufiner la configuration
-	  relativement aux thèmes via un fichier de config (facultatif) à placer dans
-	  le dossier du thème. Tout ceci offre alors une flexibilité accrue et de 
-	  nouvelles possibilités !
-	* Certaines images étaient définies en dur dans explore.php ce qui ne rendait pas
-	  leur paramétrage CSS facile. Ces éléments on été modifiés pour que tout
-	  puisse être correctement modifié uniquement grâce aux CSS,
+	* La configuration d'Albulle est dÃ©sormais entiÃ¨rement surchargeable (Ã  quelques
+	  paramÃ¨tres prÃ¨s). Il est maintenant possible de peaufiner la configuration
+	  relativement aux thÃ¨mes via un fichier de config (facultatif) Ã  placer dans
+	  le dossier du thÃ¨me. Tout ceci offre alors une flexibilitÃ© accrue et de 
+	  nouvelles possibilitÃ©s !
+	* Certaines images Ã©taient dÃ©finies en dur dans explore.php ce qui ne rendait pas
+	  leur paramÃ©trage CSS facile. Ces Ã©lÃ©ments on Ã©tÃ© modifiÃ©s pour que tout
+	  puisse Ãªtre correctement modifiÃ© uniquement grÃ¢ce aux CSS,
 	* Corrections orthographiques ;-)
 
 Version 0.9 - 11/09/2006
 
 	* Ajout du mode diaporama,
 
-	* Affichage des données EXIF en mode diaporama si elles existent pour les fichiers JPEG,
+	* Affichage des donnÃ©es EXIF en mode diaporama si elles existent pour les fichiers JPEG,
 
-	* Ajout de la possibilité de voir le contenu du panier,
+	* Ajout de la possibilitÃ© de voir le contenu du panier,
 
-	* Intégration de la dernière version de la classe PanierDeFichier qui apporte les nouveautés suivantes :
+	* IntÃ©gration de la derniÃ¨re version de la classe PanierDeFichier qui apporte les nouveautÃ©s suivantes :
 
-		- Changement de la librairie de gestion des archives qui implique les améliorations 
+		- Changement de la librairie de gestion des archives qui implique les amÃ©liorations 
 			qui suivent,
-		- Le poids des archives n'est plus limité à l'espace mémoire autorisé dans la 
+		- Le poids des archives n'est plus limitÃ© Ã  l'espace mÃ©moire autorisÃ© dans la 
 			configuration de PHP,
 		- Il est alors maintenant possible de limiter la contenance du panier par son poids (en Mo),
-		- Le poids des archives n'est plus limité à la quantité de RAM allouée par le serveur PHP
-			(qui est généralement à 8Mo par défaut),
+		- Le poids des archives n'est plus limitÃ© Ã  la quantitÃ© de RAM allouÃ©e par le serveur PHP
+			(qui est gÃ©nÃ©ralement Ã  8Mo par dÃ©faut),
 
-	* Changement de la gestion des miniatures : les miniatures sont désormais toutes stockées dans 
+	* Changement de la gestion des miniatures : les miniatures sont dÃ©sormais toutes stockÃ©es dans 
 	  un unique dossier,
 
-	* Changement de la structure générale d'Albulle : le fichier explore.php ne fait désormais plus 
+	* Changement de la structure gÃ©nÃ©rale d'Albulle : le fichier explore.php ne fait dÃ©sormais plus 
 	  office d'index.php. Albulle fait maintenant partie d'un dossier et un fichier index.php 
-	  a été ajouté au même niveau que ce dossier. C'est ce fichier qui inclu explore.php. Cela 
-	  permet d'avoir une installation quasiment prête pour le cas où vous souhaitez faire une
-	  intégration d'Albulle dans un autre site web,
+	  a Ã©tÃ© ajoutÃ© au mÃªme niveau que ce dossier. C'est ce fichier qui inclu explore.php. Cela 
+	  permet d'avoir une installation quasiment prÃªte pour le cas oÃ¹ vous souhaitez faire une
+	  intÃ©gration d'Albulle dans un autre site web,
 
-	* Modification complète de la structure des thèmes :
+	* Modification complÃ¨te de la structure des thÃ¨mes :
 
-		- La couche HTML a été entièrement extraite de la couche PHP pour rendre encore plus 
-		  facile la création de nouveau thèmes. Il n'est alors plus nécessaire de connaître
-		  PHP pour faire un thème. Cette couche HTML donne une plus grande souplesse de 
+		- La couche HTML a Ã©tÃ© entiÃ¨rement extraite de la couche PHP pour rendre encore plus 
+		  facile la crÃ©ation de nouveau thÃ¨mes. Il n'est alors plus nÃ©cessaire de connaÃ®tre
+		  PHP pour faire un thÃ¨me. Cette couche HTML donne une plus grande souplesse de 
 		  personnalisation de votre copie d'Albulle.
-		- Il reste toujours un fichier pur PHP qui contruit la page, devenu commun à tous les 
-		  thèmes (ce qui permet d'alléger le poids des thèmes) mais qui peut toujours être
-		  relatif à chaque thème, et qui peut être modifié pour les plus savants d'entres
+		- Il reste toujours un fichier pur PHP qui contruit la page, devenu commun Ã  tous les 
+		  thÃ¨mes (ce qui permet d'allÃ©ger le poids des thÃ¨mes) mais qui peut toujours Ãªtre
+		  relatif Ã  chaque thÃ¨me, et qui peut Ãªtre modifiÃ© pour les plus savants d'entres
 		  vous ;-),
 
-	* Intégration du script Javascript LightBox v2.02 pour l'affichage des photos,
+	* IntÃ©gration du script Javascript LightBox v2.02 pour l'affichage des photos,
 
-	* Ajout d'une entête à la page qui comprend un logo, un titre et un sous-titre,
+	* Ajout d'une entÃªte Ã  la page qui comprend un logo, un titre et un sous-titre,
 
-	* Ajout de la possibilité de rappeler les sous-dossiers du dossier courant dans la partie de 
-	  droite après les vignettes soit pour tous les dossiers, soit uniquement pour les dossiers 
+	* Ajout de la possibilitÃ© de rappeler les sous-dossiers du dossier courant dans la partie de 
+	  droite aprÃ¨s les vignettes soit pour tous les dossiers, soit uniquement pour les dossiers 
 	  qui n'ont pas de photos,
 
-	* Les noms des photos affichés sur chaque vignette sont tronqués automatiquement pour ne pas 
-	  déformer la cohérence d'affichage des vignettes. Le nom des photos pouvant servir de 
+	* Les noms des photos affichÃ©s sur chaque vignette sont tronquÃ©s automatiquement pour ne pas 
+	  dÃ©former la cohÃ©rence d'affichage des vignettes. Le nom des photos pouvant servir de 
 	  description, on peut difficilement afficher un roman dans la vignette ;-),
 
-	* Refonte du thème par défaut et tentative d'avoir une interface la plus compatible avec Safari,
+	* Refonte du thÃ¨me par dÃ©faut et tentative d'avoir une interface la plus compatible avec Safari,
 	  Firefox et IE,
 
-	* Suppression de l'erreur bloquante qui survenait si un fichier de type non-image était présent
-	  dans un dossier. Albulle ne prend désormais plus que les fichiers jpg, gif et png quel 
+	* Suppression de l'erreur bloquante qui survenait si un fichier de type non-image Ã©tait prÃ©sent
+	  dans un dossier. Albulle ne prend dÃ©sormais plus que les fichiers jpg, gif et png quel 
 	  que soit le contenu des dossiers,
 
 	* Correction de la notice 'Undefined offset: -1 ...',
 
 	* Lorsqu'un dossier ne comporte pas d'images, on peut choisir dans la configuration d'afficher
-	  ou non le '(0)' à côté du nom du dossier dans l'arborescence,
+	  ou non le '(0)' Ã  cÃ´tÃ© du nom du dossier dans l'arborescence,
 
-	* Gestion des images qui font plus de 5 millions de pixels : affichage d'une miniature par défaut,
+	* Gestion des images qui font plus de 5 millions de pixels : affichage d'une miniature par dÃ©faut,
 
-	* Améliorations et corrections diverses du code.
+	* AmÃ©liorations et corrections diverses du code.
 
 Version 0.8 - 25/01/2006
 
-	* Ajout de la possibilité de remplacer les '_' dans les noms de fichiers par des espaces ainsi
+	* Ajout de la possibilitÃ© de remplacer les '_' dans les noms de fichiers par des espaces ainsi
 	  que de ne pas afficher les extensions des fichiers quand on affiche les noms des photos.
-	  Cela permet de pouvoir utiliser ces mêmes noms comme des titres.
-	* Ajout de la possibilité de redéfinir son propre classement des dossiers/fichiers en préfixant
+	  Cela permet de pouvoir utiliser ces mÃªmes noms comme des titres.
+	* Ajout de la possibilitÃ© de redÃ©finir son propre classement des dossiers/fichiers en prÃ©fixant
 	  ces derniers.
-	* Ajout de la possibilité de ne dérouler que le dossier demandé (paramètrable dans le fichier
-	  de configuration) plutôt que de dérouler tous les dossiers (paramètre JB_AL_DEROULER_TOUT).
-	* Améliorations dans la classe du panier de fichiers.
-	* Correction de l'envoi des entêtes HTTP qui étaient toujours envoyées même en mode intégration
+	* Ajout de la possibilitÃ© de ne dÃ©rouler que le dossier demandÃ© (paramÃ¨trable dans le fichier
+	  de configuration) plutÃ´t que de dÃ©rouler tous les dossiers (paramÃ¨tre JB_AL_DEROULER_TOUT).
+	* AmÃ©liorations dans la classe du panier de fichiers.
+	* Correction de l'envoi des entÃªtes HTTP qui Ã©taient toujours envoyÃ©es mÃªme en mode intÃ©gration
 	  dans un site.
 	* Correction de la notice "Undefined variable: aDossiers".
 	* Correction du bogue "Wrong parameter count for array_merge()" de la classe de nettoyage
-	  des URL (merci phpman) [Correction à confirmer].
-	* Complétion des erreurs a gérer.
-	* Améliorations mineures de l'écriture du code.
+	  des URL (merci phpman) [Correction Ã  confirmer].
+	* ComplÃ©tion des erreurs a gÃ©rer.
+	* AmÃ©liorations mineures de l'Ã©criture du code.
 
 Version 0.7.1 - 29/11/2005
 
-	* Correction de l'erreur de chargement de la configuration dans le script utilisé
+	* Correction de l'erreur de chargement de la configuration dans le script utilisÃ©
 	  pour l'ouverture des images dans une popup Javascript.
 
 Version 0.7 - 12/11/2005
 
 	* Changement du nom du script : AlBulles devient Albulle (sans 's').
-	* Ajouts de différentes fonctionnalités suggérées et demandée par les utilisateurs :
+	* Ajouts de diffÃ©rentes fonctionnalitÃ©s suggÃ©rÃ©es et demandÃ©e par les utilisateurs :
 		- ouvrir les images dans une popup,
-		- utiliser Albulle comme centre de téléchargement,
+		- utiliser Albulle comme centre de tÃ©lÃ©chargement,
 		- afficher le nom des photos dans les vignettes.
-	* Ajout de paramètres de configuration pour la rendre plus affinée :
+	* Ajout de paramÃ¨tres de configuration pour la rendre plus affinÃ©e :
 		- afficher un lien retour vers un site,
-		- utiliser Albulle dans un site internet (facilite l'intégration),
-		- choix des informations à afficher dans chaque vignette.
-	* Ajout d'une constante pour le chemin racine du script pour faciliter l'intégration
+		- utiliser Albulle dans un site internet (facilite l'intÃ©gration),
+		- choix des informations Ã  afficher dans chaque vignette.
+	* Ajout d'une constante pour le chemin racine du script pour faciliter l'intÃ©gration
 		dans un site Internet.
-	* Changement du mode de définition des paramètres de configuration : utilisation de
-		constantes plutôt que de variables.
-	* Déplacement du fichier config.php dans un dossier includes/.
-	* Extraction du texte d'accueil dans un fichier nommé texte_accueil.html placé à la
-		racine d'Albulle pour changer plus facilement ce texte et ne pas avoir à
-		éditer le fichier de thème. L'accès à ce fichier est paramètrable et il devient
+	* Changement du mode de dÃ©finition des paramÃ¨tres de configuration : utilisation de
+		constantes plutÃ´t que de variables.
+	* DÃ©placement du fichier config.php dans un dossier includes/.
+	* Extraction du texte d'accueil dans un fichier nommÃ© texte_accueil.html placÃ© Ã  la
+		racine d'Albulle pour changer plus facilement ce texte et ne pas avoir Ã 
+		Ã©diter le fichier de thÃ¨me. L'accÃ¨s Ã  ce fichier est paramÃ¨trable et il devient
 		alors possible d'inclure une page provenant d'un autre script (script de news
-		par exemple pour disposer d'actualités en page d'accueil).
+		par exemple pour disposer d'actualitÃ©s en page d'accueil).
 	* Distribution d'une unique version compatible PHP4 et PHP5.
 
 Version 0.6 - 31/08/2005
 
-	* Ajout de la récursivité dans les dossiers.
-	  Cela permet la création d'un album photos organisé dans une arborescence de dossiers.
-	* Ajout de la possiblité de mettre des tirets bas ('_') dans les noms de vos dossiers au lieu des espaces.
-	* Ajout du chemin où l'on se trouve dans le titre de l'exploration, ce qui permet de se rendre directement
-	  à un endroit.
-	* Ajout d'une condition pour recréer la miniature d'une photo si celle-ci a été modifiée.
-	* Ajout du tri des dossiers et fichier lors de la lecture (ceux ci n'étaient pas triés sur Free).
-	* Ajout de la possibilité d'afficher le nombre de photos présentes dans un dossier à côté de son nom
+	* Ajout de la rÃ©cursivitÃ© dans les dossiers.
+	  Cela permet la crÃ©ation d'un album photos organisÃ© dans une arborescence de dossiers.
+	* Ajout de la possiblitÃ© de mettre des tirets bas ('_') dans les noms de vos dossiers au lieu des espaces.
+	* Ajout du chemin oÃ¹ l'on se trouve dans le titre de l'exploration, ce qui permet de se rendre directement
+	  Ã  un endroit.
+	* Ajout d'une condition pour recrÃ©er la miniature d'une photo si celle-ci a Ã©tÃ© modifiÃ©e.
+	* Ajout du tri des dossiers et fichier lors de la lecture (ceux ci n'Ã©taient pas triÃ©s sur Free).
+	* Ajout de la possibilitÃ© d'afficher le nombre de photos prÃ©sentes dans un dossier Ã  cÃ´tÃ© de son nom
 	  dans l'arborescence.
-	* Ajout des nouveaux paramètres dans le fichier de configuration.
+	* Ajout des nouveaux paramÃ¨tres dans le fichier de configuration.
 
-	* Mise-à-jour de la classe du panier pour supporter la taille des archives lors d'un envoi.
-	  Cela permet d'avoir l'état d'avancement du téléchargement.
-	* Correction de la gestion du panier qui corrompait une archive dès lors que l'on avait supprimé une image précédent
+	* Mise-Ã -jour de la classe du panier pour supporter la taille des archives lors d'un envoi.
+	  Cela permet d'avoir l'Ã©tat d'avancement du tÃ©lÃ©chargement.
+	* Correction de la gestion du panier qui corrompait une archive dÃ¨s lors que l'on avait supprimÃ© une image prÃ©cÃ©dent
 	  une autre du panier.
-	* Révision du code HTML et par la même du CSS du thème par défaut : remplacement de toutes les balises img de
-	  présentation par leur équivalent CSS.
+	* RÃ©vision du code HTML et par la mÃªme du CSS du thÃ¨me par dÃ©faut : remplacement de toutes les balises img de
+	  prÃ©sentation par leur Ã©quivalent CSS.
 	* Modification de la pagination des albums pour que la barre de navigation ne devienne pas trop grande quand le
 	  nombre de pages est important.
-	* Renforcement de la vérification des paramètres passés dans l'url.
-	* Réorganisation des dossiers pour faciliter l'utilisation de thèmes.
-	* Extraction du téléchargement de l'archive dans un fichier externe pour faciliter un peu plus l'intégration
-	  dans un site. Cela permet d'éviter les erreurs dues à la fonction header() lorsque du contenu à déjà été envoyé
-	  à la sortie standard.
+	* Renforcement de la vÃ©rification des paramÃ¨tres passÃ©s dans l'url.
+	* RÃ©organisation des dossiers pour faciliter l'utilisation de thÃ¨mes.
+	* Extraction du tÃ©lÃ©chargement de l'archive dans un fichier externe pour faciliter un peu plus l'intÃ©gration
+	  dans un site. Cela permet d'Ã©viter les erreurs dues Ã  la fonction header() lorsque du contenu Ã  dÃ©jÃ  Ã©tÃ© envoyÃ©
+	  Ã  la sortie standard.
 
 Version 0.5b - 15/06/2005
 
@@ -278,16 +291,16 @@ Version 0.5b - 15/06/2005
 
 Version 0.5 - 15/06/2005
 
-	* Corrections diverses dans le code source (initialisations de variables qui ne l'étaient pas)
-	* Séparation du fichier explore.php en trois (`explore.php`, `config.php`, `html.php`).
-	  Cette séparations simplifiera les maj fufures et vous permettra de conserver votre configuration
-	  et les modifs eventuelles que vous aurez apporté à l'HTML.
-	* Autre correction pour la fonction `mime_content_type()` (la précédente ne fonctionnait pas sur
-	  les serveurs ou `safe_mode` était à on)
+	* Corrections diverses dans le code source (initialisations de variables qui ne l'Ã©taient pas)
+	* SÃ©paration du fichier explore.php en trois (`explore.php`, `config.php`, `html.php`).
+	  Cette sÃ©parations simplifiera les maj fufures et vous permettra de conserver votre configuration
+	  et les modifs eventuelles que vous aurez apportÃ© Ã  l'HTML.
+	* Autre correction pour la fonction `mime_content_type()` (la prÃ©cÃ©dente ne fonctionnait pas sur
+	  les serveurs ou `safe_mode` Ã©tait Ã  on)
 
 Version 0.4 - 13/06/2005
 
-	* Ajout d'une correction pour la fonction `mime_content_type()` qui n'est pas toujours activée sur les serveurs PHP
+	* Ajout d'une correction pour la fonction `mime_content_type()` qui n'est pas toujours activÃ©e sur les serveurs PHP
 
 Version 0.3b - 13/06/2005
 
@@ -295,14 +308,14 @@ Version 0.3b - 13/06/2005
 
 Version 0.3 - 11/06/2005
 
-	* Réécriture complète du fichier `explore.php`. Celui-ci avait été livré corrompu avec la version 0.2
-	* Ajout du support pour les types de fichiers PNG et GIF (uniquement les JPEG étaient supportés)
+	* RÃ©Ã©criture complÃ¨te du fichier `explore.php`. Celui-ci avait Ã©tÃ© livrÃ© corrompu avec la version 0.2
+	* Ajout du support pour les types de fichiers PNG et GIF (uniquement les JPEG Ã©taient supportÃ©s)
 
 Version 0.2 - 10/06/2005
 
-	* Correction du bogue sous IE pour le téléchargement des archives
+	* Correction du bogue sous IE pour le tÃ©lÃ©chargement des archives
 
 Version 0.1 - 19/05/2005
 
-	* Première version
+	* PremiÃ¨re version
 	* Fourni un script de gestion de galerie de photos
