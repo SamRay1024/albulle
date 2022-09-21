@@ -22,10 +22,10 @@
  * vous d'y placer les paramètres que vous souhaitez surcharger !
  */
 
-if( !defined( '_JB_INCLUDE_AUTH' ) ) {
-
-	header( 'Content-type: text/html; charset=utf-8' );
-	exit( 'Vous n\'êtes pas autorisé à afficher cette page.' );
+if (!defined( '_JB_INCLUDE_AUTH'))
+{
+	header('Content-type: text/html; charset=utf-8');
+	exit('Vous n\'êtes pas autorisé à afficher cette page.');
 }
 
 /**
@@ -319,6 +319,18 @@ definir( 'JB_AL_VIGNETTES_DP_HAUTEUR', 59 );
  * 0 : mauvaise qualité = petit fichier - 100 : meilleure qualité = gros fichier
  */
 definir( 'JB_AL_VIGNETTES_QUALITE', 90 );
+
+/**
+ * Limite de pixels des photos pour la génération des vignettes.
+ * 
+ * Dépend de la force de frappe de votre serveur : une valeur haute nécessite
+ * plus de temps d'exécution. Et parallèlement, plus la résolution est haute, plus
+ * le poids des images est importants et plus les visiteurs attendrons le téléchargement
+ * des images dans leur navigateur.
+ * 
+ * La valeur historique arbitrairement choisie : 5 mégas pixels.
+ */
+definir( 'JB_AL_PHOTOS_MAX_PIXELS', 5300000);
 
 // }}}
 // {{{ PARAMETRES DU PANIER

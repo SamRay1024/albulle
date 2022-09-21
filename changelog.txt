@@ -1,8 +1,15 @@
 :: Albulle
-:: Version 1.3
+:: Version 1.4
 
 WHAT's NEW :
 ------------
+
+Version 1.4 - 21/09/2022
+
+	* Ajouté : thème albulle responsive
+	* Modifié : bouton "Mode galerie/diaporama" remplacé par des icônes
+	* Modifié : nouvelle présentation des vignettes (carrées et plus grandes)
+	* Modifié : déplacement de la limite des dimensions des images dans une constante (JB_AL_PHOTOS_MAX_PIXELS)
 
 Version 1.3 - 30/05/2020
 

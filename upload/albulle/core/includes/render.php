@@ -208,7 +208,7 @@ try {
 					'alt_image'			=> $aPhoto['ALT'],
 					
 					// infos de l'image
-					'nom'				=> Util::tronquerChaine($aPhoto['NOM']),
+					'nom'				=> $aPhoto['NOM'],
 					'legende'			=> $aPhoto['LEGENDE'],
 					'dimensions'		=> $aPhoto['DIMENSIONS'],
 					'poids'				=> $aPhoto['POIDS'],

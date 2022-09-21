@@ -1,0 +1,4 @@
+<?php
+
+definir('JB_AL_VIGNETTES_LARGEUR', 300);
+definir('JB_AL_VIGNETTES_HAUTEUR', 300);

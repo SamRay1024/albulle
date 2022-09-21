@@ -149,7 +149,6 @@ $iImgAAfficher	= 0;
 
 $oUrl = new Url(JB_AL_CONSERVER_URL_HOTE, array('rep', 'page', 'act', 'img', 'diapo', 'voir', 'diaporama', 'galerie'));
 
-
 // ====================
 // VERIFICATIONS
 //
@@ -352,7 +351,7 @@ if( ((!empty( $_JB_AL_GET['s_rep_courant'] ) &&
 
 		// Si l'image ne dépasse pas la limite de 5,3 millions de pixels, on peut lancer le traitement
 		$aImgPublieeInfos = getimagesize($sCheminPhoto);
-		if( ($aImgPublieeInfos[0] * $aImgPublieeInfos[1]) <= 5300000 ) {
+		if( ($aImgPublieeInfos[0] * $aImgPublieeInfos[1]) <= 53000000 ) {
 			$sCssClasseVignette = 'miniature';
 
 			// si la miniature n'existe pas ou que la photo est plus récente que la miniature => création ou remplacement
@@ -526,8 +525,7 @@ if( ((!empty( $_JB_AL_GET['s_rep_courant'] ) &&
 	$i = $iForStart;
 	array_walk(
 		$_PHOTOS,
-		function( &$item, $key, &$index ) { $item['IDX'] = $index; $index++; },
-		$i
+		function( &$item, $key ) { global $i; $item['IDX'] = $i; $i++; }
 	);
 }
 
@@ -711,13 +709,13 @@ else {
 		}
 
 	 	$_JB_AL_VARS['s_lien_mode_affichage']	= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;galerie'.$aActions['voir'] );
-		$_JB_AL_VARS['s_texte_mode_affichage']	= 'Mode galerie';
+		$_JB_AL_VARS['s_texte_mode_affichage']	= '<span class="galerie"></span>';
 		$_JB_AL_VARS['s_classe_css_vignette']	= 'vignette-diapo';
 	}
 	else {
 	
 		$_JB_AL_VARS['s_lien_mode_affichage']	= $oUrl->construireUrl( 'rep='.$_JB_AL_VARS['s_rep_courant_url'].'&amp;page='.$_JB_AL_GET['i_page_courante'].'&amp;diaporama'.$aActions['voir'], 'marqueur' );
-		$_JB_AL_VARS['s_texte_mode_affichage']	= 'Mode diaporama';
+		$_JB_AL_VARS['s_texte_mode_affichage']	= '<span class="diaporama"></span>';
 		$_JB_AL_VARS['s_classe_css_vignette']	= 'vignette';
 	}
 }

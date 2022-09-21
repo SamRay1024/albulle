@@ -47,7 +47,6 @@
 //
 ///////////////////////////////
 
-
 /**
  * Objet de gestion de l'URL pour Albulle.
  *
@@ -56,7 +55,6 @@
  * @since		03/10/2006
  * @version		08/11/2008
  */
-
 class Url {
 
 	/**
@@ -68,7 +66,7 @@ class Url {
 	 * @var		boolean
 	 * @access	public
 	 */
-	var $bRequestUri = false;
+	public $bRequestUri = false;
 
 	/**
 	 * Chaîne qui stockera les Url générées.
@@ -76,7 +74,7 @@ class Url {
 	 * @var		string
 	 * @access	public
 	 */
-	var $sUrl = '';
+	public $sUrl = '';
 
 	/**
 	 * Le fichier exécuté avec son chemin d'accès depuis la racine.
@@ -85,7 +83,7 @@ class Url {
 	 * @var		string
 	 * @access	public
 	 */
-	var $sPath = '';
+	public $sPath = '';
 
 	/**
 	 * Le tableau associatif qui contient les paramètres et leur valeurs passés dans l'Url.
@@ -93,7 +91,7 @@ class Url {
 	 * @var		array
 	 * @access	public
 	 */
-	var $aQuery = array();
+	public $aQuery = array();
 
 	/**
 	 * Tableau indexé des paramètres qu'il faut systématiquement effacer de l'Url d'origine.
@@ -101,7 +99,7 @@ class Url {
 	 * @var		array
 	 * @access	public
 	 */
-	var $aParamQueryToClean = array();
+	public $aParamQueryToClean = array();
 
 	/**
 	 * Tout ce qui se trouve après la hachure # (comme les ancres).
@@ -109,7 +107,7 @@ class Url {
 	 * @var		string
 	 * @access	public
 	 */
-	var $sFragment = '';
+	public $sFragment = '';
 
 	/**
 	 * Constructeur.
@@ -118,10 +116,12 @@ class Url {
 	 * @param	array		$aParamsToClean		Tableau des paramètres qu'il faut systématiquement effacer de l'Url d'origine.
 	 * @return	Url
 	 */
-	function Url( $bModeRequestUri, $aParamsToClean = array() )
+	public function __construct( $bModeRequestUri, $aParamsToClean = array() )
 	{
 		if( !is_bool($bModeRequestUri) ) $bModeRequestUri = false;
 		$this->aParamQueryToClean = $aParamsToClean;
+
+		$this->sPath = '.';
 
 		if( ($this->bRequestUri = $bModeRequestUri) === true )
 		{
@@ -140,7 +140,7 @@ class Url {
 	 * @param	string	$sFragment	Element à ajouter après la hachure (remplace l'élément courant dans le cas du respect de REQUEST_URI).
 	 * @return	string				L'Url fraîchement créée. Elle se trouve aussi dans l'attribut $sUrl.
 	 */
-	function construireUrl( $sQuery, $sFragment = '' )
+	public function construireUrl( $sQuery, $sFragment = '' )
 	{
 		if( $sFragment !== '' )	$this->sFragment = $sFragment;
 
@@ -148,9 +148,9 @@ class Url {
 
 		if( $this->bRequestUri === false )
 
-			$this->sUrl = $_SERVER['PHP_SELF']
-							.( $sQuery !== '' ? '?'.$sQuery : '' )
-							.( $sFragment !== '' ? '#'.$sFragment : '' );
+			$this->sUrl = $this->sPath
+				.( $sQuery !== '' ? '?'.$sQuery : '' )
+				.( $sFragment !== '' ? '#'.$sFragment : '' );
 
 		else {
 			// Suppression des paramètres redéfinis dans la nouvelle chaîne du tableau des paramètres d'origine
@@ -180,7 +180,7 @@ class Url {
 	 * @param	string	$sQuery		Chaîne de paramètres de la forme param1=valeur1&param2=valeur2&...
 	 * @return	array				Le tableau associatif des paramètres.
 	 */
-	function explodeParams( $sQuery )
+	public function explodeParams( $sQuery )
 	{
 		$aParams = array();
 
@@ -209,7 +209,7 @@ class Url {
 	 * @param	array	$aParams	Le tableau associatif des paramètres.
 	 * @return	string				Chaîne de paramètres de la forme param1=valeur1&param2=valeur2&...
 	 */
-	function implodeParams( $aParams )
+	public function implodeParams( $aParams )
 	{
 		$aTemp = array();
 
@@ -226,7 +226,7 @@ class Url {
 	 *
 	 * @param	array	$aParams	Tableau associatif des nouveaux paramètres.
 	 */
-	function verifierDoublons( $aParams )
+	public function verifierDoublons( $aParams )
 	{
 		// Récupérations paramètres originaux et nouveaux paramètres
 		$aOriginalsParams	= array_keys( $this->aQuery );
@@ -253,7 +253,7 @@ class Url {
 	 * @param	string	$sQuery		Chaîne de paramètres de la forme param1=valeur1&param2=valeur2&...
 	 * @return	string				La chaîne nettoyée.
 	 */
-	function nettoyerQuery( $sQuery )
+	public function nettoyerQuery( $sQuery )
 	{
 		$aClean = array();
 		$aParams = explode( '&', str_replace('&amp;', '&', $sQuery) );

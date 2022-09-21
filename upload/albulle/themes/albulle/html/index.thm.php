@@ -26,11 +26,6 @@
 
 				{>sous_dossiers}
 
-				<div class="copyright">
-					Mis en forme par <a href="http://albulle.jebulle.net"
-						title="Télécharger Albulle">Albulle</a>
-				</div>
-
 			</section></section><!-- cadre droite -->
 
 			<section class="gauche"><!-- cadre gauche -->
@@ -65,18 +60,23 @@
 						<em>(Capacité du panier : {$panier_capacite})</em></p>
 						
 						{>menu_panier}
+
+						<p class="asterisque">(*) Ces informations sont celles de l'image qui sera téléchargée et non de celle affichée.</p>
 						{nombre_fichiers_panier?}
 
 						{?!nombre_fichiers_panier}
 						<p class="selection-vide">Aucune sélection pour l'instant.</p>
 						{!nombre_fichiers_panier?}
-
-						<p class="asterisque">(*) Ces informations sont celles de l'image qui sera téléchargée et non de celle affichée.</p>
 						
 						<div class="spacer"></div>
 					</div>
 				</div><!-- cadre gestion du panier -->
 				{panier_actif?}
+
+				<div class="copyright">
+					Mis en lumière par <a href="http://albulle.jebulle.net"
+						title="Télécharger Albulle">Albulle</a>
+				</div>
 
 			</section><!-- cadre gauche -->
 

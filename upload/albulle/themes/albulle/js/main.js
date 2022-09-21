@@ -1,16 +1,17 @@
 $(function() {
 	 $('[data-fancybox="gallery"]').fancybox({
-	 	lang: "en",
+	 	lang: "fr",
+		buttons: ["arrowLeft","arrowRight","slideShow","fullScreen","thumbs","download","share","close"],
 	 	i18n: {
-	 		en: {
+	 		fr: {
 	 			CLOSE: "Fermer",
-	 			NEXT: "Suivante",
-	 			PREV: "Précédente",
+	 			NEXT: "Avancer",
+	 			PREV: "Revenir",
 	 			ERROR: "Echec de chargement du contenu. <br/> Veuillez réessayer plus tard.",
 	 			PLAY_START: "Démarrer le diaporama",
 	 			PLAY_STOP: "Suspendre le diaporama",
-	 			FULL_SCREEN: "Plein écran",
-	 			THUMBS: "Vignettes",
+	 			FULL_SCREEN: "Afficher en plein écran",
+	 			THUMBS: "Afficher les vignettes",
 	 			DOWNLOAD: "Télécharger",
 	 			SHARE: "Partager",
 	 			ZOOM: "Agrandir"

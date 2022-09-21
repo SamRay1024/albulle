@@ -35,7 +35,7 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 	margin: 0;
 	padding: 0;
 	font-family: verdana, arial, helvetica, sans-serif;
-	color: #000000;
+	color: #333;
 }
 .albulle header {
 	padding: 25px;
@@ -43,7 +43,7 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 	background: url(../images/logo.png) no-repeat center left 15px;
 }
 .albulle a { text-decoration: none; }
-.albulle a:hover { color: #f90; }
+.albulle a:hover { color: #69C }
 .albulle img { border: 0px; }
 .albulle h1,
 .albulle h2 {
@@ -178,7 +178,7 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 .albulle .panier p { font-size: 0.9em; }
 .albulle .panier .plein { color: red; }
 .albulle .asterisque { font-style: italic; }
-.albulle .panier .selection-vide { margin: 4px 0 8px; }
+.albulle .panier .selection-vide { margin: 4px; }
 
 /* menu des dossiers et du panier */
 .albulle .menu li,
@@ -236,13 +236,14 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 .albulle .menubar .btn-page-active { margin-right: 1px; }
 
 /* Les boutons "Tout ajouter" & "Tout retirer" */
-.albulle .bouton .tout,
-.albulle .bouton .rien {
+.albulle .bouton span {
 	margin: 0px;
 	width: 16px;
 }
 .albulle .bouton .tout { background: url(../images/envelope--plus.png) no-repeat center top 2px; }
 .albulle .bouton .rien { background: url(../images/envelope--minus.png) no-repeat center top 2px; }
+.albulle .bouton .diaporama { background: url(../images/projection-screen.png) no-repeat center top 2px; }
+.albulle .bouton .galerie { background: url(../images/blue-document-view-thumbnail.png) no-repeat center top 2px; }
 
 /* liens vers les pages */
 .albulle .btn-page,
@@ -287,19 +288,18 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 .albulle .vignette-diapo {
 	float: left;
 	position: relative;
-	margin: 3px 3px 0px 0px;
+	margin: 3px 3px 0 0;
 	padding: 2px;
 	text-align: center;
 }
-.albulle .vignette {
-	height: 160px;
-	width: 160px;
-}
+.albulle .vignette { width: 200px; }
 .albulle .vignette-diapo {
-	height: 61px;
+	height: 80px;
 	width: 80px;
+	padding: 3px;
+	background-color: #f4f4f4;
+	border: 1px solid #d6d6d6;
 }
-.albulle .vignette img { margin-top: 3px; }
 .albulle .vignette-diapo .miniature_defaut {
 	max-width: 50px;
 	max-height: 50px;
@@ -315,17 +315,28 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 	border: 1px solid #d0d0d0;
 	color: #c33;
 }
+.albulle .diapo-courante { background-color: #d0d0d0; border-color: #999; }
 
 /* classe de l'image dans la vignette */
-.albulle .miniature { border: 1px solid black; }
+.albulle .miniature {
+	display: block;
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+}
+.albulle .vignette-diapo .miniature {
+	width: 80px;
+	height: 80px;
+}
 
 /* fiche infos de l'image */
 .albulle .infosImg {
-	position: absolute;
-	left: 4px;
-	bottom: 4px;
-	font-size: .8em;
+	padding: 3px 23px 3px 3px;
+	font-size: 1em;
 	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /* bouton d'ajout / retrait du panier */
@@ -354,7 +365,7 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 	height: 32px;
 	margin-top: 2px;
 	margin-left: auto;
-	margin-right: auto;
+	margin-right: 22px;
 }
 .albulle .diapo .nav-diapos span {
 	display: block;
@@ -413,4 +424,65 @@ li li, li p, td p, blockquote p { font-size: 1em; }
 
 .fancybox-container { font-family: verdana, arial, helvetica, sans-serif; }
 
+@media (max-width: 719px) {
+	.albulle header {
+		padding: 10px;
+		padding-left: 70px;
+		background-position: center left 10px;
+		background-size: 50px;
+	}
+	.albulle h1 { font-size: 2.2em; }
+	.albulle h2 { font-size: 1.2em; }
+
+	.albulle .gauche,
+	.albulle .droite {
+		display: block;
+		width: 100%;
+	}
+	.albulle .droite {
+		margin-left: 0;
+	}
+	.albulle .breadcrumb {
+		line-height: 18px;
+	}
+	.albulle .contenu {
+		margin-left: 0;
+		margin-bottom: 0;
+	}
+	.albulle .diapo .fiche {
+		float: none;
+		max-width: none;
+		margin: 5px;
+		padding: 5px;
+	}
+	.albulle .menu li {
+		line-height: 24px;
+		background-position: left top 4px;
+	}
+	.albulle .sous-dossiers { display: none; }
+}
+
+@media (min-width: 720px) and (max-width: 1080px) {
+	.albulle .gauche {
+		width: 240px;
+	}
+	.albulle .droite {
+		margin-left: -240px;
+		width: 100%;
+	}
+	.albulle .contenu {
+		margin-left: 243px;
+		margin-bottom: 3px;
+	}
+}
+
+@media (max-width: 1080px) {
+	.albulle .vignette {
+		width: 148px;
+	}
+	.albulle .miniature {
+		width: 100%;
+		height: 153px;	
+	}
+}
 /* EOF */

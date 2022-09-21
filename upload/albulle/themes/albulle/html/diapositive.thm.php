@@ -7,7 +7,7 @@
 					<a name="marqueur"></a>
 
 					{?plusieurs_diapos}
-					<div class="navDiapos">
+					<div class="nav-diapos">
 						{$bouton_suivante}
 						{$bouton_precedente}
 					</div>
@@ -18,7 +18,7 @@
 					</a>
 					
 					{?plusieurs_diapos}
-					<div class="navDiapos">
+					<div class="nav-diapos">
 						{$bouton_suivante}
 						{$bouton_precedente}
 					</div>
